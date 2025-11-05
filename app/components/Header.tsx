@@ -113,7 +113,7 @@ export default function Header() {
                             name="search"
                             placeholder="Search threats, domains, employee"
                             aria-label="Search"
-                            className="col-start-1 row-start-1 block size-full bg-p-500/45 hover:bg-p-400/50 pl-8 text-base text-sc-900 outline-hidden placeholder:text-p-100/85  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96"
+                            className="col-start-1 row-start-1 block size-full bg-p-100/30 hover:bg-p-400/50 pl-8 text-base text-sc-900 outline-hidden placeholder:text-p-100/85  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96"
                         />
                         <MagnifyingGlassIcon
                             aria-hidden="true"
