@@ -87,25 +87,27 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-gray-200 px-4">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-sc-200 px-4 no-scrollbar relative">
       {/* Logo */}
-      <div className="flex items-center justify-center gap-2 border-b border-gray-200 py-6">
+      <Link 
+        href={'/'}
+        className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r">
         <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
         <span className="text-black font-bold text-lg">NotifyBreach</span>
-      </div>
+      </Link>
 
       {/* Navigation */}
-      <div className="mt-5">
+      <div className="mt-24">
         {sections.map((section, i) => (
           <div key={i} className="mt-5">
             {section.title && (
               <button
                 onClick={() => toggleSection(section.title)}
-                className="w-full flex items-center justify-between text-left font-semibold mb-1 text-gray-700 hover:text-gray-900"
+                className="w-full flex items-center justify-between text-left font-semibold mb-1 text-sc-700 hover:text-sc-900"
               >
                 {section.title}
                 <ChevronDown
-                  className={`size-4 transition-transform duration-200 cursor-pointer ${
+                  className={`size-4 transition-transform duration-200 cursor-pointer text-sc-400 ${
                     openSections[section.title] ? 'rotate-180' : ''
                   }`}
                 />
@@ -128,7 +130,7 @@ export default function Sidebar() {
                       className={`flex items-center justify-start gap-2 rounded-lg p-2 text-sm ${
                         item.active
                           ? 'bg-orange-100 text-orange-700'
-                          : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                          : 'text-sc-600 hover:text-sc-800 hover:bg-sc-100'
                       }`}
                     >
                       <item.icon className="size-4" />

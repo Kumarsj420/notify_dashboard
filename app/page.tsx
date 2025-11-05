@@ -2,6 +2,9 @@
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import InlineCard from './components/InlineCards';
+import Table from './components/Table';
+import { AlertTriangle, TrendingUp, Globe, CheckCircle } from "lucide-react";
 
 import { useState } from 'react'
 import {
@@ -47,7 +50,41 @@ function classNames(...classes:any) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+    const cardData = [
+    {
+      upperTitle: "Total Exposures",
+      mainTitle: "1,247",
+      bottomTitle: "⚠️",
+      icon: <AlertTriangle className="text-red-600 w-5 h-5" />,
+      color: "bg-red-100",
+    },
+    {
+      upperTitle: "New This Week",
+      mainTitle: "+23",
+      bottomTitle: "↑ 12% increase",
+      bottomColor: "text-red-500",
+      icon: <TrendingUp className="text-orange-500 w-5 h-5" />,
+      color: "bg-orange-100",
+    },
+    {
+      upperTitle: "Most Exposed",
+      mainTitle: "company.com",
+      bottomTitle: "342 exposures",
+      icon: <Globe className="text-blue-600 w-5 h-5" />,
+      color: "bg-blue-100",
+    },
+    {
+      upperTitle: "Resolved",
+      mainTitle: "89.2%",
+      bottomTitle: "↑ 5% improvement",
+      bottomColor: "text-green-600",
+      icon: <CheckCircle className="text-green-600 w-5 h-5" />,
+      color: "bg-green-100",
+    },
+  ];
+
   return (
+    
     <>
 
       <div>
@@ -107,11 +144,10 @@ export default function Example() {
         {/* Static sidebar for desktop */}
         <Sidebar />
 
-        <div className="lg:pl-20">
+        <div className="lg:ml-64 bg-sc-50">
           <Header />
 
-          <main className="xl:pl-96">
-            <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">{/* Main area */}</div>
+          <main className="h-[95vh] bg-sc-50">
           </main>
         </div>
 
