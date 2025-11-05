@@ -19,12 +19,12 @@ const InlineCard: React.FC<InlineCardProps> = ({
   bottomColor = "text-gray-500",
 }) => {
   return (
-    <div className="flex items-center justify-between bg-white rounded-2xl shadow-sm border border-gray-100 p-5 w-full hover:shadow-md transition-all duration-300">
+    <div className="flex items-center justify-between bg-white rounded-2xl shadow-sm border border-sc-100 p-5 w-full hover:shadow-md transition-all duration-300">
       <div>
         <p className="text-sm text-gray-500">{upperTitle}</p>
-        <h2 className="text-2xl font-semibold mt-1">{mainTitle}</h2>
+        <h2 className="text-xl font-semibold mt-2">{mainTitle}</h2>
         {bottomTitle && (
-          <p className={`text-sm mt-1 ${bottomColor}`}>{bottomTitle}</p>
+          <p className={`text-sm mt-2 ${bottomColor}`}>{bottomTitle}</p>
         )}
       </div>
 
