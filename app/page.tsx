@@ -11,7 +11,7 @@ export default function Example() {
       <div >
         <Sidebar />
 
-        <div className="lg:pl-20">
+        <div className="lg:pl-64">
           <Header />
           <main className="xl:pl-96">
             <div className="">{/* Main area */}</div>

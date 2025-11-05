@@ -1,57 +1,146 @@
-import React from 'react'
+'use client'
 
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline'
+  Shield,
+  ShieldAlert,
+  CirclePlus,
+  FileChartColumn,
+  Users,
+  UserPlus,
+  KeyRound,
+  UserCheck,
+  SquareUser,
+  Globe,
+  Building2,
+  Gem,
+  Settings,
+  MessageCircleQuestion,
+  LayoutDashboard,
+  VenetianMask,
+  Group,
+  ChevronDown,
+} from 'lucide-react'
 
-
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+const sections = [
+  {
+    title: null,
+    links: [
+      { name: 'Dashboard', href: '/', icon: LayoutDashboard, active: true },
+      { name: 'Threats & Incidents', href: '/', icon: ShieldAlert },
+    ],
+  },
+  {
+    title: 'Ransomware',
+    links: [
+      { name: 'Victims', href: '/', icon: VenetianMask },
+      { name: 'Groups', href: '/', icon: Group },
+    ],
+  },
+  {
+    title: 'Domain',
+    links: [
+      { name: 'Domain Exposure', href: '/', icon: Globe },
+      { name: 'Add Domain', href: '/', icon: CirclePlus },
+      { name: 'Domain Status', href: '/', icon: FileChartColumn },
+    ],
+  },
+  {
+    title: 'Employee Exposure',
+    links: [
+      { name: 'Employee Profile', href: '/', icon: Users },
+      { name: 'Add Employee', href: '/', icon: UserPlus },
+    ],
+  },
+  {
+    title: 'User Authentication',
+    links: [
+      { name: 'Password Leak Protection', href: '/', icon: KeyRound },
+      { name: 'User Role', href: '/', icon: UserCheck },
+    ],
+  },
+  {
+    title: 'Accounts',
+    links: [
+      { name: 'Profile', href: '/', icon: SquareUser },
+      { name: 'Company Info', href: '/', icon: Building2 },
+      { name: 'Subscriptions', href: '/', icon: Gem },
+      { name: 'Settings', href: '/', icon: Settings },
+      { name: 'Help & Support', href: '/', icon: MessageCircleQuestion },
+    ],
+  },
 ]
 
-function classNames(...classes:any) {
-  return classes.filter(Boolean).join(' ')
-}
-
-
 export default function Sidebar() {
+  // Each section open by default
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(
+    Object.fromEntries(sections.map((s) => [s.title || 'main', true]))
+  )
+
+  const toggleSection = (title: string | null) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [title || 'main']: !prev[title || 'main'],
+    }))
+  }
+
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
-          <div className="relative flex h-16 shrink-0 items-center justify-center">
-            <img
-              alt="Your Company"
-              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-              className="h-8 w-auto"
-            />
+    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-gray-200 px-4">
+      {/* Logo */}
+      <div className="flex items-center justify-center gap-2 border-b border-gray-200 py-6">
+        <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
+        <span className="text-black font-bold text-lg">NotifyBreach</span>
+      </div>
+
+      {/* Navigation */}
+      <div className="mt-5">
+        {sections.map((section, i) => (
+          <div key={i} className="mt-5">
+            {section.title && (
+              <button
+                onClick={() => toggleSection(section.title)}
+                className="w-full flex items-center justify-between text-left font-semibold mb-1 text-gray-700 hover:text-gray-900"
+              >
+                {section.title}
+                <ChevronDown
+                  className={`size-4 transition-transform duration-200 cursor-pointer ${
+                    openSections[section.title] ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+            )}
+
+            <AnimatePresence initial={false}>
+              {openSections[section.title || 'main'] && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-0.5"
+                >
+                  {section.links.map((item, j) => (
+                    <Link
+                      key={j}
+                      href={item.href}
+                      className={`flex items-center justify-start gap-2 rounded-lg p-2 text-sm ${
+                        item.active
+                          ? 'bg-orange-100 text-orange-700'
+                          : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                      }`}
+                    >
+                      <item.icon className="size-4" />
+                      <span>{item.name}</span>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <nav className="relative mt-8">
-            <ul role="list" className="flex flex-col items-center space-y-1">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className={classNames(
-                      item.current ? 'bg-white/5 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white',
-                      'group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold',
-                    )}
-                  >
-                    <item.icon aria-hidden="true" className="size-6 shrink-0" />
-                    <span className="sr-only">{item.name}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
+        ))}
+      </div>
+    </div>
   )
 }
