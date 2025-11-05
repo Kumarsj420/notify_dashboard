@@ -3,6 +3,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePathname } from 'next/navigation';
+
+
 import {
   Shield,
   ShieldAlert,
@@ -28,37 +31,37 @@ const sections = [
   {
     title: null,
     links: [
-      { name: 'Dashboard', href: '/', icon: LayoutDashboard, active: true },
-      { name: 'Threats & Incidents', href: '/', icon: ShieldAlert },
+      { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, active: true },
+      { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ShieldAlert },
     ],
   },
   {
     title: 'Ransomware',
     links: [
-      { name: 'Victims', href: '/', icon: VenetianMask },
-      { name: 'Groups', href: '/', icon: Group },
+      { name: 'Victims', href: '/victims', icon: VenetianMask },
+      { name: 'Groups', href: '/groups', icon: Group },
     ],
   },
   {
     title: 'Domain',
     links: [
-      { name: 'Domain Exposure', href: '/', icon: Globe },
-      { name: 'Add Domain', href: '/', icon: CirclePlus },
-      { name: 'Domain Status', href: '/', icon: FileChartColumn },
+      { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
+      { name: 'Add Domain', href: '/add-domain', icon: CirclePlus },
+      { name: 'Domain Status', href: '/domain-status', icon: FileChartColumn },
     ],
   },
   {
     title: 'Employee Exposure',
     links: [
-      { name: 'Employee Profile', href: '/', icon: Users },
-      { name: 'Add Employee', href: '/', icon: UserPlus },
+      { name: 'Employee Profile', href: '/employee-profile', icon: Users },
+      { name: 'Add Employee', href: '/add-employee', icon: UserPlus },
     ],
   },
   {
     title: 'User Authentication',
     links: [
-      { name: 'Password Leak Protection', href: '/', icon: KeyRound },
-      { name: 'User Role', href: '/', icon: UserCheck },
+      { name: 'Password Leak Protection', href: '/password-leak-protection', icon: KeyRound },
+      { name: 'User Role', href: '/user-role', icon: UserCheck },
     ],
   },
   {
@@ -86,16 +89,21 @@ export default function Sidebar() {
     }))
   }
 
+  const pathname = usePathname();
+
+
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-sc-200 px-4">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-sc-200 px-4 no-scrollbar relative">
       {/* Logo */}
-      <div className="flex items-center gap-2 border-b border-sc-200 py-6">
+      <Link 
+        href={'/'}
+        className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r">
         <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
         <span className="text-black font-bold text-lg">NotifyBreach</span>
-      </div>
+      </Link>
 
       {/* Navigation */}
-      <div className="mt-5">
+      <div className="mt-24">
         {sections.map((section, i) => (
           <div key={i} className="mt-5">
             {section.title && (
@@ -134,6 +142,7 @@ export default function Sidebar() {
                       <item.icon className={`size-5 ${item.active ? 'text-p-700' : 'text-sc-500/75'}`} />
                       <span>{item.name}</span>
                     </Link>
+
                   ))}
                 </motion.div>
               )}

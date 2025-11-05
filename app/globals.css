@@ -26,3 +26,11 @@
   --color-sc-950: oklch(0.13 0.028 261.692);
 
 }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}

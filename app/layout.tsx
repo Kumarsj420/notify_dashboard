@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import InlineCard from "./components/InlineCards";
 
 import { Outfit } from "next/font/google";
 
@@ -24,7 +27,14 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} antialiased bg-sc-100`}
       >
-        {children}
+         <Sidebar />
+        
+                <div className="lg:pl-64">
+                  <Header />
+                  <main className="xl:pl-96">
+                    {children}
+                  </main>
+                </div>
       </body>
     </html>
   );
