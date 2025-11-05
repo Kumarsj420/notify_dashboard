@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-p-50: oklch(97.9% 0.03 80);
-  --color-p-100: oklch(94.5% 0.06 85);
-  --color-p-200: oklch(88.8% 0.10 75);
-  --color-p-300: oklch(82.2% 0.13 70);
-  --color-p-400: oklch(75.5% 0.17 65);
-  --color-p-500: oklch(69% 0.21 55);
-  --color-p-600: oklch(61% 0.20 50);
-  --color-p-700: oklch(53% 0.18 47);
-  --color-p-800: oklch(44% 0.17 45);
-  --color-p-900: oklch(35% 0.16 42);
-  --color-p-950: oklch(27% 0.14 40);
+   --color-p-50: oklch(97.7% 0.014 67.7);  /* #fef6ee */
+  --color-p-100: oklch(94.7% 0.031 67.4);  /* #fcead8 */
+  --color-p-200: oklch(88.8% 0.062 63.7);  /* #f8d2b0 */
+  --color-p-300: oklch(81.2% 0.104 58.5);  /* #f4b17d */
+  --color-p-400: oklch(72.4% 0.147 49.7);  /* #ee8749 */
+  --color-p-500: oklch(67.0% 0.176 43.7);  /* #ea6928 */
+  --color-p-600: oklch(61.2% 0.185 38.3);  /* #db4f1b */
+  --color-p-700: oklch(52.6% 0.166 35.4);  /* #b63a18 */
+  --color-p-800: oklch(45.0% 0.135 33.8);  /* #91301b */
+  --color-p-900: oklch(39.1% 0.111 33.6);  /* #752919 */
+  --color-p-950: oklch(25.6% 0.072 31.3);  /* #3f120b */
 
-  --color-s-50: oklch(0.985 0.002 247.839);
-  --color-s-100: oklch(0.967 0.003 264.542);
-  --color-s-200: oklch(0.928 0.006 264.531);
-  --color-s-300: oklch(0.872 0.01 258.338);
-  --color-s-400: oklch(0.707 0.022 261.325);
-  --color-s-500: oklch(0.551 0.027 264.364);
-  --color-s-600: oklch(0.446 0.03 256.802);
-  --color-s-700: oklch(0.373 0.034 259.733);
-  --color-s-800: oklch(0.278 0.033 256.848);
-  --color-s-900: oklch(0.21 0.034 264.665);
-  --color-s-950: oklch(0.13 0.028 261.692);
+  --color-sc-50: oklch(0.985 0.002 247.839);
+  --color-sc-100: oklch(0.967 0.003 264.542);
+  --color-sc-200: oklch(0.928 0.006 264.531);
+  --color-sc-300: oklch(0.872 0.01 258.338);
+  --color-sc-400: oklch(0.707 0.022 261.325);
+  --color-sc-500: oklch(0.551 0.027 264.364);
+  --color-sc-600: oklch(0.446 0.03 256.802);
+  --color-sc-700: oklch(0.373 0.034 259.733);
+  --color-sc-800: oklch(0.278 0.033 256.848);
+  --color-sc-900: oklch(0.21 0.034 264.665);
+  --color-sc-950: oklch(0.13 0.028 261.692);
 
 }
