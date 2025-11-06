@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation';
+import SidebarSelector from './SidebarSelector';
 
 
 import {
@@ -31,17 +32,17 @@ const sections = [
   {
     title: null,
     links: [
-      { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, active: true },
+      { name: 'Dashboard', href: '/', icon: LayoutDashboard, active: true },
       { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ShieldAlert },
     ],
   },
-  {
-    title: 'Ransomware',
-    links: [
-      { name: 'Victims', href: '/victims', icon: VenetianMask },
-      { name: 'Groups', href: '/groups', icon: Group },
-    ],
-  },
+  // {
+  //   title: 'Ransomware',
+  //   links: [
+  //     { name: 'Victims', href: '/victims', icon: VenetianMask },
+  //     { name: 'Groups', href: '/groups', icon: Group },
+  //   ],
+  // },
   {
     title: 'Domain',
     links: [
@@ -50,20 +51,20 @@ const sections = [
       { name: 'Domain Status', href: '/domain-status', icon: FileChartColumn },
     ],
   },
-  {
-    title: 'Employee Exposure',
-    links: [
-      { name: 'Employee Profile', href: '/employee-profile', icon: Users },
-      { name: 'Add Employee', href: '/add-employee', icon: UserPlus },
-    ],
-  },
-  {
-    title: 'User Authentication',
-    links: [
-      { name: 'Password Leak Protection', href: '/password-leak-protection', icon: KeyRound },
-      { name: 'User Role', href: '/user-role', icon: UserCheck },
-    ],
-  },
+  // {
+  //   title: 'Employee Exposure',
+  //   links: [
+  //     { name: 'Employee Profile', href: '/employee-profile', icon: Users },
+  //     { name: 'Add Employee', href: '/add-employee', icon: UserPlus },
+  //   ],
+  // },
+  // {
+  //   title: 'User Authentication',
+  //   links: [
+  //     { name: 'Password Leak Protection', href: '/password-leak-protection', icon: KeyRound },
+  //     { name: 'User Role', href: '/user-role', icon: UserCheck },
+  //   ],
+  // },
   {
     title: 'Accounts',
     links: [
@@ -102,8 +103,12 @@ export default function Sidebar() {
         <span className="text-black font-bold text-lg">NotifyBreach</span>
       </Link>
 
+
+
       {/* Navigation */}
       <div className="mt-24">
+              <SidebarSelector />
+
         {sections.map((section, i) => (
           <div key={i} className="mt-5">
             {section.title && (
