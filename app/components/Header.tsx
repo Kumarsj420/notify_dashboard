@@ -98,7 +98,7 @@ export default function Header() {
                     </DialogPanel>
                 </div>
             </Dialog>
-            <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-sc-200 bg-p-800 px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
+            <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-sc-200 bg-linear-to-b from-p-800 to-p-950 f px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
                 <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-sc-700 lg:hidden">
                     <span className="sr-only">Open sidebar</span>
                     <Bars3Icon aria-hidden="true" className="size-6" />
@@ -108,16 +108,16 @@ export default function Header() {
                 <div aria-hidden="true" className="h-6 w-px bg-sc-900/10 lg:hidden" />
 
                 <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                    <form action="#" method="GET" className="grid flex-1 grid-cols-1 items-center">
+                    <form action="#" method="GET" className="grid group flex-1 grid-cols-1 items-center">
                         <input
                             name="search"
-                            placeholder="Search threats, domains, employee"
+                            placeholder="Search threats, domains, employee..."
                             aria-label="Search"
-                            className="col-start-1 row-start-1 block size-full bg-p-100/30 hover:bg-p-400/50 pl-8 text-base text-sc-900 outline-hidden placeholder:text-p-100/85  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96"
+                            className="col-start-1 row-start-1 block size-full bg-p-200/30 hover:bg-p-200/40 pl-8 text-base text-white focus:text-sc-900 outline-hidden placeholder:text-p-100/90  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96 ring-1 ring-inset ring-p-200/30 focus:bg-white focus:ring-2 focus:ring-p-400 focus:placeholder:text-sc-500/80 font-medium transition-colors duration-200 ease-in-out"
                         />
                         <MagnifyingGlassIcon
                             aria-hidden="true"
-                            className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-p-200 ml-2"
+                            className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-p-200 ml-2 group-focus-within:text-gray-500 transition-colors duration-200 ease-in-out"
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
@@ -128,13 +128,13 @@ export default function Header() {
 
                         <button
                             type="button"
-                            className="rounded-xl bg-emerald-500 px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
+                            className="rounded-xl bg-emerald-500 px-3.5 py-2 text-sm font-semibold text-white  hover:bg-emerald-400 outline-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 shadow-lg shadow-emerald-700/20"
                         >
                             Upgrade Plan
                         </button>
 
                         {/* Separator */}
-                        <div aria-hidden="true" className="hidden lg:block lg:h-6 lg:w-px lg:bg-p-600" />
+                        <div aria-hidden="true" className="hidden lg:block lg:h-8 lg:w-px lg:bg-p-200/35" />
 
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative">

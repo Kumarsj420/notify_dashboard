@@ -31,7 +31,7 @@ export default function RootLayout({
         
                 <div className="lg:pl-64">
                   <Header />
-                  <main className="p-12">
+                  <main className="px-7 py-6">
                     {children}
                   </main>
                 </div>
