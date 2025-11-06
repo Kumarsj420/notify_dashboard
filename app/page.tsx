@@ -1,15 +1,9 @@
-'use client'
-
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
+'use client';
 
 
-export default function Example() {
+export default function ExposureEvents() {
 
   return (
-    
-    <>
-      <div className="">{/* Main area */}</div>
-    </>
-  )
+    <div></div>
+  );
 }
