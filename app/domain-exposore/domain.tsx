@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Title from "../components/Title";
-import Intro from "../components/Intro";
+
 import InlineCard from "../components/InlineCards";
 import ExposoreSearch from "../components/ExposoreSearch";
 
@@ -131,11 +130,7 @@ export default function Resume() {
 
   return (
     <>
-    <Title>Domain exposore</Title>
-    <Intro>Hii this is another intro where we will show you your domain exposore risks.</Intro>
-
-
-    <div className="mt-7">
+    <div className="">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                {cardData.map((card, index) => (
                 <InlineCard
@@ -154,7 +149,7 @@ export default function Resume() {
 
     <ExposoreSearch />
 
-    <TableStructure className="mt-7" title='Exposure Event'>
+    <TableStructure className="mt-6" title='Exposure Event'>
       <Table>
         <TableHeader>
           <TableRow>

@@ -1,10 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation';
 import SidebarSelector from './SidebarSelector';
@@ -35,8 +32,7 @@ const sections = [
   {
     title: null,
     links: [
-      { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-      { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+      { name: 'Dashboard', href: '/', icon: LayoutDashboard, active: true },
       { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ShieldAlert },
     ],
   },
@@ -48,11 +44,12 @@ const sections = [
   //   ],
   // },
   {
-    title: 'Domain',
+    title: 'Leaked data',
     links: [
       { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
       { name: 'Add Domain', href: '/add-domain', icon: CirclePlus },
-      { name: 'Domain Status', href: '/domain-status', icon: FileChartColumn },
+      { name: 'Matrices', href: '/matrices', icon: FileChartColumn },
+      { name: 'Employees', href: '/employees', icon: FileChartColumn },
     ],
   },
   // {
@@ -75,23 +72,14 @@ const sections = [
       { name: 'Profile', href: '/profile', icon: SquareUser },
       { name: 'Company Info', href: '/company-info', icon: Building2 },
       { name: 'Subscriptions', href: '/subscription', icon: Gem },
-      { name: 'Settings', href: '/settings', icon: Settings },
-      { name: 'Help & Support', href: '/help', icon: MessageCircleQuestion },
-      { name: 'Profile', href: '/profile', icon: SquareUser },
-      { name: 'Company Info', href: '/company-info', icon: Building2 },
-      { name: 'Subscriptions', href: '/subscription', icon: Gem },
-      { name: 'Settings', href: '/settings', icon: Settings },
-      { name: 'Help & Support', href: '/help', icon: MessageCircleQuestion },
+      { name: 'Settings', href: '/sett', icon: Settings },
+      { name: 'Help & Support', href: '/sersere', icon: MessageCircleQuestion },
     ],
   },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname()
-
-
-  const pathname = usePathname()
-
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(
     Object.fromEntries(sections.map((s) => [s.title || 'main', true]))
@@ -102,18 +90,11 @@ export default function Sidebar() {
     const updatedSections = { ...openSections }
     sections.forEach((section) => {
       const key = section.title || 'main'
-      const hasActiveLink = section.links.some((link) => pathname.startsWith(link.href))
-      if (hasActiveLink) updatedSections[key] = true
-    })
-    setOpenSections(updatedSections)
-  }, [pathname])
-
-
-  useEffect(() => {
-    const updatedSections = { ...openSections }
-    sections.forEach((section) => {
-      const key = section.title || 'main'
-      const hasActiveLink = section.links.some((link) => pathname.startsWith(link.href))
+      const hasActiveLink = section.links.some((link) =>
+        link.href === '/'
+          ? pathname === '/'
+          : pathname.startsWith(link.href)
+      )
       if (hasActiveLink) updatedSections[key] = true
     })
     setOpenSections(updatedSections)
@@ -133,18 +114,12 @@ export default function Sidebar() {
         href="/"
         className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r"
       >
-
-      <Link
-        href="/"
-        className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r"
-      >
         <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
         <span className="text-black font-bold text-lg">NotifyBreach</span>
       </Link>
 
 
       <div className="mt-24">
-        <SidebarSelector />
         <SidebarSelector />
 
         {sections.map((section, i) => (
@@ -173,34 +148,12 @@ export default function Sidebar() {
                   className="space-y-0.5"
                 >
                   {section.links.map((item: any, j) => {
+
                     const isActive =
                       item.href === '/'
                         ? pathname === '/'
-                        : pathname.startsWith(item.href);
-                    return (
-                      <Link
-                        key={j}
-                        href={item.href}
-                        className={`flex items-center justify-start gap-3 rounded-lg p-2 text-sm/6 transition-colors duration-150 ${
-                          isActive
-                            ? 'bg-orange-100 text-p-700 font-medium'
-                            : 'text-sc-700 hover:text-sc-800 hover:bg-sc-100'
-                        }`}
-                      >
-                        <item.icon
-                          className={`size-5 transition-colors duration-150 ${
-                            isActive ? 'text-p-700' : 'text-sc-500/75'
-                          }`}
-                        />
-                        <span>{item.name}</span>
-                      </Link>
-                    )
-                  })}
-                  {section.links.map((item: any, j) => {
-                    const isActive =
-                      item.href === '/'
-                        ? pathname === '/'
-                        : pathname.startsWith(item.href);
+                        : pathname.startsWith(item.href)
+
                     return (
                       <Link
                         key={j}

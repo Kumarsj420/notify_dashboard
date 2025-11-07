@@ -5,7 +5,7 @@ import { Search, FileDown, RotateCcw } from 'lucide-react';
 
 const ExposoreSearch = () => {
   return (
-    <div className="mt-7">
+    <div className="">
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-5">
 
