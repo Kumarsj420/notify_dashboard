@@ -10,21 +10,16 @@ import SidebarSelector from './SidebarSelector';
 import {
   Shield,
   ShieldAlert,
-  CirclePlus,
-  FileChartColumn,
-  Users,
-  UserPlus,
-  KeyRound,
-  UserCheck,
+  Handshake,
+
+  IdCardLanyard,
+  TextSearch,
   SquareUser,
-  Globe,
   Building2,
   Gem,
   Settings,
   MessageCircleQuestion,
   LayoutDashboard,
-  VenetianMask,
-  Group,
   ChevronDown,
 } from 'lucide-react'
 
@@ -46,10 +41,11 @@ const sections = [
   {
     title: 'Leaked data',
     links: [
-      { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
-      { name: 'Add Domain', href: '/add-domain', icon: CirclePlus },
-      { name: 'Matrices', href: '/matrices', icon: FileChartColumn },
-      { name: 'Employees', href: '/employees', icon: FileChartColumn },
+      // { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
+
+      { name: 'Matrices', href: '/matrices', icon: TextSearch },
+      { name: 'Employees', href: '/employees', icon: IdCardLanyard },
+      { name: 'Customers', href: '/customers', icon: Handshake },
     ],
   },
   // {
