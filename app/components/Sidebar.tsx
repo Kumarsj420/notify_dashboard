@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation';
@@ -10,21 +10,16 @@ import SidebarSelector from './SidebarSelector';
 import {
   Shield,
   ShieldAlert,
-  CirclePlus,
-  FileChartColumn,
-  Users,
-  UserPlus,
-  KeyRound,
-  UserCheck,
+  Handshake,
+
+  IdCardLanyard,
+  TextSearch,
   SquareUser,
-  Globe,
   Building2,
   Gem,
   Settings,
   MessageCircleQuestion,
   LayoutDashboard,
-  VenetianMask,
-  Group,
   ChevronDown,
 } from 'lucide-react'
 
@@ -44,11 +39,13 @@ const sections = [
   //   ],
   // },
   {
-    title: 'Leaked Data',
+    title: 'Leaked data',
     links: [
-      { name: 'Metrics', href: '/domain-exposore', icon: Globe },
-      { name: 'Employees', href: '/add-domain', icon: CirclePlus },
-      { name: 'Consumers', href: '/domain-status', icon: FileChartColumn },
+      // { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
+
+      { name: 'Matrices', href: '/matrices', icon: TextSearch },
+      { name: 'Employees', href: '/employees', icon: IdCardLanyard },
+      { name: 'Consumers', href: '/consumers', icon: Handshake },
     ],
   },
   // {
@@ -68,20 +65,36 @@ const sections = [
   {
     title: 'Accounts',
     links: [
-      { name: 'Profile', href: '/', icon: SquareUser },
-      { name: 'Company Info', href: '/', icon: Building2 },
-      { name: 'Subscriptions', href: '/', icon: Gem },
-      { name: 'Settings', href: '/', icon: Settings },
-      { name: 'Help & Support', href: '/', icon: MessageCircleQuestion },
+      { name: 'Profile', href: '/profile', icon: SquareUser },
+      { name: 'Company Info', href: '/company-info', icon: Building2 },
+      { name: 'Subscriptions', href: '/subscription', icon: Gem },
+      { name: 'Settings', href: '/sett', icon: Settings },
+      { name: 'Help & Support', href: '/sersere', icon: MessageCircleQuestion },
     ],
   },
 ]
 
 export default function Sidebar() {
-  // Each section open by default
+  const pathname = usePathname()
+
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(
     Object.fromEntries(sections.map((s) => [s.title || 'main', true]))
   )
+
+
+  useEffect(() => {
+    const updatedSections = { ...openSections }
+    sections.forEach((section) => {
+      const key = section.title || 'main'
+      const hasActiveLink = section.links.some((link) =>
+        link.href === '/'
+          ? pathname === '/'
+          : pathname.startsWith(link.href)
+      )
+      if (hasActiveLink) updatedSections[key] = true
+    })
+    setOpenSections(updatedSections)
+  }, [pathname])
 
   const toggleSection = (title: string | null) => {
     setOpenSections((prev) => ({
@@ -90,24 +103,20 @@ export default function Sidebar() {
     }))
   }
 
-  const pathname = usePathname();
-
-
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto bg-white lg:pb-4 border-r border-sc-200 px-4 no-scrollbar relative">
-      {/* Logo */}
-      <Link 
-        href={'/'}
-        className="flex items-center pl-4 gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r">
+
+      <Link
+        href="/"
+        className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r"
+      >
         <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
         <span className="text-black font-bold text-lg">NotifyBreach</span>
       </Link>
 
 
-
-      {/* Navigation */}
       <div className="mt-24">
-              <SidebarSelector />
+        <SidebarSelector />
 
         {sections.map((section, i) => (
           <div key={i} className="mt-5">
@@ -134,21 +143,32 @@ export default function Sidebar() {
                   transition={{ duration: 0.25 }}
                   className="space-y-0.5"
                 >
-                  {section.links.map((item:any, j) => (
-                    <Link
-                      key={j}
-                      href={item.href}
-                      className={`flex items-center justify-start gap-3 rounded-lg p-2 text-sm/6 ${
-                        item.active
-                          ? 'bg-orange-100 text-p-700'
-                          : 'text-sc-700 hover:text-sc-800 hover:bg-sc-100'
-                      }`}
-                    >
-                      <item.icon className={`size-5 ${item.active ? 'text-p-700' : 'text-sc-500/75'}`} />
-                      <span>{item.name}</span>
-                    </Link>
+                  {section.links.map((item: any, j) => {
 
-                  ))}
+                    const isActive =
+                      item.href === '/'
+                        ? pathname === '/'
+                        : pathname.startsWith(item.href)
+
+                    return (
+                      <Link
+                        key={j}
+                        href={item.href}
+                        className={`flex items-center justify-start gap-3 rounded-lg p-2 text-sm/6 transition-colors duration-150 ${
+                          isActive
+                            ? 'bg-orange-100 text-p-700 font-medium'
+                            : 'text-sc-700 hover:text-sc-800 hover:bg-sc-100'
+                        }`}
+                      >
+                        <item.icon
+                          className={`size-5 transition-colors duration-150 ${
+                            isActive ? 'text-p-700' : 'text-sc-500/75'
+                          }`}
+                        />
+                        <span>{item.name}</span>
+                      </Link>
+                    )
+                  })}
                 </motion.div>
               )}
             </AnimatePresence>

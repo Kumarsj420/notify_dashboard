@@ -10,9 +10,6 @@ export default function Resume() {
 
   return (
     <>
-    <Title>Add domain</Title>
-    <Intro>Hii this is another intro where we will show you your domain exposore risks.</Intro>
-
 <Card>
   <div className="flex gap-12">
     <form className="space-y-6 flex-1">
@@ -31,7 +28,7 @@ export default function Resume() {
         </p>
       </div>
 
-      {/* Description */}
+
       <div>
         <label className="block text-sm font-medium text-sc-900 mb-2">
           Description <span className="text-sc-400 text-sm">(Optional)</span>
@@ -43,7 +40,7 @@ export default function Resume() {
         ></textarea>
       </div>
 
-      {/* Scan Frequency */}
+
       <div>
         <label className="block text-sm font-medium text-sc-900 mb-2">
           Scan Frequency
@@ -55,7 +52,7 @@ export default function Resume() {
         </select>
       </div>
 
-      {/* Buttons */}
+
       <div className="flex justify-between items-center pt-4">
 
         <button

@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Globe, Plus, ChevronDown } from 'lucide-react'
 
 const SidebarSelector = () => {
   const [selectedDomain, setSelectedDomain] = useState<string>('example.com')
   const [open, setOpen] = useState<boolean>(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const domains: string[] = [
     'example.com',
@@ -24,8 +25,27 @@ const SidebarSelector = () => {
     alert('Open "Add Domain" modal or input field here')
   }
 
+  // 👇 Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [open])
+
   return (
-    <div className="relative inline-block text-left w-full">
+    <div ref={dropdownRef} className="relative inline-block text-left w-full">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center justify-between w-full p-2 text-sc-600 cursor-pointer rounded-lg ring ring-sc-300 shadow-sm transition"
@@ -34,7 +54,9 @@ const SidebarSelector = () => {
           <Globe size={18} />
           <span>{selectedDomain}</span>
         </div>
-        <span className={`transition-transform ${open ? 'rotate-180' : ''}`}><ChevronDown size={16}/></span>
+        <span className={`transition-transform ${open ? 'rotate-180' : ''}`}>
+          <ChevronDown size={16} />
+        </span>
       </button>
 
       {open && (
