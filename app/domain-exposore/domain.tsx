@@ -4,7 +4,7 @@ import { useState } from "react";
 import Title from "../components/Title";
 import Intro from "../components/Intro";
 import InlineCard from "../components/InlineCards";
-import ExposoreSearch from "../components/ExposoreSearch";
+import ExposoreSearch from "../components/SearchCard";
 
 import {
   AlertTriangle,

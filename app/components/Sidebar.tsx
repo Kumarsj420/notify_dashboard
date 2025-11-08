@@ -44,11 +44,11 @@ const sections = [
   //   ],
   // },
   {
-    title: 'Domain',
+    title: 'Leaked Data',
     links: [
-      { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
-      { name: 'Add Domain', href: '/add-domain', icon: CirclePlus },
-      { name: 'Domain Status', href: '/domain-status', icon: FileChartColumn },
+      { name: 'Metrics', href: '/domain-exposore', icon: Globe },
+      { name: 'Employees', href: '/add-domain', icon: CirclePlus },
+      { name: 'Consumers', href: '/domain-status', icon: FileChartColumn },
     ],
   },
   // {
