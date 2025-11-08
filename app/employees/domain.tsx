@@ -17,41 +17,29 @@ import {
 } from '../components/Table';
 interface ExposureEvent {
   id: string;
-  asset: string;
-  malwareIdentifier: string;
+  email: string;
+  user: string;
+  password: string;
+  url: string;
+  source: string;
   riskLevel: string;
   detectionDate: string;
+  action: string;
 }
 
 const mockData: ExposureEvent[] = [
   {
     id: '1',
-    asset: 'matheley@notify.com',
-    malwareIdentifier: 'wtkndkfnskdgnpsogn',
-    riskLevel: 'moderate',
-    detectionDate: '12 Jan 2025',
-  },
-  {
-    id: '1',
-    asset: 'kamaya@notify.com',
-    malwareIdentifier: 'sdfsdfdsf',
+    email: 'matheley@notify.com',
+    user: 'user',
+    password: 'password',
+    url: 'url',
+    source: 'source',
     riskLevel: 'high',
-    detectionDate: '12 Jan 2025',
+    detectionDate: '12 jan 2023',
+    action: 'actions',
   },
-  {
-    id: '1',
-    asset: 'tree@notify.com',
-    malwareIdentifier: 'sdfsdfd',
-    riskLevel: 'critical',
-    detectionDate: '12 Jan 2025',
-  },
-  {
-    id: '1',
-    asset: 'elaonbhai@x.com',
-    malwareIdentifier: 'sdfsdfsdfgsdg',
-    riskLevel: 'low',
-    detectionDate: '12 Jan 2025',
-  },
+
 ];
 
 const domainTabs: Tab[] = [
@@ -103,13 +91,17 @@ function getRiskLevelColor(level: string) {
                   <TableRow key={event.id}>
                     <TableCell>
                       <div className="flex items-center gap-2 text-sc-800/90 font-medium">
-                        {event.asset}
+                        {event.email}
                       </div>
                     </TableCell>
       
-                    <TableCell className='text-sc-600/90'>{event.malwareIdentifier}</TableCell>
-      
-                    <TableCell>
+                    <TableCell className='text-sc-600/90'>{event.user}</TableCell>
+                    <TableCell className='text-sc-600/90'>{event.password}</TableCell>
+                    <TableCell className='text-sc-600/90'><a href='{event.url}' target='_blank'>{event.url}</a></TableCell>
+                    <TableCell className='text-sc-600/90'>{event.source}</TableCell>
+
+
+              <TableCell>
 
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${getRiskLevelColor(
@@ -120,6 +112,7 @@ function getRiskLevelColor(level: string) {
                       </span>
 
               </TableCell>
+
       
 
               <TableCell>
@@ -127,6 +120,10 @@ function getRiskLevelColor(level: string) {
                     {event.detectionDate}
                 </span>
               </TableCell>
+              <TableCell className='text-sc-600/90'>
+                        <button className='bg-sc-300 text-sc-700 px-2 py-1 rounded-md text-xs cursor-pointer'>Details</button>
+              </TableCell>
+
               </TableRow>
                 ))}
               </TableBody>
