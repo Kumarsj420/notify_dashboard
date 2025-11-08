@@ -55,9 +55,8 @@ const mockData: ExposureEvent[] = [
 ];
 
 const domainTabs: Tab[] = [
+  { name: 'Identity theft', count: '6' },
   { name: 'Malware infections', count: '52', current: true },
-  { name: 'Data breaches', count: '6' },
-  { name: 'Combo lists', count: '4' },
 ]
 const domain = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -87,10 +86,15 @@ function getRiskLevelColor(level: string) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead sortable>Asset</TableHead>
-                  <TableHead sortable>Malware identifier</TableHead>
+
+                  <TableHead sortable>Email</TableHead>
+                  <TableHead sortable>Username identifier</TableHead>
+                  <TableHead sortable>Password</TableHead>
+                  <TableHead sortable>Url</TableHead>
+                  <TableHead sortable>Source</TableHead>
                   <TableHead sortable>Risk level</TableHead>
                   <TableHead sortable>Detection date</TableHead>
+                  <TableHead sortable>Action</TableHead>
                 </TableRow>
               </TableHeader>
       

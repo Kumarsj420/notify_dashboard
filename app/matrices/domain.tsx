@@ -44,8 +44,8 @@ const mockData: ExposureEvent[] = [
 
 const domainTabs: Tab[] = [
   { name: 'Domains', count: '52', current: true },
-  { name: 'Emails', count: '6' },
-  { name: 'Phone number', count: '4' },
+  { name: 'Employee', count: '6' },
+
 ]
 const domain = () => {
     const [currentPage, setCurrentPage] = useState(1);
