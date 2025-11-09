@@ -197,7 +197,8 @@ export default function consumer() {
             <SearchCard />
 
 
-                <TableStructure className="mt-7" title='Exposure Event'>
+                <TableStructure className="mt-7" >
+                  <h1 className="text-xl font-bold mb-5 px-6"> Consumers </h1>
                   <Table>
                     <TableHeader>
                       <TableRow>

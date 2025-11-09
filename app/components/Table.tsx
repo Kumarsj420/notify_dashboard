@@ -5,15 +5,13 @@ import React from 'react';
 export const TableStructure = ({ 
   children, 
   className = '' ,
-  title
 }: { 
   children: React.ReactNode; 
   className?: string;
-  title: string;
 }) => {
   return (
     <div className={` ${className} py-5 bg-white rounded-2xl ring-1 ring-sc-200 shadow-lg shadow-sc-300/70`}>
-      <h1 className="text-xl font-bold mb-5 px-6"> {title} </h1>
+      {/* <h1 className="text-xl font-bold mb-5 px-6"> {title} </h1> */}
       {children}
     </div>
   );
