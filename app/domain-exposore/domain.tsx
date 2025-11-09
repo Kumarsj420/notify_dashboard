@@ -149,7 +149,8 @@ export default function Resume() {
 
     <ExposoreSearch />
 
-    <TableStructure className="mt-6" title='Exposure Event'>
+    <TableStructure className="mt-6">
+       <h1 className="text-xl font-bold mb-5 px-6"> Domain Exposure </h1>
       <Table>
         <TableHeader>
           <TableRow>
