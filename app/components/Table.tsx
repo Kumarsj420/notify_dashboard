@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { ArrowUpDown } from 'lucide-react';
 // Base Table component
 
 export const TableStructure = ({ 
@@ -42,7 +42,7 @@ export const TableHeader = ({
   className?: string;
 }) => {
   return (
-    <thead className={`bg-gray-50 border-b border-gray-200 ${className}`}>
+    <thead className={`bg-gray-100/90 border-b border-gray-200  ${className}`}>
       {children}
     </thead>
   );
@@ -75,7 +75,7 @@ export const TableRow = ({
 }) => {
   return (
     <tr 
-      className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${className}`}
+      className={`border-b border-gray-200/90  transition-colors even:bg-sc-50 ${className}`}
       onClick={onClick}
     >
       {children}
@@ -97,13 +97,13 @@ export const TableHead = ({
 }) => {
   return (
     <th 
-      className={`px-6 py-4.5 text-center text-xs font-bold text-sc-600/90 capitalize tracking-wider ${sortable ? 'cursor-pointer select-none' : ''} ${className}`}
+      className={`px-6 py-4.5 text-center text-xs font-bold text-sc-900 capitalize tracking-wider border-t border-gray-200/90 ${sortable ? 'cursor-pointer select-none' : ''} ${className}`}
       onClick={sortable ? onSort : undefined}
     >
       <div className="flex items-center gap-2">
         {children}
         {sortable && (
-          <span className="text-sc-400">⇅</span>
+          <ArrowUpDown size={14} className='text-sc-400 hover:text-p-500' />
         )}
       </div>
     </th>
@@ -201,9 +201,9 @@ export const TablePagination = ({
             <button
               key={page}
               onClick={() => onPageChange(page as number)}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md ${
+              className={`px-3 py-1.5 text-sm font-medium rounded-md cursor-pointer ${
                 currentPage === page
-                  ? 'bg-orange-500 text-white'
+                  ? 'bg-linear-to-r from-amber-500 to-orange-600 text-white'
                   : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
               }`}
             >

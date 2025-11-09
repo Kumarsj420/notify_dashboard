@@ -3,7 +3,7 @@ import Title from "../components/Title";
 import Intro from "../components/Intro";
 import SearchCard from "../components/SearchCard";
 import { useState } from "react";
-import { EyeOff, Download } from 'lucide-react';
+import { EyeOff, Download, ExternalLink } from 'lucide-react';
 import { ShieldCheckIcon } from "@heroicons/react/24/solid";
 
 import {
@@ -186,83 +186,89 @@ const mockData: ExposureEvent[] = [
 
 
 export default function consumer() {
-      const [currentPage, setCurrentPage] = useState(1);
-    return (
-        <>
-            <div>
-                <Title> Consumer Leaked Data</Title>
-                <Intro>This table shows credentials from malware infections. For real-time breach checks, contact your account manager to learn about our knowledge api</Intro>
-            </div>
+  const [currentPage, setCurrentPage] = useState(1);
+  return (
+    <>
+      <div>
+        <Title> Consumer Leaked Data</Title>
+        <Intro>This table shows credentials from malware infections. For real-time breach checks, contact your account manager to learn about our knowledge api</Intro>
+      </div>
 
-            <SearchCard />
+      <SearchCard />
 
 
-                <TableStructure className="mt-7" >
-                  <h1 className="text-xl font-bold mb-5 px-6"> Consumers </h1>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Email</TableHead>
-                        <TableHead sortable>Username</TableHead>
-                        <TableHead>Password</TableHead>
-                        <TableHead>Url</TableHead>
-                        <TableHead sortable>Source</TableHead>
-                        <TableHead sortable>Date</TableHead>
-                      </TableRow>
-                    </TableHeader>
-            
-                    <TableBody>
-                      {mockData.map((event) => (
-                        <TableRow key={event.id}>
-                          <TableCell>
-                            <div className="flex items-center gap-2 text-sc-900 font-medium">
-                              {event.email}
-                            </div>
-                          </TableCell>
-            
-                          <TableCell className='text-sc-600/90'>{event.username}</TableCell>
-            
-                          <TableCell>
-                            <div className="flex items-center gap-2 text-sc-600/90">
-                              {event.password}
-                              <button className="text-sc-400 hover:text-sc-500 cursor-pointer">
-                                <EyeOff size={16} />
-                              </button>
-                            </div>
-                          </TableCell>
-            
-                          <TableCell>
-                            <a href={event.url} target="blank" className={` rounded-full text-xs font-medium text-p-500 hover:text-p-400 underline cursor-pointer`}>
-                              {event.url}
-                            </a>
-                          </TableCell>
-            
-                          <TableCell > <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full ring-1 ring-red-200">{event.source}</span></TableCell>
-            
-                          <TableCell>
-                            <span className={` rounded-full text-xs font-medium text-sc-600/90`}>
-                              {event.date}
-                            </span>
-                          </TableCell>
-            
-                        </TableRow>
-                      ))}
-                    </TableBody>
-            
-                    <TableFooter>
-                      <tr>
-                        <td colSpan={7}>
-                          <TablePagination
-                            currentPage={currentPage}
-                            totalPages={42}
-                            totalResults={1247}
-                            onPageChange={setCurrentPage}
-                          />
-                        </td>
-                      </tr>
-                    </TableFooter>
-                  </Table>
-                </TableStructure>
-        </>
-    )
+      <TableStructure className="mt-7" >
+        <div className="flex justify-between items-center mb-5 px-6">
+          <h1 className="text-xl font-bold "> Consumers </h1>
+          <button className="bg-sc-900 hover:bg-sc-700 text-white rounded-xl px-3.5 py-2 text-sm flex items-center gap-2 cursor-pointer">
+            <Download size={18} /> Export
+          </button>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Email</TableHead>
+              <TableHead sortable>Username</TableHead>
+              <TableHead>Password</TableHead>
+              <TableHead>Url</TableHead>
+              <TableHead sortable>Source</TableHead>
+              <TableHead sortable>Date</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {mockData.map((event) => (
+              <TableRow key={event.id}>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-sc-900 font-medium">
+                    {event.email}
+                  </div>
+                </TableCell>
+
+                <TableCell className='text-sc-600/90'>{event.username}</TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-2 text-sc-600/90">
+                    {event.password}
+                    <button className="text-sc-400 hover:text-sc-500 cursor-pointer">
+                      <EyeOff size={16} />
+                    </button>
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <a href={event.url} target="blank" className={` rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer`}>
+                    <ExternalLink size={14} className="inline mr-1.5"/>
+                    {event.url}
+                  </a>
+                </TableCell>
+
+                <TableCell > <span className="px-3 py-1 bg-red-50 text-red-600 rounded-full ring-1 ring-red-200">{event.source}</span></TableCell>
+
+                <TableCell>
+                  <span className={` rounded-full text-xs font-medium text-sc-600/90`}>
+                    {event.date}
+                  </span>
+                </TableCell>
+
+              </TableRow>
+            ))}
+          </TableBody>
+
+          <TableFooter>
+            <tr>
+              <td colSpan={7}>
+                <TablePagination
+                  currentPage={currentPage}
+                  totalPages={42}
+                  totalResults={1247}
+                  onPageChange={setCurrentPage}
+                />
+              </td>
+            </tr>
+          </TableFooter>
+        </Table>
+      </TableStructure>
+    </>
+  )
 }

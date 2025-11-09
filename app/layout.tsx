@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} antialiased bg-sc-100`}
+        className={`${outfit.variable} antialiased`}
       >
          <Sidebar />
         

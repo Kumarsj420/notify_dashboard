@@ -98,7 +98,7 @@ export default function Header() {
                     </DialogPanel>
                 </div>
             </Dialog>
-            <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-sc-200 bg-linear-to-b from-p-800 to-p-950 f px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
+            <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-p-200 bg-linear-to-b from-p-50 to-p-100 f px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
                 <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-sc-700 lg:hidden">
                     <span className="sr-only">Open sidebar</span>
                     <Bars3Icon aria-hidden="true" className="size-6" />
@@ -113,15 +113,15 @@ export default function Header() {
                             name="search"
                             placeholder="Search threats, domains, employee..."
                             aria-label="Search"
-                            className="col-start-1 row-start-1 block size-full bg-p-200/30 hover:bg-p-200/40 pl-8 text-base text-white focus:text-sc-900 outline-hidden placeholder:text-p-100/90  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96 ring-1 ring-inset ring-p-200/30 focus:bg-white focus:ring-2 focus:ring-p-400 focus:placeholder:text-sc-500/80 font-medium transition-colors duration-200 ease-in-out"
+                            className="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-white focus:text-sc-900 outline-hidden placeholder:text-sc-500/80  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96 ring-1 ring-inset ring-sc-400/80 focus:bg-white focus:ring-2 focus:ring-p-500/90 font-medium transition-colors duration-200 ease-in-out"
                         />
                         <MagnifyingGlassIcon
                             aria-hidden="true"
-                            className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-p-200 ml-2 group-focus-within:text-gray-500 transition-colors duration-200 ease-in-out"
+                            className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-sc-400 ml-2 group-focus-within:text-gray-500 transition-colors duration-200 ease-in-out"
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
-                        <button type="button" className="-m-2.5 p-2.5 text-p-200 hover:text-p-100 cursor-pointer">
+                        <button type="button" className="-m-2.5 p-2.5 text-sc-600 hover:text-sc-900 cursor-pointer">
                             <span className="sr-only">View notifications</span>
                             <BellIcon aria-hidden="true" className="size-6" />
                         </button>
@@ -134,7 +134,7 @@ export default function Header() {
                         </button>
 
                         {/* Separator */}
-                        <div aria-hidden="true" className="hidden lg:block lg:h-8 lg:w-px lg:bg-p-200/35" />
+                        <div aria-hidden="true" className="hidden lg:block lg:h-8 lg:w-px lg:bg-p-900/20" />
 
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative">
@@ -148,10 +148,10 @@ export default function Header() {
                                 />
                                 <span className="hidden lg:flex lg:items-center">
                                     <span aria-hidden="true" className="ml-4">
-                                       <span className='text-sm/6 font-semibold text-white'>John Smith</span> 
-                                        <span className='text-xs text-p-200 block'>Admin</span>
+                                       <span className='text-sm/6 font-semibold text-sc-900'>John Smith</span> 
+                                        <span className='text-xs text-sc-600 block'>Admin</span>
                                     </span>
-                                    <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-p-200" />
+                                    <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-sc-500" />
                                 </span>
                             </MenuButton>
                             <MenuItems

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Card from './Card';
-import { Search, FileDown, RotateCcw, Plus } from 'lucide-react';
+import { Search, RotateCcw, Plus } from 'lucide-react';
 
 const SearchCard = () => {
   return (
@@ -10,7 +10,7 @@ const SearchCard = () => {
         <div className="flex flex-wrap items-center justify-between gap-5">
 
           <div className='flex items-center gap-2 w-full'>
-            <div className="flex items-center ring-1 ring-inset ring-p-400/80 focus-within:ring-p-400 focus-within:ring-2 rounded-xl overflow-hidden w-full bg-p-50 focus-within:bg-white">
+            <div className="flex items-center ring-1 ring-inset ring-sc-400/80 focus-within:ring-p-400 focus-within:ring-2 rounded-xl overflow-hidden w-full">
               <Search className="ml-3 text-sc-500/80" size={18} />
               <input
                 type="text"
@@ -19,7 +19,7 @@ const SearchCard = () => {
               />
             </div>
 
-            <button className="bg-p-500 hover:bg-p-400  text-white rounded-xl px-4 cursor-pointer py-2.5 text-sm flex items-center gap-2 font-semibold">
+            <button className="bg-linear-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500  text-white rounded-xl px-4 cursor-pointer py-2.5 text-sm flex items-center gap-2 font-semibold">
               <Search size={16} /> Search
             </button>
           </div>
@@ -49,12 +49,8 @@ const SearchCard = () => {
 
 
             <div className='flex items-center gap-2'>
-              <button className="border border-sc-400/80 rounded-xl px-3.5 py-1.5 text-sm text-sc-600/90 focus:outline-none flex items-center gap-1 cursor-pointer hover:bg-sc-50 hover:border-sc-400">
+              <button className="border border-sc-400/80 rounded-xl px-3.5 py-2 text-sm text-sc-600/90 focus:outline-none flex items-center gap-1 cursor-pointer hover:bg-sc-50 hover:border-sc-400">
                 <span className="text-lg"><RotateCcw size={16} className='text-sc-500/80' /></span> Clear Filters
-              </button>
-
-              <button className="bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl px-3.5 py-1.5 text-sm flex items-center gap-2">
-                <FileDown size={18} /> Export
               </button>
             </div>
           </div>

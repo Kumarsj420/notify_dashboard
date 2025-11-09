@@ -6,7 +6,7 @@ interface IntroProps {
 
 const Intro: React.FC<IntroProps> = ({children}) => {
   return (
-    <p className='text-sc-600'>
+    <p className='text-sc-600 text-sm/7 font-light'>
       {children}
     </p>
   )

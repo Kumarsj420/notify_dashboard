@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Tabs, { Tab } from "../components/Tabs";
-import ExposoreSearch from "../components/ExposoreSearch";
 import TableSkeleton from "../components/TableSkeleton";
+import SearchCard from "../components/SearchCard";
 
 import {
   Table,
@@ -128,7 +128,7 @@ const Domain: React.FC = () => {
         onTabChange={handleTabChange}
       />
 
-      <ExposoreSearch />
+      <SearchCard />
 
       {/* Maintain Stable Height */}
       <div className="mt-7 min-h-[380px] relative">

@@ -108,14 +108,14 @@ export default function Sidebar() {
 
       <Link
         href="/"
-        className="flex items-center justify-center gap-2 border-b border-sc-200 py-6 top-0 left-0 fixed z-10 bg-white w-64 border-r"
+        className="flex items-center gap-2 border-b border-sc-200 py-2 top-0 left-0 fixed z-10 bg-white w-64 border-r h-16 pl-4"
       >
-        <Shield className="size-8 p-2 rounded-md bg-orange-500 text-white" />
+        <ShieldAlert className="size-8 p-2 rounded-md bg-linear-to-r from-amber-500 to-orange-600 text-white" />
         <span className="text-black font-bold text-lg">NotifyBreach</span>
       </Link>
 
 
-      <div className="mt-24">
+      <div className="mt-20">
         <SidebarSelector />
 
         {sections.map((section, i) => (
@@ -154,15 +154,15 @@ export default function Sidebar() {
                       <Link
                         key={j}
                         href={item.href}
-                        className={`flex items-center justify-start gap-3 rounded-lg p-2 text-sm/6 transition-colors duration-150 ${
+                        className={`flex items-center justify-start gap-3 rounded-lg px-2.5 py-2 text-sm/6 transition-colors duration-150 relative ${
                           isActive
-                            ? 'bg-orange-100 text-p-700 font-medium'
-                            : 'text-sc-700 hover:text-sc-800 hover:bg-sc-100'
+                            ? 'bg-linear-to-b from-p-50 to-p-100  text-p-950 font-medium after:absolute after:left-0 after:w-1.5 after:bg-linear-to-b after:from-amber-500 after:to-orange-600 after:h-1/2 after:rounded-sm after:top-1/2 after:-translate-1/2 ring-1 ring-inset ring-p-200/70'
+                            : 'text-sc-800 hover:text-sc-800 hover:bg-sc-100 '
                         }`}
                       >
                         <item.icon
                           className={`size-5 transition-colors duration-150 ${
-                            isActive ? 'text-p-700' : 'text-sc-500/75'
+                            isActive ? 'text-p-900' : 'text-sc-500/75'
                           }`}
                         />
                         <span>{item.name}</span>
