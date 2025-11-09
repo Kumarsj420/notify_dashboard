@@ -1,45 +1,45 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import React from "react";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
 export interface Tab {
-  name: string
-  href?: string
-  count?: string
-  current?: boolean
+  name: string;
+  href?: string;
+  count?: string;
+  current?: boolean;
 }
 
 interface TabsProps {
-  tabs: Tab[]
-  onTabChange?: (tab: Tab) => void
-  activeColor?: string // Tailwind color prefix (e.g. 'p' or 'indigo')
-  secondaryColor?: string // Tailwind secondary color prefix (e.g. 'sc' or 'gray')
+  tabs: Tab[];
+  onTabChange?: (tab: Tab) => void;
+  activeColor?: string;
+  secondaryColor?: string;
 }
 
 function classNames(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Tabs({
   tabs,
   onTabChange,
-  activeColor = 'p',
-  secondaryColor = 'sc',
+  activeColor = "p",
+  secondaryColor = "sc",
 }: TabsProps) {
-  const currentTab = tabs.find((tab) => tab.current)
+  const currentTab = tabs.find((t) => t.current);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = tabs.find((tab) => tab.name === e.target.value)
-    if (selected && onTabChange) onTabChange(selected)
-  }
+    const selected = tabs.find((tab) => tab.name === e.target.value);
+    if (selected && onTabChange) onTabChange(selected);
+  };
 
   return (
     <div>
-      {/* Mobile View */}
+      {/* Mobile */}
       <div className="grid grid-cols-1 sm:hidden">
         <select
-          defaultValue={currentTab ? currentTab.name : ''}
+          value={currentTab?.name}
           aria-label="Select a tab"
           onChange={handleSelect}
           className={`col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-${secondaryColor}-900 outline-1 -outline-offset-1 outline-${secondaryColor}-300 focus:outline-2 focus:-outline-offset-2 focus:outline-${activeColor}-600`}
@@ -48,16 +48,17 @@ export default function Tabs({
             <option key={tab.name}>{tab.name}</option>
           ))}
         </select>
+
         <ChevronDownIcon
           aria-hidden="true"
           className={`pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-${secondaryColor}-500`}
         />
       </div>
 
-      {/* Desktop View */}
+      {/* Desktop */}
       <div className="hidden sm:block">
         <div className={`border-b border-${secondaryColor}-200`}>
-          <nav aria-label="Tabs" className="-mb-px flex space-x-8">
+          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
                 key={tab.name}
@@ -65,18 +66,19 @@ export default function Tabs({
                 className={classNames(
                   tab.current
                     ? `border-${activeColor}-500 text-${activeColor}-600`
-                    : `border-transparent text-${secondaryColor}-500 hover:border-${secondaryColor}-200 hover:text-${secondaryColor}-700`,
-                  'flex border-b-2 px-1 py-4 text-sm whitespace-nowrap font-semibold'
+                    : `border-transparent text-${secondaryColor}-500 hover:border-${secondaryColor}-300 hover:text-${secondaryColor}-700`,
+                  "flex border-b-2 px-1 py-4 text-sm font-semibold whitespace-nowrap"
                 )}
               >
                 {tab.name}
+
                 {tab.count && (
                   <span
                     className={classNames(
                       tab.current
                         ? `bg-${activeColor}-100 text-${activeColor}-600`
                         : `bg-${secondaryColor}-100 text-${secondaryColor}-500`,
-                      'ml-3 hidden rounded-full px-2.5 py-0.5 text-xs font-medium md:inline-block'
+                      "ml-3 hidden rounded-full px-2.5 py-0.5 text-xs font-medium md:inline-block"
                     )}
                   >
                     {tab.count}
@@ -88,5 +90,5 @@ export default function Tabs({
         </div>
       </div>
     </div>
-  )
+  );
 }
