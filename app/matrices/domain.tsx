@@ -56,13 +56,13 @@ const Domain: React.FC = () => {
 
   return (
     <div>
-      <Tabs
+      {/* <Tabs
         tabs={domainTabs.map((t) => ({
           ...t,
           current: t.name === activeTab,
         }))}
         onTabChange={handleTabChange}
-      />
+      /> */}
 
       <SearchCard />
 

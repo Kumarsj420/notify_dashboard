@@ -3,10 +3,15 @@
 import React, { useState } from "react";
 import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
-import SearchCard from "../components/SearchCard";
-import Image from "next/image";
-import { Siren } from 'lucide-react';
+import { Siren, Plus } from 'lucide-react';
 
+
+import { EmployeeExposureData } from "../data/EmployeeExposureData";
+const mockData = EmployeeExposureData;
+
+
+import EmployeeList from "../components/employeeList";
+import { employeeData } from "../data/employeeData";
 
 
 import {
@@ -21,70 +26,7 @@ import {
   TableStructure,
 } from "../components/Table";
 
-// ---------------- Mock Data ----------------
-interface ExposureEvent {
-  profile: string;
-  id: string;
-  email: string;
-  user: string;
-  password: string;
-  url: string;
-  source: string;
-  riskLevel: string;
-  detectionDate: string;
-  action: string;
-}
 
-const mockData: ExposureEvent[] = [
-  {
-    profile: "https://threat.notifybreach.com/_next/image?url=https%3A%2F%2Fimages.contactout.com%2Fprofiles%2F1439a86d7e466c509ffde33bdcdd5dbf&w=128&q=75",
-    id: "1",
-    email: "matheley@notify.com",
-    user: "user",
-    password: "password",
-    url: "url",
-    source: "source",
-    riskLevel: "high",
-    detectionDate: "12 jan 2023",
-    action: "actions",
-  },
-  {
-    profile: "https://threat.notifybreach.com/_next/image?url=https%3A%2F%2Fimages.contactout.com%2Fprofiles%2F1439a86d7e466c509ffde33bdcdd5dbf&w=128&q=75",
-    id: "2",
-    email: "matheley@notify.com",
-    user: "user",
-    password: "password",
-    url: "url",
-    source: "source",
-    riskLevel: "high",
-    detectionDate: "12 jan 2023",
-    action: "actions",
-  },
-  {
-    profile: "https://threat.notifybreach.com/_next/image?url=https%3A%2F%2Fimages.contactout.com%2Fprofiles%2F1439a86d7e466c509ffde33bdcdd5dbf&w=128&q=75",
-    id: "3",
-    email: "matheley@notify.com",
-    user: "user",
-    password: "password",
-    url: "url",
-    source: "source",
-    riskLevel: "high",
-    detectionDate: "12 jan 2023",
-    action: "actions",
-  },
-  {
-    profile: "https://threat.notifybreach.com/_next/image?url=https%3A%2F%2Fimages.contactout.com%2Fprofiles%2F1439a86d7e466c509ffde33bdcdd5dbf&w=128&q=75",
-    id: "4",
-    email: "matheley@notify.com",
-    user: "user",
-    password: "password",
-    url: "url",
-    source: "source",
-    riskLevel: "high",
-    detectionDate: "12 jan 2023",
-    action: "actions",
-  },
-];
 
 // ---------------- Tabs ----------------
 const domainTabs: Tab[] = [
@@ -103,10 +45,8 @@ const Domain: React.FC = () => {
   // ---------------- Tab Change Handler ----------------
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
-
     setIsLoading(true);
     setActiveTab(tab.name);
-
     setTimeout(() => setIsLoading(false), 600);
   };
 
@@ -128,7 +68,6 @@ const Domain: React.FC = () => {
 
   return (
     <div>
-      {/* Tabs */}
       <Tabs
         tabs={domainTabs.map((t) => ({
           ...t,
@@ -137,9 +76,8 @@ const Domain: React.FC = () => {
         onTabChange={handleTabChange}
       />
 
-      <SearchCard />
 
-      {/* Maintain Stable Height */}
+
       <div className="mt-7 min-h-[380px] relative">
         {isLoading && <TableSkeleton />}
 
@@ -147,90 +85,29 @@ const Domain: React.FC = () => {
         {!isLoading && activeTab === "Identity theft" && (
           <TableStructure className="mt-7" >
             <div className="flex justify-between items-center px-6 py-4">
-              <h1 className="text-xl font-bold"> Employees </h1>
+              <h1 className="text-xl font-bold"> Employees monitoring</h1>
+
+              <div className="flex items-center gap-2">
+                <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer">
+                  <Plus size={16} /> Add employee
+                </button>
+
               <button className="bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-500 hover:to-red-400 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer">
                 <Siren size={16} /> Alert all
               </button>
-
+              </div>
             </div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Profile</TableHead>
-                  <TableHead sortable>Email</TableHead>
-                  <TableHead sortable>Username identifier</TableHead>
-                  <TableHead sortable>Password</TableHead>
-                  <TableHead sortable>Url</TableHead>
-                  <TableHead sortable>Source</TableHead>
-                  <TableHead sortable>Risk level</TableHead>
-                  <TableHead sortable>Detection date</TableHead>
-                  <TableHead sortable>Action</TableHead>
-                </TableRow>
-              </TableHeader>
 
-              <TableBody>
-                {mockData.map((event) => (
-                  <TableRow key={event.id}>
-                    <TableCell>
-                        <Image
-                          src={event.profile}
-                          alt="profile"
-                          width={48}
-                          height={48}
-                          className="rounded-full"
-                          unoptimized
-                        />
-                    </TableCell>
-                    <TableCell className="text-sc-600/90 blur-xs">
-                      {event.email}
-                    </TableCell>
-                    <TableCell className="text-sc-600/90">{event.user}</TableCell>
-                    <TableCell className="text-sc-600/90"><input type="password" value={event.password} disabled/></TableCell>
-                    <TableCell className="text-sc-600/90">
-                      <a href={event.url} target="_blank">
-                        {event.url}
-                      </a>
-                    </TableCell>
-                    <TableCell className="text-sc-600/90">{event.source}</TableCell>
+            <div>
+              {employeeData.map((event) => (
+        <EmployeeList key={event.id} data={event} />
+      ))}
+            </div>
 
-                    <TableCell>
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${getRiskLevelColor(
-                          event.riskLevel
-                        )}`}
-                      >
-                        {event.riskLevel}
-                      </span>
-                    </TableCell>
 
-                    <TableCell>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium">
-                        {event.detectionDate}
-                      </span>
-                    </TableCell>
 
-                    <TableCell className="text-sc-600/90">
-                      <button className="bg-sc-300 text-sc-700 px-2 py-1 rounded-md text-xs cursor-pointer">
-                        Details
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
 
-              <TableFooter>
-                <tr>
-                  <td colSpan={7}>
-                    <TablePagination
-                      currentPage={currentPage}
-                      totalPages={42}
-                      totalResults={1247}
-                      onPageChange={setCurrentPage}
-                    />
-                  </td>
-                </tr>
-              </TableFooter>
-            </Table>
+
           </TableStructure>
         )}
 
@@ -241,10 +118,9 @@ const Domain: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead sortable>Profile</TableHead>
                   <TableHead sortable>Email</TableHead>
-                  <TableHead sortable>Username identifier</TableHead>
-                  <TableHead sortable>Password</TableHead>
+                  <TableHead sortable>Username</TableHead>
+                  <TableHead>Password</TableHead>
                   <TableHead sortable>Url</TableHead>
                   <TableHead sortable>Source</TableHead>
                   <TableHead sortable>Risk level</TableHead>
@@ -256,16 +132,7 @@ const Domain: React.FC = () => {
               <TableBody>
                 {mockData.map((event) => (
                   <TableRow key={event.id}>
-                    <TableCell>
-                        <Image
-                          src={event.profile}
-                          alt="profile"
-                          width={48}
-                          height={48}
-                          className="rounded-full"
-                          unoptimized
-                        />
-                    </TableCell>
+                    
 
                     <TableCell className="text-sc-600/90 blur-xs">
                       {event.email}
@@ -295,11 +162,12 @@ const Domain: React.FC = () => {
                       </span>
                     </TableCell>
 
-                    <TableCell className="text-sc-600/90">
-                      <button className="bg-sc-300 text-sc-700 px-2 py-1 rounded-md text-xs cursor-pointer">
-                        Details
-                      </button>
+                    <TableCell>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium">
+                        Resolve
+                      </span>
                     </TableCell>
+                    
                   </TableRow>
                 ))}
               </TableBody>
