@@ -9,6 +9,7 @@ export interface ExposureEvent {
   riskLevel: string;
   detectionDate: string;
   action: string;
+  status: string;
 }
 
 export const EmployeeExposureData: ExposureEvent[] = [
@@ -24,6 +25,7 @@ export const EmployeeExposureData: ExposureEvent[] = [
     riskLevel: "high",
     detectionDate: "12 jan 2023",
     action: "actions",
+    status: "resolve",
   },
   {
     profile:
@@ -37,6 +39,8 @@ export const EmployeeExposureData: ExposureEvent[] = [
     riskLevel: "high",
     detectionDate: "12 jan 2023",
     action: "actions",
+    status: "resolved",
+
   },
   {
     profile:
@@ -50,6 +54,8 @@ export const EmployeeExposureData: ExposureEvent[] = [
     riskLevel: "high",
     detectionDate: "12 jan 2023",
     action: "actions",
+        status: "resolve",
+
   },
   {
     profile:
@@ -63,5 +69,6 @@ export const EmployeeExposureData: ExposureEvent[] = [
     riskLevel: "high",
     detectionDate: "12 jan 2023",
     action: "actions",
+    status: "resolved",
   },
 ];

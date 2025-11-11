@@ -66,6 +66,20 @@ const Domain: React.FC = () => {
     }
   };
 
+  const [tableData, setTableData] = useState(mockData);
+const handleStatusToggle = (id: string) => {
+  setTableData(prev =>
+    prev.map(item =>
+      item.id === id
+        ? {
+            ...item,
+            status: item.status === "resolve" ? "resolved" : "resolve",
+          }
+        : item
+    )
+  );
+};
+
   return (
     <div>
       <Tabs
@@ -130,7 +144,7 @@ const Domain: React.FC = () => {
               </TableHeader>
 
               <TableBody>
-                {mockData.map((event) => (
+                {tableData.map((event) => (
                   <TableRow key={event.id}>
                     
 
@@ -163,9 +177,17 @@ const Domain: React.FC = () => {
                     </TableCell>
 
                     <TableCell>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium">
-                        Resolve
-                      </span>
+                      <button
+                        onClick={() => handleStatusToggle(event.id)}
+                        className={`
+                          px-3 py-1 rounded-full text-xs font-medium cursor-pointer 
+                          ${event.status === "resolved" 
+                            ? "bg-green-100 text-green-700" 
+                            : "bg-gray-200 text-gray-600"}
+                        `}
+                      >
+                        {event.status}
+                      </button>
                     </TableCell>
                     
                   </TableRow>

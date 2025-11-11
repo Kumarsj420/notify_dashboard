@@ -5,6 +5,7 @@ export interface ExposureEvent {
   designation: string;
   description: string;
   location: string;
+
 }
 
 export const employeeData: ExposureEvent[] = [
