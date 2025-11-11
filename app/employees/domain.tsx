@@ -6,6 +6,9 @@ import TableSkeleton from "../components/TableSkeleton";
 import { Siren, Plus } from 'lucide-react';
 
 
+import PopupManager from "../components/popupManager";
+import AlertPopup from "../components/popups/alertPopup";
+
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
 
@@ -26,7 +29,13 @@ import {
   TableStructure,
 } from "../components/Table";
 
-
+  const popups = [
+    {
+      id: "alertPopup",
+      title: "Alert All",
+      content: <AlertPopup />
+    },
+  ];
 
 // ---------------- Tabs ----------------
 const domainTabs: Tab[] = [
@@ -106,7 +115,7 @@ const handleStatusToggle = (id: string) => {
                   <Plus size={16} /> Add employee
                 </button>
 
-              <button className="bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-500 hover:to-red-400 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer">
+              <button className="bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-500 hover:to-red-400 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
                 <Siren size={16} /> Alert all
               </button>
               </div>
@@ -210,6 +219,9 @@ const handleStatusToggle = (id: string) => {
           </TableStructure>
         )}
       </div>
+
+      <PopupManager popups={popups} />
+
     </div>
   );
 };
