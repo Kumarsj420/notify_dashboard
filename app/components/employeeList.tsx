@@ -28,7 +28,7 @@ const ContactCard: React.FC<Props> = ({ data }) => {
           <img
             src={data.profile}
             alt={data.name}
-            className="w-16 h-16 rounded-full object-cover border-4 border-orange-300"
+            className="w-20 h-20 rounded-full object-cover border-4 border-orange-300"
           />
 
           <div>

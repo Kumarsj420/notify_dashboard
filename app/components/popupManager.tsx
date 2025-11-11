@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 interface Popup {
   id: string;
@@ -8,53 +9,57 @@ interface Popup {
   content: React.ReactNode;
 }
 
-interface PopupManagerProps {
+interface Props {
   popups: Popup[];
 }
 
-const PopupManager: React.FC<PopupManagerProps> = ({ popups }) => {
+const PopupManager: React.FC<Props> = ({ popups }) => {
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
-  // Detect clicks on ANY popup-trigger button
   useEffect(() => {
-    const handler = (e: any) => {
-      const btn = e.target.closest(".popup-trigger");
-      if (!btn) return;
+    const triggers = document.querySelectorAll(".popup-trigger");
 
-      const popupId = btn.getAttribute("data-popup");
-      setActivePopup(popupId);
+    const handleClick = (e: any) => {
+      const id = e.currentTarget.getAttribute("data-popup");
+      setActivePopup(id);
     };
 
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
+    triggers.forEach(t => t.addEventListener("click", handleClick));
+
+    return () => triggers.forEach(t => t.removeEventListener("click", handleClick));
   }, []);
 
   const closePopup = () => setActivePopup(null);
 
-  return (
-    <>
-      {popups.map((popup) =>
-        popup.id === activePopup ? (
-          <div
-            key={popup.id}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[999]"
-          >
-            <div className="bg-white rounded-2xl shadow-xl w-[380px] p-6 relative">
-              {/* Close button */}
-              <button
-                onClick={closePopup}
-                className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-              >
-                ×
-              </button>
+  const current = popups.find(p => p.id === activePopup);
 
-              <h2 className="text-lg font-semibold mb-2">{popup.title}</h2>
-              <div className="text-sm text-gray-700">{popup.content}</div>
-            </div>
-          </div>
-        ) : null
-      )}
-    </>
+  if (!current) return null;
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[1000]"
+    >
+      {/* Popup box */}
+      <div className="bg-white rounded-2xl w-full max-w-lg shadow-xl animate-fadeIn relative p-6">
+
+        {/* Top bar */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">{current.title}</h2>
+          <button onClick={closePopup}>
+            <X className="w-5 h-5 text-gray-600 hover:text-black" />
+          </button>
+        </div>
+
+        {/* Popup content */}
+        <div>{current.content}</div>
+
+        {/* Close on outside click */}
+        <button
+          onClick={closePopup}
+          className="absolute inset-0 -z-10"
+        />
+      </div>
+    </div>
   );
 };
 

@@ -8,6 +8,8 @@ import { Siren, Plus } from 'lucide-react';
 
 import PopupManager from "../components/popupManager";
 import AlertPopup from "../components/popups/alertPopup";
+import AddEmployee from "../components/popups/addEmployee";
+import { renderAlertEmployeePopup } from "../components/popups/alertEmployee";
 
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
@@ -29,13 +31,24 @@ import {
   TableStructure,
 } from "../components/Table";
 
-  const popups = [
-    {
-      id: "alertPopup",
-      title: "Alert All",
-      content: <AlertPopup />
-    },
-  ];
+const popups = [
+  {
+    id: "alertPopup",
+    title: "Alert All",
+    content: <AlertPopup />
+  },
+  {
+    id: "addEmployee",
+    title: "Add employee",
+    content: <AddEmployee />
+  },
+  {
+    id: "alertEmployee",
+    title: "Alert Employee",
+    content: null // we will fill dynamically
+  }
+];
+
 
 // ---------------- Tabs ----------------
 const domainTabs: Tab[] = [
@@ -111,7 +124,7 @@ const handleStatusToggle = (id: string) => {
               <h1 className="text-xl font-bold"> Employees monitoring</h1>
 
               <div className="flex items-center gap-2">
-                <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer">
+                <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="addEmployee">
                   <Plus size={16} /> Add employee
                 </button>
 
