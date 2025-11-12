@@ -5,7 +5,8 @@ import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
 import { Siren, Plus } from 'lucide-react';
 
-import Modal, {ModalHeader, ModalBody, ModalFooter} from "../components/Modals";
+import AlertAllEmployee from "../components/popup/alertAllEmployee";
+import AddEmployee from "../components/popup/AddEmployee";
 
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
@@ -79,14 +80,12 @@ const Domain: React.FC = () => {
   };
 
   const [alertAllOpen, setAlertAllOpen] = useState(false);
+  const [addEmployeeOpen, setAddEmployeeOpen] = useState(false);
 
   return (
     <>
-      <Modal open={alertAllOpen} onClose={setAlertAllOpen}>
-        <ModalHeader>Title</ModalHeader>
-        <ModalBody>helloe</ModalBody>
-        <ModalFooter>Nice</ModalFooter>
-      </Modal>
+    <AlertAllEmployee open={alertAllOpen} onClose={setAlertAllOpen} />
+    <AddEmployee open={addEmployeeOpen} onClose={setAddEmployeeOpen} />
 
       <div>
         <Tabs
@@ -109,13 +108,19 @@ const Domain: React.FC = () => {
                 <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
                 <div className="flex items-center gap-2">
-                  <button className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
+                  <button 
+                    onClick={() => setAddEmployeeOpen(true)}
+                    className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
                     <Plus size={16} /> Add employee
                   </button>
 
-                  <button onClick={() => setAlertAllOpen(true)} className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+                  <button
+                    onClick={() => setAlertAllOpen(true)}
+                    className="bg-linear-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer"
+                  >
                     <Siren size={16} className="scale-105" /> Alert all
                   </button>
+
                 </div>
               </div>
 
