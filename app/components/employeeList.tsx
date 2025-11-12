@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MapPin, Pencil, Eye, Siren } from 'lucide-react';
+import { MapPin, Pencil, Eye, Siren, ShieldAlert, Phone, Mail, AlertTriangle } from 'lucide-react';
 
 
 interface ExposureEvent {
@@ -11,6 +11,9 @@ interface ExposureEvent {
   designation: string;
   description: string;
   location: string;
+  number: number;
+  email: string;
+  type: string | null
 }
 
 interface Props {
@@ -19,48 +22,107 @@ interface Props {
 
 const ContactCard: React.FC<Props> = ({ data }) => {
   return (
-    <div className="w-full mx-auto space-y-8 px-6 py-4 transition">
+    <div className="w-full mx-auto space-y-8 px-8 py-7 transition border-b border-b-sc-200 odd:bg-sc-50">
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
 
 
-        <div className="flex items-start gap-4">
-          <img
-            src={data.profile}
-            alt={data.name}
-            className="w-20 h-20 rounded-full object-cover border-4 border-orange-300"
-          />
+        <div className="flex items-start gap-4  ">
+          <div className="relative">
+            <img
+              src={data.profile}
+              alt={data.name}
+              className="size-11 rounded-full object-cover ring-[0.1em] ring-sc-300/80 ring-offset-3"
+            />
+
+            {data.type === 'critical' && (
+              <div className="absolute -top-5 -right-3 size-7 rounded-full bg-linear-to-b from-red-50 to-red-100 ring-1 ring-inset ring-red-200 flex items-center justify-center ">
+                <ShieldAlert className="size-4 text-red-600" />
+              </div>
+            )}
+
+            {data.type === 'medium' && (
+              <div className="absolute -top-5 -right-3 size-7 rounded-full bg-linear-to-b from-amber-50 to-amber-100 ring-1 ring-inset ring-amber-200 flex items-center justify-center">
+                <AlertTriangle className="size-4 text-amber-600" />
+              </div>
+            )}
+
+          </div>
 
           <div>
-            <h2 className="text-xl font-bold text-sc-900">{data.name}</h2>
+            <div className="flex flex-row gap-3 items-center">
+              <h2 className="text-lg/8 font-bold text-sc-900 ">
+                {data.name}</h2>
+              {data.type === 'critical' && (
+                <div className=" flex flex-row gap-2 items-center">
+                  <span className=" ring-1 ring-inset ring-red-200 px-3 py-1 bg-linear-to-b from-red-50 to-red-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-red-600">
+                    <ShieldAlert className="size-3.5" />
+                    Critical
+                  </span>
+                  <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
+                    8 Exposure
+                  </span>
+                </div>
+              )}
+              {data.type === 'medium' && (
+                <div className="flex flex-row gap-2 items-center">
+                  <span className="ring-1 ring-inset ring-amber-200 px-3 py-1 bg-linear-to-b from-amber-50 to-amber-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-amber-600">
+                    <AlertTriangle className="size-3.5" />
+                    Medium
+                  </span>
+                  <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
+                    8 Exposure
+                  </span>
+                </div>
+              )}
 
-            <p className="font-medium text-sc-700 text-xs">{data.designation}</p>
-            <p className="font-medium text-sc-500 text-xs">{data.description}</p>
+            </div>
 
-            <div className="flex items-center gap-2 mt-1 text-sc-500 text-xs">
-              <MapPin width={12} />
-              {data.location}
+            <p className="font-semibold text-sc-700 text-sm/6">{data.designation}</p>
+            <p className="font-light text-sc-600/90 text-sm/5">{data.description}</p>
+
+            <div className="flex flex-row gap-4">
+              <div className="flex items-center gap-1.5 mt-1 font-light text-sc-600/90 text-sm/6">
+                <MapPin width={16} />
+                {data.location}
+              </div>
+              <div className="flex items-center gap-1.5 mt-1 font-light text-sc-600/90 text-sm/6">
+                <Phone width={16} />
+                {data.number}
+              </div>
+              <div className="flex items-center gap-1.5 mt-1 font-light text-sc-600/90 text-sm/5">
+                <Mail width={16} />
+                {data.email}
+              </div>
             </div>
           </div>
         </div>
 
 
         <div className="flex items-center gap-3">
-          <button className="px-3 py-1.5 rounded-lg text-sc-700 bg-sc-200 transition flex items-center justify-center gap-1 text-sm cursor-pointer">
-              <Eye width={14} />
-              <span>View</span>
-            
+
+          <button className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
+            <Eye size={16} /> View
           </button>
 
-          <button className="px-3 py-1.5 rounded-lg text-emerald-700 bg-emerald-200 transition flex items-center justify-center gap-1 text-sm cursor-pointer">
-            <Pencil width={12} />
-            <span>Edit</span>
+          <button className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
+            <Pencil size={16} className="scale-85" /> Edit
           </button>
 
-          <button className="px-3 py-1.5 rounded-lg text-red-700 bg-red-200 transition flex items-center justify-center gap-1 text-sm cursor-pointer">
+          {/* <button className="bg-sc-900 hover:bg-sc-700 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+            <Pencil size={16} className="scale-105" /> Edit
+          </button> */}
+
+          <button className="bg-p-500 hover:bg-p-400 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+            <Siren size={16} className="scale-105" /> Alert
+          </button>
+
+          {/* <button className="px-3 py-1.5 rounded-lg text-red-700 bg-red-200 transition flex items-center justify-center gap-1 text-sm cursor-pointer">
             <Siren width={16} />
             <span>Alert</span>
-          </button>
+          </button> */}
+
+
         </div>
       </div>
     </div>

@@ -5,11 +5,7 @@ import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
 import { Siren, Plus } from 'lucide-react';
 
-
-import PopupManager from "../components/popupManager";
-import AlertPopup from "../components/popups/alertPopup";
-import AddEmployee from "../components/popups/addEmployee";
-import { renderAlertEmployeePopup } from "../components/popups/alertEmployee";
+import Modal, {ModalHeader, ModalBody, ModalFooter} from "../components/Modals";
 
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
@@ -31,26 +27,7 @@ import {
   TableStructure,
 } from "../components/Table";
 
-const popups = [
-  {
-    id: "alertPopup",
-    title: "Alert All",
-    content: <AlertPopup />
-  },
-  {
-    id: "addEmployee",
-    title: "Add employee",
-    content: <AddEmployee />
-  },
-  {
-    id: "alertEmployee",
-    title: "Alert Employee",
-    content: null // we will fill dynamically
-  }
-];
 
-
-// ---------------- Tabs ----------------
 const domainTabs: Tab[] = [
   { name: "Identity theft", count: "6" },
   { name: "Malware infections", count: "52" },
@@ -59,12 +36,12 @@ const domainTabs: Tab[] = [
 const Domain: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Correct default = first tab
+
   const [activeTab, setActiveTab] = useState("Identity theft");
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // ---------------- Tab Change Handler ----------------
+
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
     setIsLoading(true);
@@ -72,7 +49,6 @@ const Domain: React.FC = () => {
     setTimeout(() => setIsLoading(false), 600);
   };
 
-  // ---------------- Risk Level Color ----------------
   const getRiskLevelColor = (level: string) => {
     switch (level.toLowerCase()) {
       case "low":
@@ -89,153 +65,162 @@ const Domain: React.FC = () => {
   };
 
   const [tableData, setTableData] = useState(mockData);
-const handleStatusToggle = (id: string) => {
-  setTableData(prev =>
-    prev.map(item =>
-      item.id === id
-        ? {
+  const handleStatusToggle = (id: string) => {
+    setTableData(prev =>
+      prev.map(item =>
+        item.id === id
+          ? {
             ...item,
             status: item.status === "resolve" ? "resolved" : "resolve",
           }
-        : item
-    )
-  );
-};
+          : item
+      )
+    );
+  };
+
+  const [alertAllOpen, setAlertAllOpen] = useState(false);
 
   return (
-    <div>
-      <Tabs
-        tabs={domainTabs.map((t) => ({
-          ...t,
-          current: t.name === activeTab,
-        }))}
-        onTabChange={handleTabChange}
-      />
+    <>
+      <Modal open={alertAllOpen} onClose={setAlertAllOpen}>
+        <ModalHeader>Title</ModalHeader>
+        <ModalBody>helloe</ModalBody>
+        <ModalFooter>Nice</ModalFooter>
+      </Modal>
+
+      <div>
+        <Tabs
+          tabs={domainTabs.map((t) => ({
+            ...t,
+            current: t.name === activeTab,
+          }))}
+          onTabChange={handleTabChange}
+        />
 
 
 
-      <div className="mt-7 min-h-[380px] relative">
-        {isLoading && <TableSkeleton />}
+        <div className="mt-7 min-h-[380px] relative">
+          {isLoading && <TableSkeleton />}
 
-        {/* TAB 1 */}
-        {!isLoading && activeTab === "Identity theft" && (
-          <TableStructure className="mt-7" >
-            <div className="flex justify-between items-center px-6 py-4">
-              <h1 className="text-xl font-bold"> Employees monitoring</h1>
+          {/* TAB 1 */}
+          {!isLoading && activeTab === "Identity theft" && (
+            <TableStructure className="" >
+              <div className="flex justify-between items-center px-6 pb-5 border-b border-b-sc-200 ">
+                <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
-              <div className="flex items-center gap-2">
-                <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="addEmployee">
-                  <Plus size={16} /> Add employee
-                </button>
+                <div className="flex items-center gap-2">
+                  <button className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
+                    <Plus size={16} /> Add employee
+                  </button>
 
-              <button className="bg-gradient-to-r from-orange-600 to-red-500 hover:from-orange-500 hover:to-red-400 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
-                <Siren size={16} /> Alert all
-              </button>
+                  <button onClick={() => setAlertAllOpen(true)} className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+                    <Siren size={16} className="scale-105" /> Alert all
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div>
-              {employeeData.map((event) => (
-        <EmployeeList key={event.id} data={event} />
-      ))}
-            </div>
-
-
-
-
-
-          </TableStructure>
-        )}
-
-        {/* TAB 2 */}
-        {!isLoading && activeTab === "Malware infections" && (
-          <TableStructure className="mt-7">
-             <h1 className="text-xl font-bold mb-5 px-6"> Malware Infection </h1>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead sortable>Email</TableHead>
-                  <TableHead sortable>Username</TableHead>
-                  <TableHead>Password</TableHead>
-                  <TableHead sortable>Url</TableHead>
-                  <TableHead sortable>Source</TableHead>
-                  <TableHead sortable>Risk level</TableHead>
-                  <TableHead sortable>Detection date</TableHead>
-                  <TableHead sortable>Action</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {tableData.map((event) => (
-                  <TableRow key={event.id}>
-                    
-
-                    <TableCell className="text-sc-600/90 blur-xs">
-                      {event.email}
-                    </TableCell>
-                    <TableCell className="text-sc-600/90">{event.user}</TableCell>
-                    <TableCell className="text-sc-600/90">{event.password}</TableCell>
-                    <TableCell className="text-sc-600/90">
-                      <a href={event.url} target="_blank">
-                        {event.url}
-                      </a>
-                    </TableCell>
-                    <TableCell className="text-sc-600/90">{event.source}</TableCell>
-
-                    <TableCell>
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${getRiskLevelColor(
-                          event.riskLevel
-                        )}`}
-                      >
-                        {event.riskLevel}
-                      </span>
-                    </TableCell>
-
-                    <TableCell>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium">
-                        {event.detectionDate}
-                      </span>
-                    </TableCell>
-
-                    <TableCell>
-                      <button
-                        onClick={() => handleStatusToggle(event.id)}
-                        className={`
-                          px-3 py-1 rounded-full text-xs font-medium cursor-pointer 
-                          ${event.status === "resolved" 
-                            ? "bg-green-100 text-green-700" 
-                            : "bg-gray-200 text-gray-600"}
-                        `}
-                      >
-                        {event.status}
-                      </button>
-                    </TableCell>
-                    
-                  </TableRow>
+              <div>
+                {employeeData.map((event) => (
+                  <EmployeeList key={event.id} data={event} />
                 ))}
-              </TableBody>
+              </div>
 
-              <TableFooter>
-                <tr>
-                  <td colSpan={7}>
-                    <TablePagination
-                      currentPage={currentPage}
-                      totalPages={42}
-                      totalResults={1247}
-                      onPageChange={setCurrentPage}
-                    />
-                  </td>
-                </tr>
-              </TableFooter>
-            </Table>
-          </TableStructure>
-        )}
+
+
+
+
+            </TableStructure>
+          )}
+
+          {/* TAB 2 */}
+          {!isLoading && activeTab === "Malware infections" && (
+            <TableStructure className="mt-7">
+              <h1 className="text-xl font-bold mb-5 px-6"> Malware Infection </h1>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead sortable>Email</TableHead>
+                    <TableHead sortable>Username</TableHead>
+                    <TableHead>Password</TableHead>
+                    <TableHead sortable>Url</TableHead>
+                    <TableHead sortable>Source</TableHead>
+                    <TableHead sortable>Risk level</TableHead>
+                    <TableHead sortable>Detection date</TableHead>
+                    <TableHead sortable>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {tableData.map((event) => (
+                    <TableRow key={event.id}>
+
+
+                      <TableCell className="text-sc-600/90 blur-xs">
+                        {event.email}
+                      </TableCell>
+                      <TableCell className="text-sc-600/90">{event.user}</TableCell>
+                      <TableCell className="text-sc-600/90">{event.password}</TableCell>
+                      <TableCell className="text-sc-600/90">
+                        <a href={event.url} target="_blank">
+                          {event.url}
+                        </a>
+                      </TableCell>
+                      <TableCell className="text-sc-600/90">{event.source}</TableCell>
+
+                      <TableCell>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${getRiskLevelColor(
+                            event.riskLevel
+                          )}`}
+                        >
+                          {event.riskLevel}
+                        </span>
+                      </TableCell>
+
+                      <TableCell>
+                        <span className="px-3 py-1 rounded-full text-xs font-medium">
+                          {event.detectionDate}
+                        </span>
+                      </TableCell>
+
+                      <TableCell>
+                        <button
+                          onClick={() => handleStatusToggle(event.id)}
+                          className={`
+                          px-3 py-1 rounded-full text-xs font-medium cursor-pointer 
+                          ${event.status === "resolved"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-gray-200 text-gray-600"}
+                        `}
+                        >
+                          {event.status}
+                        </button>
+                      </TableCell>
+
+                    </TableRow>
+                  ))}
+                </TableBody>
+
+                <TableFooter>
+                  <tr>
+                    <td colSpan={7}>
+                      <TablePagination
+                        currentPage={currentPage}
+                        totalPages={42}
+                        totalResults={1247}
+                        onPageChange={setCurrentPage}
+                      />
+                    </td>
+                  </tr>
+                </TableFooter>
+              </Table>
+            </TableStructure>
+          )}
+        </div>
+
+
       </div>
-
-      <PopupManager popups={popups} />
-
-    </div>
+    </>
   );
 };
 
