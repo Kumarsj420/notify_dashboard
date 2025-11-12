@@ -9,7 +9,7 @@ import { Siren, Plus } from 'lucide-react';
 import PopupManager from "../components/popupManager";
 import AlertPopup from "../components/popups/alertPopup";
 import AddEmployee from "../components/popups/addEmployee";
-import { renderAlertEmployeePopup } from "../components/popups/alertEmployee";
+
 
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
