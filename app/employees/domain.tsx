@@ -85,7 +85,7 @@ const Domain: React.FC = () => {
     );
   };
 
-  const [editOpen, setEditOpen] = useState(true);
+  const [editOpen, setEditOpen] = useState(false);
 
   const [viewOpen, setViewOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
