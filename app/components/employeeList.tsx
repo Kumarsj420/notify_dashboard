@@ -20,9 +20,10 @@ interface Props {
   data: ExposureEvent;
   onView: (employee: ExposureEvent) => void;
   onEdit: (employee: ExposureEvent) => void;
+  onAlert: (employee: ExposureEvent) => void;
 }
 
-const ContactCard: React.FC<Props> = ({ data, onView, onEdit }) => {
+const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
 
   return (
     <>
@@ -114,7 +115,7 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit }) => {
             </button>
 
 
-            <button className="bg-p-500 hover:bg-p-400 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+            <button onClick={() => onAlert(data)} className="bg-p-500 hover:bg-p-400 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
               <Siren size={16} className="scale-105" /> Alert
             </button>
 

@@ -61,7 +61,7 @@ export function ModalHeader({
     className
 }: ModalHeaderProps) {
     return (
-        <div className={`px-5 py-4 border-b border-gray-200 relative ${className}`}>
+        <div className={`bg-linear-to-b from-p-50 to-p-100 px-5 py-4 border-b border-p-200 relative ${className}`}>
             <span className="font-bold text-lg truncate">
                 {children}
             </span>
@@ -81,11 +81,13 @@ export function ModalHeader({
 
 export function ModalBody({
     children,
+    className
 }: Readonly<{
     children: React.ReactNode;
+    className?: string
 }>) {
     return (
-        <div className="bg-white px-5 py-4 max-h-140 overflow-y-auto">
+        <div className={`bg-white px-5 py-4 max-h-125 overflow-y-auto ${className}`}>
             {children}
         </div>
     )
@@ -93,11 +95,13 @@ export function ModalBody({
 
 export function ModalFooter({
     children,
+    className
 }: Readonly<{
     children: React.ReactNode;
+    className?: string
 }>) {
     return (
-        <div className="bg-gray-50 px-4 py-3 border-t border-t-sc-200">
+        <div className={`bg-gray-50 px-4 py-3 border-t border-t-sc-300/70 ${className}`}>
             {children}
         </div>
     )

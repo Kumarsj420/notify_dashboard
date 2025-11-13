@@ -85,8 +85,11 @@ const Domain: React.FC = () => {
   };
 
   const [editOpen, setEditOpen] = useState(false);
-
   const [viewOpen, setViewOpen] = useState(false);
+  const [addEmploeyee, setAddEmployee] = useState(false);
+  const [addAlertAll, setAddAlertAll] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
 
   const handleViewModal = (employee: any) => {
@@ -99,65 +102,230 @@ const Domain: React.FC = () => {
     setEditOpen(true);
   };
 
+  const handleAlertModal = (employee: any) => {
+    setSelectedEmployee(employee);
+    setAlertOpen(true);
+  };
+
   return (
     <>
-      <Modal open={editOpen} maxWidth="xl" onClose={setEditOpen}>
-        <ModalHeader onClose={setEditOpen} className="bg-linear-to-b from-p-50 to-p-100">Edit Contact Details</ModalHeader>
+
+      <Modal open={addEmploeyee} maxWidth="xl" onClose={setAddEmployee}>
+        <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
         <ModalBody>
-          {/* Profile Section */}
-        <div className="flex items-center gap-4 bg-linear-to-b from-sc-50 to-sc-100 border border-sc-200 rounded-xl p-4 mb-6">
-          <img
-            src="https://i.pravatar.cc/100?img=12"
-            alt="Profile"
-            className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-gray-200 object-cover"
-          />
-          <div>
-            <h3 className="font-semibold text-gray-800">Dan Hockenmaier</h3>
-            <p className="text-sm text-sc-600/90 font-light">Chief Strategy Officer</p>
-          </div>
-        </div>
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="John Doe"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
 
-        {/* Form Fields */}
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Work Email
-            </label>
-            <input
-              type="email"
-              placeholder="work@company.com"
-              className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Job Title
+              </label>
+              <input
+                type="text"
+                placeholder="Software Engineer"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Personal Email
-            </label>
-            <input
-              type="email"
-              defaultValue="hockenmaier@gmail.com"
-              className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Work Email
+              </label>
+              <input
+                type="email"
+                placeholder="john@company.com"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              defaultValue="+1 805-320-2386"
-              className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Personal Email
+              </label>
+              <input
+                type="email"
+                placeholder="john@gmail.com"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
 
-        </form>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                placeholder="+1234567890"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                placeholder="New York, NY"
+                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
+              />
+            </div>
+          </form>
         </ModalBody>
         <ModalFooter>
-            <div className="flex justify-end gap-3">
+          <div className="flex justify-end gap-3">
             <button
-             onClick={ () => setEditOpen(false)}
+              onClick={() => setAddEmployee(false)}
+              type="button"
+              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
+            >
+              Add Employee
+            </button>
+          </div>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={addAlertAll} maxWidth="xl" onClose={setAddAlertAll}>
+        <ModalHeader onClose={setAddAlertAll}>Alert All Employees</ModalHeader>
+        <ModalBody className="relative z-10">
+          <ShieldCheckIcon className="absolute top-1/2 left-1/2 -translate-1/2 size-24 -z-10 text-emerald-400/40" />
+          <p className="text-gray-600/90">
+            Are you sure you want to send an alert to all employees? This action will immediately trigger email notifications to their official work addresses. Please confirm before proceeding, as this message will be distributed organization-wide and may require follow-up communication or action.
+          </p>
+        </ModalBody>
+        <ModalFooter>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => setAddAlertAll(false)}
+              type="button"
+              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl text-sm font-semibold "
+            >
+              Yes, Alert All
+            </button>
+          </div>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={alertOpen} maxWidth="xl" onClose={setAlertOpen}>
+        <ModalHeader onClose={setAlertOpen}>Alert Rohan Gupta</ModalHeader>
+        <ModalBody>
+          <p className="text-gray-700 mb-4">
+            Choose how you’d like to alert this employee:
+          </p>
+
+          <div className="space-y-3">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio" name='alert-email'
+              />
+              <span>Alert via <b>official email</b>: example@email.com</span>
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="radio" name='alert-email'
+              />
+              <span>Alert via <b>personal email</b>: example@email.com</span>
+            </label>
+          </div>
+        </ModalBody>
+
+        <ModalFooter>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => setAddEmployee(false)}
+              type="button"
+              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
+            >
+              Send Alert
+            </button>
+          </div>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={editOpen} maxWidth="xl" onClose={setEditOpen}>
+        <ModalHeader onClose={setEditOpen}>Edit Contact Details</ModalHeader>
+        <ModalBody>
+          {/* Profile Section */}
+          <div className="flex items-center gap-4 bg-linear-to-b from-sc-50 to-sc-100 border border-sc-200 rounded-xl p-4 mb-6">
+            <img
+              src="https://i.pravatar.cc/100?img=12"
+              alt="Profile"
+              className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-gray-200 object-cover"
+            />
+            <div>
+              <h3 className="font-semibold text-gray-800">Dan Hockenmaier</h3>
+              <p className="text-sm text-sc-600/90 font-light">Chief Strategy Officer</p>
+            </div>
+          </div>
+
+          {/* Form Fields */}
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Work Email
+              </label>
+              <input
+                type="email"
+                placeholder="work@company.com"
+                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition placeholder:text-sc-500/80"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Personal Email
+              </label>
+              <input
+                type="email"
+                defaultValue="hockenmaier@gmail.com"
+                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                defaultValue="+1 805-320-2386"
+                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
+              />
+            </div>
+
+          </form>
+        </ModalBody>
+        <ModalFooter>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => setEditOpen(false)}
               type="button"
               className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
             >
@@ -174,7 +342,7 @@ const Domain: React.FC = () => {
       </Modal>
 
       <Modal open={viewOpen} maxWidth="3xl" onClose={setViewOpen}>
-        <ModalHeader onClose={setViewOpen} className="bg-linear-to-b from-p-50 to-p-100">Employee Details & Threat Profile</ModalHeader>
+        <ModalHeader onClose={setViewOpen}>Employee Details & Threat Profile</ModalHeader>
         <ModalBody>
           <div className="md:flex md:items-center md:justify-between md:space-x-5v">
             <div className="flex items-start space-x-5 pt-2 pb-7 border-b border-b-sc-200 w-full">
@@ -473,6 +641,23 @@ const Domain: React.FC = () => {
 
           </div>
         </ModalBody>
+        <ModalFooter>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => setAddEmployee(false)}
+              type="button"
+              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
+            >
+              Download
+            </button>
+          </div>
+        </ModalFooter>
       </Modal>
 
       <div>
@@ -496,11 +681,11 @@ const Domain: React.FC = () => {
                 <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
                 <div className="flex items-center gap-2">
-                  <button className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
+                  <button onClick={() => setAddEmployee(true)} className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
                     <Plus size={16} /> Add employee
                   </button>
 
-                  <button  className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
+                  <button onClick={() => setAddAlertAll(true)} className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
                     <Siren size={16} className="scale-105" /> Alert all
                   </button>
                 </div>
@@ -508,7 +693,7 @@ const Domain: React.FC = () => {
 
               <div>
                 {employeeData.map((event) => (
-                  <EmployeeList key={event.id} data={event} onView={handleViewModal} onEdit={handleEditModal} />
+                  <EmployeeList key={event.id} data={event} onView={handleViewModal} onEdit={handleEditModal} onAlert={handleAlertModal} />
                 ))}
               </div>
 
