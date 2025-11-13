@@ -48,7 +48,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #FF6900 !important;
+    background: #FF6900 ;
     border-radius: 10px;
   }
 
