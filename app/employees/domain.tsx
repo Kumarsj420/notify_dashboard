@@ -43,7 +43,6 @@ const domainTabs: Tab[] = [
 const Domain: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const [activeTab, setActiveTab] = useState("Identity theft");
 
   const [isLoading, setIsLoading] = useState(false);
