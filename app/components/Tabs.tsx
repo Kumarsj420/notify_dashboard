@@ -42,7 +42,7 @@ export default function Tabs({
           value={currentTab?.name}
           aria-label="Select a tab"
           onChange={handleSelect}
-          className={`col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-${secondaryColor}-900 outline-1 -outline-offset-1 outline-${secondaryColor}-300 focus:outline-2 focus:-outline-offset-2 focus:outline-${activeColor}-600`}
+          className={`col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-sc-900 outline-1 -outline-offset-1 outline-sc-300 focus:outline-2 focus:-outline-offset-2 focus:outline-${activeColor}-600`}
         >
           {tabs.map((tab) => (
             <option key={tab.name}>{tab.name}</option>
@@ -51,13 +51,13 @@ export default function Tabs({
 
         <ChevronDownIcon
           aria-hidden="true"
-          className={`pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-${secondaryColor}-500`}
+          className={`pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-sc-500`}
         />
       </div>
 
       {/* Desktop */}
       <div className="hidden sm:block">
-        <div className={`border-b border-${secondaryColor}-200`}>
+        <div className={`border-b border-sc-200`}>
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
@@ -65,8 +65,8 @@ export default function Tabs({
                 onClick={() => onTabChange && onTabChange(tab)}
                 className={classNames(
                   tab.current
-                    ? `border-${activeColor}-500 text-${activeColor}-600`
-                    : `border-transparent text-${secondaryColor}-500 hover:border-${secondaryColor}-300 hover:text-${secondaryColor}-700`,
+                    ? `border-p-500 text-p-600`
+                    : `border-transparent text-sc-500 hover:border-sc-300 hover:text-sc-700`,
                   "flex border-b-2 px-1 py-4 text-sm font-semibold whitespace-nowrap"
                 )}
               >
@@ -76,8 +76,8 @@ export default function Tabs({
                   <span
                     className={classNames(
                       tab.current
-                        ? `bg-${activeColor}-100 text-${activeColor}-600`
-                        : `bg-${secondaryColor}-100 text-${secondaryColor}-500`,
+                        ? `bg-linear-to-b from-p-50 to-p-100 ring-1 ring-inset ring-p-200/75 text-p-600`
+                        : `bg-linear-to-b from-sc-50 to-sc-100 ring-1 ring-inset ring-sc-200/75 text-sc-500`,
                       "ml-3 hidden rounded-full px-2.5 py-0.5 text-xs font-medium md:inline-block"
                     )}
                   >
