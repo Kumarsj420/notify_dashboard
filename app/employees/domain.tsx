@@ -9,8 +9,12 @@ import {
   PhoneIcon,
   MapPinIcon,
   ShieldCheckIcon,
-  UserIcon
-} from '@heroicons/react/20/solid'
+  UserIcon,
+  UserPlusIcon,
+} from '@heroicons/react/24/solid'
+
+import { BellAlertIcon } from "@heroicons/react/24/outline";
+
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "../components/Modals";
 import Accordian, { AccordianHeader, AccordianBody } from "../components/Accordian";
 
@@ -21,6 +25,8 @@ const mockData = EmployeeExposureData;
 import EmployeeList from "../components/employeeList";
 import { employeeData } from "../data/employeeData";
 
+import SelectDropdown from "../components/Select";
+import Button from "../components/Button";
 
 import {
   Table,
@@ -183,19 +189,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setAddEmployee(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Add Employee
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -210,18 +209,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddAlertAll(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setAddAlertAll(false)}>
               Cancel
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl text-sm font-semibold "
-            >
+            </Button>
+            <Button type="button">
               Yes, Alert All
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -252,19 +245,13 @@ const Domain: React.FC = () => {
 
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+
+            <Button variant="outline" type="button" onClick={() => setAlertOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Send Alert
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -324,19 +311,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setEditOpen(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setEditOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Save Changes
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -643,19 +623,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setViewOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Download
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -681,13 +654,17 @@ const Domain: React.FC = () => {
                 <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setAddEmployee(true)} className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
-                    <Plus size={16} /> Add employee
-                  </button>
+                  <SelectDropdown />
 
-                  <button onClick={() => setAddAlertAll(true)} className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
-                    <Siren size={16} className="scale-105" /> Alert all
-                  </button>
+                  <Button variant='outline' onClick={() => setAddEmployee(true)}>
+                    <UserPlusIcon className="size-4 scale-110 text-sc-500/80" /> Add employee
+                  </Button>
+
+                  <Button onClick={() => setAddAlertAll(true)}>
+                    <BellAlertIcon className="size-4 scale-115" strokeWidth="1.8" /> Alert all
+                  </Button>
+
+
                 </div>
               </div>
 

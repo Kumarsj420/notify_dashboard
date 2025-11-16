@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import Domain from "./domain"; 
+import Domain from "./domain";
+import Layout from "../components/Layout";
 
 export const metadata: Metadata = {
   title: "Matrices",
@@ -9,8 +10,10 @@ export const metadata: Metadata = {
 
 export default function ResumePage() {
   return (
-    <div className="">
-      <Domain />
-    </div>
+    <Layout>
+      <div className="">
+        <Domain />
+      </div>
+    </Layout>
   );
 }

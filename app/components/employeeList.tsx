@@ -2,7 +2,10 @@
 
 import React from "react";
 import { MapPin, Pencil, Eye, Siren, ShieldAlert, Phone, Mail, AlertTriangle } from 'lucide-react';
+import Button from "./Button";
 
+import { PencilSquareIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { BellIcon } from "@heroicons/react/24/outline";
 
 interface ExposureEvent {
   profile: string;
@@ -105,19 +108,17 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
 
 
           <div className="flex items-center gap-3">
+            <Button variant="outline" size='sm' onClick={() => onView(data)}>
+              <EyeIcon className="size-4 text-sc-500/80 scale-95" /> View
+            </Button>
 
-            <button onClick={() => onView(data)} className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
-              <Eye size={16} /> View
-            </button>
+            <Button variant="outline" size='sm' onClick={() => onEdit(data)}>
+              <PencilSquareIcon className="size-4 text-sc-500/80 scale-95" /> Edit
+            </Button>
 
-            <button onClick={() => onEdit(data)} className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
-              <Pencil size={16} className="scale-85" /> Edit
-            </button>
-
-
-            <button onClick={() => onAlert(data)} className="bg-p-500 hover:bg-p-400 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
-              <Siren size={16} className="scale-105" /> Alert
-            </button>
+            <Button variant="primary" size="sm" onClick={() => onAlert(data)}>
+              <BellIcon  className="scale-105 size-4" strokeWidth={1.8} /> Alert
+            </Button>
 
           </div>
         </div>
