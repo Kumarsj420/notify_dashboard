@@ -3,6 +3,7 @@
 import React from "react";
 import { MapPin, Pencil, Eye, Siren, ShieldAlert, Phone, Mail, AlertTriangle } from 'lucide-react';
 import Button from "./Button";
+import Badge from "./Badge"
 
 import { PencilSquareIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { BellIcon } from "@heroicons/react/24/outline";
@@ -44,15 +45,15 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
               />
 
               {data.type === 'critical' && (
-                <div className="absolute -top-5 -right-3 size-7 rounded-full bg-linear-to-b from-red-50 to-red-100 ring-1 ring-inset ring-red-200 flex items-center justify-center ">
+                <Badge size="auto" variant="error" className="absolute -top-5 -right-3 size-7">
                   <ShieldAlert className="size-4 text-red-600" />
-                </div>
+                </Badge>
               )}
 
               {data.type === 'medium' && (
-                <div className="absolute -top-5 -right-3 size-7 rounded-full bg-linear-to-b from-amber-50 to-amber-100 ring-1 ring-inset ring-amber-200 flex items-center justify-center">
+                <Badge size="auto" variant="warning" className="absolute -top-5 -right-3 size-7">
                   <AlertTriangle className="size-4 text-amber-600" />
-                </div>
+                </Badge>
               )}
 
             </div>
@@ -63,24 +64,24 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
                   {data.name}</h2>
                 {data.type === 'critical' && (
                   <div className=" flex flex-row gap-2 items-center">
-                    <span className=" ring-1 ring-inset ring-red-200 px-3 py-1 bg-linear-to-b from-red-50 to-red-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-red-600">
+                    <Badge variant="error">
                       <ShieldAlert className="size-3.5" />
                       Critical
-                    </span>
-                    <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
+                    </Badge>
+                    <Badge variant="secondary">
                       8 Exposure
-                    </span>
+                    </Badge>
                   </div>
                 )}
                 {data.type === 'medium' && (
                   <div className="flex flex-row gap-2 items-center">
-                    <span className="ring-1 ring-inset ring-amber-200 px-3 py-1 bg-linear-to-b from-amber-50 to-amber-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-amber-600">
+                    <Badge variant="warning">
                       <AlertTriangle className="size-3.5" />
                       Medium
-                    </span>
-                    <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
+                    </Badge>
+                    <Badge variant="secondary">
                       8 Exposure
-                    </span>
+                    </Badge>
                   </div>
                 )}
 
@@ -117,7 +118,7 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
             </Button>
 
             <Button variant="primary" size="sm" onClick={() => onAlert(data)}>
-              <BellIcon  className="scale-105 size-4" strokeWidth={1.8} /> Alert
+              <BellIcon className="scale-105 size-4" strokeWidth={1.8} /> Alert
             </Button>
 
           </div>

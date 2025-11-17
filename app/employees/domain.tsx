@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
-import { Siren, Plus, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, ShieldAlert } from 'lucide-react';
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -25,8 +25,11 @@ const mockData = EmployeeExposureData;
 import EmployeeList from "../components/employeeList";
 import { employeeData } from "../data/employeeData";
 
-import SelectDropdown from "../components/Select";
+import SelectDropdown, { DropdownOption } from "../components/Select";
 import Button from "../components/Button";
+import Input from "../components/form/Input";
+import Label from "../components/form/Label";
+
 
 import {
   Table,
@@ -46,13 +49,24 @@ const domainTabs: Tab[] = [
   { name: "Malware infections", count: "52" },
 ];
 
+const employeeModalTab: Tab[] = [
+  { name: "Upload Manually" },
+  { name: "Upload Using Csv" }
+]
+
+
+const employeeType = [
+  { id: 1, name: 'All Employee' },
+  { id: 2, name: 'Active Employee' },
+  { id: 3, name: 'Inactive Employee' },
+]
+
 const Domain: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const [activeTab, setActiveTab] = useState("Identity theft");
-
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selected, setSelected] = useState(employeeType[0])
 
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
@@ -116,75 +130,47 @@ const Domain: React.FC = () => {
   return (
     <>
 
-      <Modal open={addEmploeyee} maxWidth="xl" onClose={setAddEmployee}>
+      <Modal open={addEmploeyee} maxWidth="3xl" onClose={setAddEmployee}>
         <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
-        <ModalBody>
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
+        <ModalBody className="pb-10">
+          <Tabs
+            tabs={employeeModalTab.map((t) => ({
+              ...t,
+              current: t.name === activeTab,
+            }))}
+          />
+          <form className="grid grid-cols-2 gap-5 mt-5">
+            <div className="space-y-5">
+              <div>
+                <Label htmlFor="full-name" required>Full Name </Label>
+                <Input id="full-name" type="text" placeholder="John Doe" />
+              </div>
+              <div>
+                <Label htmlFor="job-title" required>Job Title </Label>
+                <Input id="job-title" type="text" placeholder="Software Engineer" />
+              </div>
+              <div>
+                <Label htmlFor="work-email" required>Work Email </Label>
+                <Input id="work-email" type="text" placeholder="john@company.com" />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Job Title
-              </label>
-              <input
-                type="text"
-                placeholder="Software Engineer"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
+            <div className="space-y-5">
+              <div>
+                <Label htmlFor="personal-email" required>Personal Email </Label>
+                <Input id="personal-email" type="text" placeholder="john@gmail.com" />
+              </div>
+              <div>
+                <Label htmlFor="phone-num" required>Phone Number </Label>
+                <Input id="phone-num" type="text" placeholder="+1234567890" />
+              </div>
+              <div>
+                <Label htmlFor="location" required>Location
+                </Label>
+                <Input id="location" type="text" placeholder="New York, NY" />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Work Email
-              </label>
-              <input
-                type="email"
-                placeholder="john@company.com"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Personal Email
-              </label>
-              <input
-                type="email"
-                placeholder="john@gmail.com"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                placeholder="+1234567890"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Location
-              </label>
-              <input
-                type="text"
-                placeholder="New York, NY"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
           </form>
         </ModalBody>
         <ModalFooter>
@@ -275,37 +261,21 @@ const Domain: React.FC = () => {
           {/* Form Fields */}
           <form className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Work Email
-              </label>
-              <input
-                type="email"
-                placeholder="work@company.com"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition placeholder:text-sc-500/80"
-              />
+              <Label htmlFor="work-email" required>Work Email</Label>
+              <Input id="work-email" type="email" placeholder="work@company.com" value='eg@company.com' />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Personal Email
-              </label>
-              <input
-                type="email"
-                defaultValue="hockenmaier@gmail.com"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-              />
+              <Label htmlFor="personal-email" required>Personal Email</Label>
+              <Input id="personal-email" type="email" placeholder="name@gmail.com" value='eg@gmail.com' />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                defaultValue="+1 805-320-2386"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-              />
+              <Label htmlFor="phone-number" required>Phone Number</Label>
+              <Input id="phone-number" type="number" placeholder="12234567890" value='12234567890' />
             </div>
+
+
 
           </form>
         </ModalBody>
@@ -654,7 +624,14 @@ const Domain: React.FC = () => {
                 <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
                 <div className="flex items-center gap-2">
-                  <SelectDropdown />
+                  <SelectDropdown
+                    value={selected}
+                    onChange={setSelected}
+                  >
+                    {employeeType.map((person) => (
+                      <DropdownOption key={person.id} value={person} />
+                    ))}
+                  </SelectDropdown>
 
                   <Button variant='outline' onClick={() => setAddEmployee(true)}>
                     <UserPlusIcon className="size-4 scale-110 text-sc-500/80" /> Add employee

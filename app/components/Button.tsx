@@ -3,7 +3,7 @@ import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'auto';
   loading?: boolean;
   children: React.ReactNode;
 }
@@ -30,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
     sm: 'px-3 py-2 text-sm',
     md: 'px-4 py-2.5 text-sm',
     lg: 'px-5 py-3 text-base',
+    auto: ''
   };
 
   const isDisabled = disabled || loading;
