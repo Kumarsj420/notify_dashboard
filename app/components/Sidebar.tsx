@@ -46,6 +46,7 @@ const sections = [
       { name: 'Matrices', href: '/matrices', icon: TextSearch },
       { name: 'Employees', href: '/employees', icon: IdCardLanyard },
       { name: 'Consumers', href: '/consumers', icon: Handshake },
+      { name: 'Ransomware', href: '/ransomware', icon: Handshake },
     ],
   },
   // {

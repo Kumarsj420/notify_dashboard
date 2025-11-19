@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import Domain from "./domain";
+import Ransomware from "./ransomware";
 import Layout from "../components/Layout";
 
 export const metadata: Metadata = {
-  title: "Matrices",
+  title: "Ransomware",
   description:
     "",
 };
@@ -12,7 +12,7 @@ export default function ResumePage() {
   return (
     <Layout>
       <div className="">
-        <Domain />
+        <Ransomware />
       </div>
     </Layout>
   );

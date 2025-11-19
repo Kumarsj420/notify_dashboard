@@ -3,14 +3,18 @@
 import React, { useState } from "react";
 import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
-import { Siren, Plus, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, ShieldAlert } from 'lucide-react';
 import {
   EnvelopeIcon,
   PhoneIcon,
   MapPinIcon,
   ShieldCheckIcon,
-  UserIcon
-} from '@heroicons/react/20/solid'
+  UserIcon,
+  UserPlusIcon,
+} from '@heroicons/react/24/solid'
+
+import { BellAlertIcon } from "@heroicons/react/24/outline";
+
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "../components/Modals";
 import Accordian, { AccordianHeader, AccordianBody } from "../components/Accordian";
 
@@ -20,6 +24,11 @@ const mockData = EmployeeExposureData;
 
 import EmployeeList from "../components/employeeList";
 import { employeeData } from "../data/employeeData";
+
+import SelectDropdown, { DropdownOption } from "../components/Select";
+import Button from "../components/Button";
+import Input from "../components/form/Input";
+import Label from "../components/form/Label";
 
 
 import {
@@ -40,13 +49,24 @@ const domainTabs: Tab[] = [
   { name: "Malware infections", count: "52" },
 ];
 
+const employeeModalTab: Tab[] = [
+  { name: "Upload Manually" },
+  { name: "Upload Using Csv" }
+]
+
+
+const employeeType = [
+  { id: 1, name: 'All Employee' },
+  { id: 2, name: 'Active Employee' },
+  { id: 3, name: 'Inactive Employee' },
+]
+
 const Domain: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const [activeTab, setActiveTab] = useState("Identity theft");
-
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selected, setSelected] = useState(employeeType[0])
 
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
@@ -110,92 +130,57 @@ const Domain: React.FC = () => {
   return (
     <>
 
-      <Modal open={addEmploeyee} maxWidth="xl" onClose={setAddEmployee}>
+      <Modal open={addEmploeyee} maxWidth="3xl" onClose={setAddEmployee}>
         <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
-        <ModalBody>
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
+        <ModalBody className="pb-10">
+          <Tabs
+            tabs={employeeModalTab.map((t) => ({
+              ...t,
+              current: t.name === activeTab,
+            }))}
+          />
+          <form className="grid grid-cols-2 gap-5 mt-5">
+            <div className="space-y-5">
+              <div>
+                <Label htmlFor="full-name" required>Full Name </Label>
+                <Input id="full-name" type="text" placeholder="John Doe" />
+              </div>
+              <div>
+                <Label htmlFor="job-title" required>Job Title </Label>
+                <Input id="job-title" type="text" placeholder="Software Engineer" />
+              </div>
+              <div>
+                <Label htmlFor="work-email" required>Work Email </Label>
+                <Input id="work-email" type="text" placeholder="john@company.com" />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Job Title
-              </label>
-              <input
-                type="text"
-                placeholder="Software Engineer"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
+            <div className="space-y-5">
+              <div>
+                <Label htmlFor="personal-email" required>Personal Email </Label>
+                <Input id="personal-email" type="text" placeholder="john@gmail.com" />
+              </div>
+              <div>
+                <Label htmlFor="phone-num" required>Phone Number </Label>
+                <Input id="phone-num" type="text" placeholder="+1234567890" />
+              </div>
+              <div>
+                <Label htmlFor="location" required>Location
+                </Label>
+                <Input id="location" type="text" placeholder="New York, NY" />
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Work Email
-              </label>
-              <input
-                type="email"
-                placeholder="john@company.com"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Personal Email
-              </label>
-              <input
-                type="email"
-                placeholder="john@gmail.com"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                placeholder="+1234567890"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Location
-              </label>
-              <input
-                type="text"
-                placeholder="New York, NY"
-                className="w-full border border-sc-300 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none"
-              />
-            </div>
           </form>
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setAddEmployee(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Add Employee
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -210,18 +195,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddAlertAll(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setAddAlertAll(false)}>
               Cancel
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl text-sm font-semibold "
-            >
+            </Button>
+            <Button type="button">
               Yes, Alert All
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -252,19 +231,13 @@ const Domain: React.FC = () => {
 
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+
+            <Button variant="outline" type="button" onClick={() => setAlertOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Send Alert
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -288,55 +261,32 @@ const Domain: React.FC = () => {
           {/* Form Fields */}
           <form className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Work Email
-              </label>
-              <input
-                type="email"
-                placeholder="work@company.com"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition placeholder:text-sc-500/80"
-              />
+              <Label htmlFor="work-email" required>Work Email</Label>
+              <Input id="work-email" type="email" placeholder="work@company.com" value='eg@company.com' />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Personal Email
-              </label>
-              <input
-                type="email"
-                defaultValue="hockenmaier@gmail.com"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-              />
+              <Label htmlFor="personal-email" required>Personal Email</Label>
+              <Input id="personal-email" type="email" placeholder="name@gmail.com" value='eg@gmail.com' />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                defaultValue="+1 805-320-2386"
-                className="w-full rounded-xl border border-sc-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-p-500 focus:border-transparent transition"
-              />
+              <Label htmlFor="phone-number" required>Phone Number</Label>
+              <Input id="phone-number" type="number" placeholder="12234567890" value='12234567890' />
             </div>
+
+
 
           </form>
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setEditOpen(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setEditOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Save Changes
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -643,19 +593,12 @@ const Domain: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
-            <button
-              onClick={() => setAddEmployee(false)}
-              type="button"
-              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition bg-white text-sm font-semibold"
-            >
+            <Button variant="outline" type="button" onClick={() => setViewOpen(false)}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-400 transition text-sm font-semibold"
-            >
+            </Button>
+            <Button type="button">
               Download
-            </button>
+            </Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -681,13 +624,23 @@ const Domain: React.FC = () => {
                 <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setAddEmployee(true)} className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80" data-popup="addEmployee">
-                    <Plus size={16} /> Add employee
-                  </button>
+                  <SelectDropdown
+                    value={selected}
+                    onChange={setSelected}
+                  >
+                    {employeeType.map((person) => (
+                      <DropdownOption key={person.id} value={person} />
+                    ))}
+                  </SelectDropdown>
 
-                  <button onClick={() => setAddAlertAll(true)} className="bg-linear-to-r from-amber-500 to-orange-600 hover:bg-sc-700 text-white rounded-xl px-4 py-2.5 text-sm flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition cursor-pointer popup-trigger" data-popup="alertPopup">
-                    <Siren size={16} className="scale-105" /> Alert all
-                  </button>
+                  <Button variant='outline' onClick={() => setAddEmployee(true)}>
+                    <UserPlusIcon className="size-4 scale-110 text-sc-500/80" /> Add employee
+                  </Button>
+
+                  <Button onClick={() => setAddAlertAll(true)}>
+                    <BellAlertIcon className="size-4 scale-115" strokeWidth="1.8" /> Alert all
+                  </Button>
+
 
                 </div>
               </div>

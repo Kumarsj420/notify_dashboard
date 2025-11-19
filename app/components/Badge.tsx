@@ -1,0 +1,43 @@
+import { cn } from '../utils/style';
+import React from 'react';
+
+interface BadgeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'error' | 'success' | 'warning' | 'info' | 'primary' | 'secondary';
+    size?: 'sm' | 'md' | 'lg' | 'auto';
+    children: React.ReactNode;
+}
+
+const Badge: React.FC<BadgeProps> = ({
+    children,
+    className,
+    variant = 'primary',
+    size = 'sm',
+}) => {
+
+    const baseClasses = 'ring-1 ring-inset bg-linear-to-b flex flex-row gap-2 justify-center items-center font-semibold rounded-full';
+
+    const variatns = {
+        primary: 'ring-p-200 from-p-50 to-p-100 text-p-600',
+        secondary: 'ring-sc-300/80 from-sc-50 to-sc-100 text-sc-600',
+        error: 'ring-red-200 from-red-50 to-red-100 text-red-600',
+        success: 'ring-emerald-200 from-emerald-50 to-emerald-100 text-emerald-600',
+        warning: 'ring-amber-200 from-amber-50 to-amber-100 text-amber-600',
+        info: 'ring-sky-200 from-sky-50 to-sky-100 text-sky-600'
+    }
+
+    const sizes = {
+        sm: 'px-2 py-1 text-xs',
+        md: 'px-2.5 py-1.5 text-xs',
+        lg: 'px-3 py-2 text-sm',
+        xl: 'px-3.5 py-2.5 text-sm',
+        auto: ''
+    };
+
+    return (
+        <div className={cn(baseClasses, variatns[variant], sizes[size], className)} >
+            {children}
+        </div>
+    )
+}
+
+export default Badge;

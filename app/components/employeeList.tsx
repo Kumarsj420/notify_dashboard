@@ -1,17 +1,12 @@
 "use client";
 
 import React from "react";
-import {
-  MapPin,
-  Pencil,
-  Eye,
-  Siren,
-  ShieldAlert,
-  Phone,
-  Mail,
-  AlertTriangle,
-} from "lucide-react";
-import AlertEmployee from "./popup/alertEmployee";
+import { MapPin, Pencil, Eye, Siren, ShieldAlert, Phone, Mail, AlertTriangle } from 'lucide-react';
+import Button from "./Button";
+import Badge from "./Badge"
+
+import { PencilSquareIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { BellIcon } from "@heroicons/react/24/outline";
 
 interface ExposureEvent {
   profile: string;
@@ -45,51 +40,48 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
               className="size-11 rounded-full object-cover ring-[0.1em] ring-sc-300/80 ring-offset-3"
             />
 
-            {/* CRITICAL Badge */}
-            {data.type === "critical" && (
-              <div className="absolute -top-5 -right-3 size-7 rounded-full bg-gradient-to-b from-red-50 to-red-100 ring-1 ring-inset ring-red-200 flex items-center justify-center">
-                <ShieldAlert className="size-4 text-red-600" />
-              </div>
-            )}
-
-            {/* MEDIUM Badge */}
-            {data.type === "medium" && (
-              <div className="absolute -top-5 -right-3 size-7 rounded-full bg-gradient-to-b from-amber-50 to-amber-100 ring-1 ring-inset ring-amber-200 flex items-center justify-center">
-                <AlertTriangle className="size-4 text-amber-600" />
-              </div>
-            )}
-          </div>
-
-          {/* Employee Info */}
-          <div>
-            <div className="flex flex-row gap-3 items-center">
-              <h2 className="text-lg font-bold text-sc-900">{data.name}</h2>
-
-              {/* Type Badges */}
-              {data.type === "critical" && (
-                <div className="flex flex-row gap-2 items-center">
-                  <span className="ring-1 ring-inset ring-red-200 px-3 py-1 bg-gradient-to-b from-red-50 to-red-100 rounded-xl flex items-center gap-2 text-xs font-semibold text-red-600">
-                    <ShieldAlert className="size-3.5" />
-                    Critical
-                  </span>
-                  <span className="ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-gradient-to-b from-sc-50 to-sc-100 rounded-xl flex items-center gap-2 text-xs font-semibold text-sc-600/90">
-                    8 Exposure
-                  </span>
-                </div>
+              {data.type === 'critical' && (
+                <Badge size="auto" variant="error" className="absolute -top-5 -right-3 size-7">
+                  <ShieldAlert className="size-4 text-red-600" />
+                </Badge>
               )}
 
-              {data.type === "medium" && (
-                <div className="flex flex-row gap-2 items-center">
-                  <span className="ring-1 ring-inset ring-amber-200 px-3 py-1 bg-gradient-to-b from-amber-50 to-amber-100 rounded-xl flex items-center gap-2 text-xs font-semibold text-amber-600">
-                    <AlertTriangle className="size-3.5" />
-                    Medium
-                  </span>
-                  <span className="ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-gradient-to-b from-sc-50 to-sc-100 rounded-xl flex items-center gap-2 text-xs font-semibold text-sc-600/90">
-                    8 Exposure
-                  </span>
-                </div>
+              {data.type === 'medium' && (
+                <Badge size="auto" variant="warning" className="absolute -top-5 -right-3 size-7">
+                  <AlertTriangle className="size-4 text-amber-600" />
+                </Badge>
               )}
+
             </div>
+
+            <div>
+              <div className="flex flex-row gap-3 items-center">
+                <h2 className="text-lg/8 font-bold text-sc-900 ">
+                  {data.name}</h2>
+                {data.type === 'critical' && (
+                  <div className=" flex flex-row gap-2 items-center">
+                    <Badge variant="error">
+                      <ShieldAlert className="size-3.5" />
+                      Critical
+                    </Badge>
+                    <Badge variant="secondary">
+                      8 Exposure
+                    </Badge>
+                  </div>
+                )}
+                {data.type === 'medium' && (
+                  <div className="flex flex-row gap-2 items-center">
+                    <Badge variant="warning">
+                      <AlertTriangle className="size-3.5" />
+                      Medium
+                    </Badge>
+                    <Badge variant="secondary">
+                      8 Exposure
+                    </Badge>
+                  </div>
+                )}
+
+              </div>
 
             <p className="font-semibold text-sc-700 text-sm">{data.designation}</p>
             <p className="font-light text-sc-600/90 text-sm">{data.description}</p>
@@ -112,35 +104,25 @@ const ContactCard: React.FC<Props> = ({ data, onView, onEdit, onAlert }) => {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => onView(data)}
-            className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80"
-            data-popup="addEmployee"
-          >
-            <Eye size={16} /> View
-          </button>
 
-          <button
-            onClick={() => onEdit(data)}
-            className="bg-white hover:bg-sc-50 text-sc-500 rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md shadow-gray-200 transition cursor-pointer popup-trigger ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80"
-            data-popup="addEmployee"
-          >
-            <Pencil size={16} className="scale-90" /> Edit
-          </button>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size='sm' onClick={() => onView(data)}>
+              <EyeIcon className="size-4 text-sc-500/80 scale-95" /> View
+            </Button>
 
-          <button
-            onClick={() => onAlert(data)}
-            className="bg-p-500 hover:bg-p-400 text-white rounded-xl px-3 py-2 text-sm flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition cursor-pointer popup-trigger"
-            data-popup="alertPopup"
-          >
-            <Siren size={16} className="scale-105" /> Alert
-          </button>
+            <Button variant="outline" size='sm' onClick={() => onEdit(data)}>
+              <PencilSquareIcon className="size-4 text-sc-500/80 scale-95" /> Edit
+            </Button>
+
+            <Button variant="primary" size="sm" onClick={() => onAlert(data)}>
+              <BellIcon className="scale-105 size-4" strokeWidth={1.8} /> Alert
+            </Button>
+
+          </div>
         </div>
       </div>
-    </div>
-  );
+
+);
 };
 
 export default ContactCard;
