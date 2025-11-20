@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import API from '@/services/api';
+import API from '../services/api';
 import type {
   EmployeesResponse,
   UpdateEmployeeContactData,
@@ -9,7 +9,7 @@ import type {
   ThreatAnalysisJobsResponse,
   ScheduleThreatAnalysisRequest,
   PaginationParams,
-} from '@/types/api';
+} from '../types/api';
 
 // Create Employee Types
 export interface CreateEmployeeData {

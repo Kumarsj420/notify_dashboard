@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import API from '@/services/api';
+import API from '../services/api';
 
 export interface Domain {
   id: string;

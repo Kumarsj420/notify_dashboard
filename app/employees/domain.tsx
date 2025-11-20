@@ -43,6 +43,9 @@ import {
   TableStructure,
 } from "../components/Table";
 
+import { useEmployeesByDomain } from "../hooks/useEmployeesApi";
+import useDebounce from "../hooks/useDebounce";
+
 
 const domainTabs: Tab[] = [
   { name: "Identity theft", count: "6" },
@@ -62,12 +65,38 @@ const employeeType = [
 ]
 
 const Domain: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("Identity theft");
   const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState(employeeType[0]);
 
-  const [selected, setSelected] = useState(employeeType[0])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedDomainId, setSelectedDomainId] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [limit] = useState(20);
 
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+
+  // Reset page when domain changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedDomainId]);
+
+  // Reset page when search term changes (but after debounce)
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchTerm]);
+
+  const {
+    data: employeesData,
+    isLoading: employeesLoading,
+    isRefetching,
+    error: employeesError,
+    refetch: refetchEmployees,
+  } = useEmployeesByDomain(selectedDomainId, currentPage, limit, debouncedSearchTerm);
+
+
+console.log(employeesData);
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
     setIsLoading(true);
