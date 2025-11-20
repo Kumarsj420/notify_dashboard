@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import SidebarSelector from './SidebarSelector';
 
 
+
 import {
   Shield,
   ShieldAlert,
@@ -23,29 +24,31 @@ import {
   ChevronDown,
 } from 'lucide-react'
 
+import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+
 const sections = [
   {
     title: null,
     links: [
-      { name: 'Dashboard', href: '/', icon: LayoutDashboard, active: true },
-      { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ShieldAlert },
+      { name: 'Dashboard', href: '/', icon: HomeIcon, active: true },
+      { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ExclamationTriangleIcon },
     ],
   },
-  // {
-  //   title: 'Ransomware',
-  //   links: [
-  //     { name: 'Victims', href: '/victims', icon: VenetianMask },
-  //     { name: 'Groups', href: '/groups', icon: Group },
-  //   ],
-  // },
+  {
+    title: 'Darkweb Search',
+    links: [
+      { name: 'Ransomware', href: '/ransomware', icon: ShieldExclamationIcon },
+      { name: 'Telegram Search', href: '/groups', icon: DocumentMagnifyingGlassIcon },
+    ],
+  },
   {
     title: 'Leaked data',
     links: [
       // { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
 
-      { name: 'Matrices', href: '/matrices', icon: TextSearch },
-      { name: 'Employees', href: '/employees', icon: IdCardLanyard },
-      { name: 'Consumers', href: '/consumers', icon: Handshake },
+      { name: 'Matrices', href: '/matrices', icon: ChartPieIcon },
+      { name: 'Employees', href: '/employees', icon: UserGroupIcon },
+      { name: 'Consumers', href: '/consumers', icon: UsersIcon },
     ],
   },
   // {
@@ -65,11 +68,11 @@ const sections = [
   {
     title: 'Accounts',
     links: [
-      { name: 'Profile', href: '/profile', icon: SquareUser },
-      { name: 'Company Info', href: '/company-info', icon: Building2 },
-      { name: 'Subscriptions', href: '/subscription', icon: Gem },
-      { name: 'Settings', href: '/sett', icon: Settings },
-      { name: 'Help & Support', href: '/sersere', icon: MessageCircleQuestion },
+      { name: 'Profile', href: '/profile', icon: UserIcon },
+      { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
+      { name: 'Subscriptions', href: '/subscription', icon: CurrencyDollarIcon },
+      { name: 'Settings', href: '/sett', icon: Cog8ToothIcon },
+      { name: 'Help & Support', href: '/sersere', icon: QuestionMarkCircleIcon },
     ],
   },
 ]
@@ -157,7 +160,7 @@ export default function Sidebar() {
                         className={`flex items-center justify-start gap-3 rounded-lg px-2.5 py-2 text-sm/6 transition-colors duration-150 relative ${
                           isActive
                             ? 'bg-linear-to-b from-p-50 to-p-100  text-p-950 font-medium after:absolute after:left-0 after:w-1.5 after:bg-linear-to-b after:from-amber-500 after:to-orange-600 after:h-1/2 after:rounded-sm after:top-1/2 after:-translate-1/2 ring-1 ring-inset ring-p-200/70'
-                            : 'text-sc-800 hover:text-sc-800 hover:bg-sc-100 '
+                            : 'text-sc-900 hover:text-sc-800 hover:bg-sc-100 '
                         }`}
                       >
                         <item.icon
