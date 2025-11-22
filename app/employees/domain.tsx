@@ -43,9 +43,18 @@ import {
   TableStructure,
 } from "../components/Table";
 
-import { useEmployeesByDomain } from "../hooks/useEmployeesApi";
+import {
+  useUserDomains,
+  useEmployeesByDomain,
+  useUpdateEmployeeContact,
+  useCreateEmployee,
+  useThreatAnalysisJobs,
+  type CreateEmployeeData,
+} from "../hooks/useEmployeesApi";
 import useDebounce from "../hooks/useDebounce";
-
+import useAppContext from "../providers/AppContextProvider/useAppContext";
+import type { Employee, ThreatAnalysisJob } from "../types/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const domainTabs: Tab[] = [
   { name: "Identity theft", count: "6" },
@@ -57,46 +66,29 @@ const employeeModalTab: Tab[] = [
   { name: "Upload Using Csv" }
 ]
 
-
 const employeeType = [
   { id: 1, name: 'All Employee' },
   { id: 2, name: 'Active Employee' },
   { id: 3, name: 'Inactive Employee' },
 ]
 
+interface ContactFormData extends Record<string, unknown> {
+  workEmail: string;
+  personalEmail: string;
+  phoneNumber: string;
+}
+
 const Domain: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Identity theft");
   const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState(employeeType[0]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedDomainId, setSelectedDomainId] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [limit] = useState(20);
-
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [editOpen, setEditOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [addEmploeyee, setAddEmployee] = useState(false);
+  const [addAlertAll, setAddAlertAll] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
 
-  // Reset page when domain changes
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedDomainId]);
-
-  // Reset page when search term changes (but after debounce)
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [debouncedSearchTerm]);
-
-  const {
-    data: employeesData,
-    isLoading: employeesLoading,
-    isRefetching,
-    error: employeesError,
-    refetch: refetchEmployees,
-  } = useEmployeesByDomain(selectedDomainId, currentPage, limit, debouncedSearchTerm);
-
-
-console.log(employeesData);
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
     setIsLoading(true);
@@ -133,12 +125,6 @@ console.log(employeesData);
     );
   };
 
-  const [editOpen, setEditOpen] = useState(false);
-  const [viewOpen, setViewOpen] = useState(false);
-  const [addEmploeyee, setAddEmployee] = useState(false);
-  const [addAlertAll, setAddAlertAll] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
 
   const handleViewModal = (employee: any) => {
@@ -156,9 +142,287 @@ console.log(employeesData);
     setAlertOpen(true);
   };
 
+  const [selectedDomainId, setSelectedDomainId] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(20);
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+  const [viewingEmployee, setViewingEmployee] = useState<Employee | null>(null);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const [showThreatAnalysisNotification, setShowThreatAnalysisNotification] =
+    useState(false);
+  const [threatAnalysisMessage, setThreatAnalysisMessage] = useState("");
+  const [showAddEmployeeModal, setShowAddEmployeeModal] = useState(false);
+  const [pageInput, setPageInput] = useState("");
+  const [contactForm, setContactForm] = useState<ContactFormData>({
+    workEmail: "",
+    personalEmail: "",
+    phoneNumber: "",
+  });
+  const [addEmployeeForm, setAddEmployeeForm] = useState<CreateEmployeeData>({
+    fullName: "",
+    title: "",
+    workEmail: "",
+    personalEmail: "",
+    phoneNumber: "",
+    locality: "",
+    companyId: "",
+  });
+
+  // Debounce search term
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const { isAuthenticated } = useAppContext();
+  // React Query hooks
+  const queryClient = useQueryClient();
+  const {
+    data: domains,
+    isLoading: domainsLoading,
+    error: domainsError,
+  } = useUserDomains(isAuthenticated);
+  console.log(domains)
+  const {
+    data: employeesData,
+    isLoading: employeesLoading,
+    isRefetching,
+    error: employeesError,
+    refetch: refetchEmployees,
+  } = useEmployeesByDomain(selectedDomainId, currentPage, limit, debouncedSearchTerm);
+
+  const updateContactMutation = useUpdateEmployeeContact();
+  const createEmployeeMutation = useCreateEmployee();
+
+  // Get user's threat analysis jobs
+  const {
+    data: threatAnalysisJobs,
+    error: jobsError,
+    isLoading: jobsLoading,
+  } = useThreatAnalysisJobs();
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log("Threat analysis jobs data:", threatAnalysisJobs);
+    console.log("Jobs error:", jobsError);
+    console.log("Jobs loading:", jobsLoading);
+    if (threatAnalysisJobs) {
+      console.log(
+        "Has active jobs:",
+        threatAnalysisJobs.summary?.hasActiveJobs
+      );
+      console.log("Active job count:", threatAnalysisJobs.summary?.active);
+    }
+  }, [threatAnalysisJobs, jobsError, jobsLoading]);
+
+  // Helper functions
+  const getThreatLevelColor = (level: string) => {
+    switch (level) {
+      case "CRITICAL":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "HIGH":
+        return "bg-red-50 text-red-700 border-red-100";
+      case "MEDIUM":
+        return "bg-yellow-50 text-yellow-700 border-yellow-100";
+      case "LOW":
+        return "bg-blue-50 text-blue-700 border-blue-100";
+      default:
+        return "bg-green-50 text-green-700 border-green-100";
+    }
+  };
+
+
+
+  const fetchEmployeeDetails = async (employeeId: string) => {
+    try {
+      // This would be your API call to get employee threat details
+      // const response = await axios.get(`/employees/${employeeId}/threats`);
+      // setEmployeeDetails(response.data);
+
+      // For now, using mock data structure
+      console.log("Fetching details for employee:", employeeId);
+    } catch (error) {
+      console.error("Failed to fetch employee details:", error);
+    }
+  };
+
+  const showNotification = () => {
+    setShowSuccessNotification(true);
+    setTimeout(() => setShowSuccessNotification(false), 3000);
+  };
+
+  // Set first domain as default when domains load
+  React.useEffect(() => {
+    if (domains && domains.length > 0 && !selectedDomainId) {
+      setSelectedDomainId(domains[0].id);
+    }
+  }, [domains, selectedDomainId]);
+
+  // Reset page when domain changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedDomainId]);
+
+  // Reset page when search term changes (but after debounce)
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchTerm]);
+
+  const handleEditContact = (employee: Employee) => {
+    setEditingEmployee(employee);
+    setContactForm({
+      workEmail: employee.workEmail || "",
+      personalEmail: employee.personalEmail || "",
+      phoneNumber: employee.phoneNumber || "",
+    });
+  };
+
+  const handleViewEmployee = (employee: Employee) => {
+    setViewingEmployee(employee);
+    fetchEmployeeDetails(employee.id);
+  };
+
+  const handleSaveContact = async () => {
+    if (editingEmployee) {
+      try {
+        const result = await updateContactMutation.mutateAsync({
+          employeeId: editingEmployee.id,
+          data: contactForm,
+        });
+
+        setEditingEmployee(null);
+        setContactForm({ workEmail: "", personalEmail: "", phoneNumber: "" });
+        showNotification();
+
+        // Show threat analysis notification if scheduled
+        if (result.threatAnalysis?.scheduled) {
+          setThreatAnalysisMessage(
+            result.threatAnalysis.message || "Threat analysis scheduled"
+          );
+          setShowThreatAnalysisNotification(true);
+          setTimeout(() => setShowThreatAnalysisNotification(false), 5000);
+          console.log(
+            "Threat analysis scheduled:",
+            result.threatAnalysis.message
+          );
+        }
+      } catch (error) {
+        console.error("Failed to update contact:", error);
+      }
+    }
+  };
+
+  const handleAddEmployee = () => {
+    console.log('handleAddEmployee called');
+    console.log('selectedDomainId:', selectedDomainId);
+    console.log('employeesData:', employeesData);
+
+    // Get the company ID from the current employeesData
+    const companyId = employeesData?.company?.id;
+    console.log('companyId from employeesData:', companyId);
+
+    // If no company ID available from employeesData, we need to ensure the user has selected a domain
+    // and that domain has employee data loaded
+    if (!companyId && !selectedDomainId) {
+      alert('Please select a domain first to add employees.');
+      return;
+    }
+
+    setAddEmployeeForm({
+      fullName: "",
+      title: "",
+      workEmail: "",
+      personalEmail: "",
+      phoneNumber: "",
+      locality: "",
+      companyId: companyId ? companyId.toString() : "",
+    });
+    setShowAddEmployeeModal(true);
+    console.log('Modal should be showing now');
+  };
+
+  const handleSaveEmployee = async () => {
+    try {
+      const result = await createEmployeeMutation.mutateAsync(addEmployeeForm);
+
+      setShowAddEmployeeModal(false);
+      setAddEmployeeForm({
+        fullName: "",
+        title: "",
+        workEmail: "",
+        personalEmail: "",
+        phoneNumber: "",
+        locality: "",
+        companyId: "",
+      });
+      showNotification();
+
+      // Show threat analysis notification if scheduled
+      if (result.threatAnalysis?.scheduled) {
+        setThreatAnalysisMessage(
+          result.threatAnalysis.message || "Threat analysis scheduled"
+        );
+        setShowThreatAnalysisNotification(true);
+        setTimeout(() => setShowThreatAnalysisNotification(false), 5000);
+      }
+    } catch (error) {
+      console.error("Failed to create employee:", error);
+    }
+  };
+
+  const handleManualRefresh = () => {
+    refetchEmployees();
+  };
+
+  const handleGoToPage = () => {
+    const pageNum = parseInt(pageInput);
+    if (pageNum && pageNum > 0 && pageNum <= (employeesData?.pagination.totalPages || 1)) {
+      setCurrentPage(pageNum);
+      setPageInput("");
+    }
+  };
+
+  const handlePageInputKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleGoToPage();
+    }
+  };
+
+  // Refresh data when jobs complete
+  React.useEffect(() => {
+    console.log(
+      "Job completion effect, threatAnalysisJobs:",
+      threatAnalysisJobs
+    );
+    if (threatAnalysisJobs?.jobs) {
+      const activeJobs = threatAnalysisJobs.jobs.filter((job) =>
+        ["pending", "processing"].includes(job.status)
+      );
+      const completedJobs = threatAnalysisJobs.jobs.filter(
+        (job) => job.status === "completed"
+      );
+
+      if (activeJobs.length === 0 && completedJobs.length > 0) {
+        console.log("Jobs completed, refreshing employee data");
+        // Refresh employee data silently when no more active jobs
+        setTimeout(() => {
+          queryClient.invalidateQueries({ queryKey: ["employees"] });
+        }, 1000);
+      }
+    }
+  }, [threatAnalysisJobs, queryClient]);
+
+  // Use employees directly from API (search is now handled on backend)
+  const displayedEmployees = employeesData?.employees || [];
+
+  if (domainsLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+      </div>
+    );
+  }
+
   return (
     <>
-
       <Modal open={addEmploeyee} maxWidth="3xl" onClose={setAddEmployee}>
         <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
         <ModalBody className="pb-10">
@@ -679,9 +943,6 @@ console.log(employeesData);
                   <EmployeeList key={event.id} data={event} onView={handleViewModal} onEdit={handleEditModal} onAlert={handleAlertModal} />
                 ))}
               </div>
-
-
-
 
 
             </TableStructure>
