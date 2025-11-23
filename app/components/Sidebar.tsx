@@ -38,7 +38,7 @@ const sections = [
     title: 'Darkweb Search',
     links: [
       { name: 'Ransomware', href: '/ransomware', icon: ShieldExclamationIcon },
-      { name: 'Telegram Search', href: '/groups', icon: DocumentMagnifyingGlassIcon },
+      { name: 'Telegram Search', href: '/telegram-search', icon: DocumentMagnifyingGlassIcon },
     ],
   },
   {

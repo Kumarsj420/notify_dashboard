@@ -17,12 +17,12 @@ const Badge: React.FC<BadgeProps> = ({
     const baseClasses = 'ring-1 ring-inset bg-linear-to-b flex flex-row gap-2 justify-center items-center font-semibold rounded-full';
 
     const variatns = {
-        primary: 'ring-p-200 from-p-50 to-p-100 text-p-600',
-        secondary: 'ring-sc-300/80 from-sc-50 to-sc-100 text-sc-600',
-        error: 'ring-red-200 from-red-50 to-red-100 text-red-600',
-        success: 'ring-emerald-200 from-emerald-50 to-emerald-100 text-emerald-600',
-        warning: 'ring-amber-200 from-amber-50 to-amber-100 text-amber-600',
-        info: 'ring-sky-200 from-sky-50 to-sky-100 text-sky-600'
+        primary: 'ring-p-300/80 from-p-50 to-p-200 text-p-600',
+        secondary: 'ring-sc-300 from-sc-50 to-sc-200 text-sc-600',
+        error: 'ring-red-300/75 from-red-50 to-red-200 text-red-600',
+        success: 'ring-emerald-300/75 from-emerald-50 to-emerald-200 text-emerald-600',
+        warning: 'ring-amber-300/75 from-amber-50 to-amber-200 text-amber-600',
+        info: 'ring-sky-300/75 from-sky-50 to-sky-200 text-sky-600'
     }
 
     const sizes = {

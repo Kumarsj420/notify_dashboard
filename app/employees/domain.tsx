@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Tabs, { Tab } from "../components/Tabs";
 import TableSkeleton from "../components/TableSkeleton";
-import { AlertTriangle, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, ShieldAlert, ShieldCheck, } from 'lucide-react';
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -11,7 +12,11 @@ import {
   ShieldCheckIcon,
   UserIcon,
   UserPlusIcon,
+  PencilSquareIcon,
+  EyeIcon,
+  ShieldExclamationIcon
 } from '@heroicons/react/24/solid'
+import { BellIcon } from "@heroicons/react/24/outline";
 
 import { BellAlertIcon } from "@heroicons/react/24/outline";
 
@@ -21,14 +26,11 @@ import Accordian, { AccordianHeader, AccordianBody } from "../components/Accordi
 import { EmployeeExposureData } from "../data/EmployeeExposureData";
 const mockData = EmployeeExposureData;
 
-
-import EmployeeList from "../components/employeeList";
-import { employeeData } from "../data/employeeData";
-
 import SelectDropdown, { DropdownOption } from "../components/Select";
 import Button from "../components/Button";
 import Input from "../components/form/Input";
 import Label from "../components/form/Label";
+import Badge from "../components/Badge";
 
 
 import {
@@ -89,6 +91,10 @@ const Domain: React.FC = () => {
   const [alertOpen, setAlertOpen] = useState(false);
 
 
+  const handleViewOpen = () => {
+    setViewOpen(true);
+  }
+
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
     setIsLoading(true);
@@ -96,18 +102,24 @@ const Domain: React.FC = () => {
     setTimeout(() => setIsLoading(false), 600);
   };
 
-  const getRiskLevelColor = (level: string) => {
-    switch (level.toLowerCase()) {
-      case "low":
-        return "bg-green-100 text-green-700";
-      case "midium":
-        return "bg-yellow-100 text-yellow-700";
-      case "high":
-        return "bg-orange-100 text-orange-700";
-      case "critical":
-        return "bg-red-100 text-red-700";
+   const getThreatIcon = (level: string) => {
+    const iconClass = "h-4 w-4";
+    switch (level) {
+      case "CRITICAL":
+      case "HIGH":
+        return (
+          <ShieldExclamationIcon className={`${iconClass} text-red-600`} />
+        );
+      case "MEDIUM":
+        return (
+          <AlertTriangle className={`${iconClass} text-amber-600`} />
+        );
+      case "LOW":
+        return (
+          <ShieldCheck className={`${iconClass} text-emerald-600`} />
+        );
       default:
-        return "bg-gray-100 text-gray-700";
+        return <ShieldCheck className={`${iconClass} text-green-600`} />;
     }
   };
 
@@ -188,6 +200,7 @@ const Domain: React.FC = () => {
     error: employeesError,
     refetch: refetchEmployees,
   } = useEmployeesByDomain(selectedDomainId, currentPage, limit, debouncedSearchTerm);
+  console.log(employeesData);
 
   const updateContactMutation = useUpdateEmployeeContact();
   const createEmployeeMutation = useCreateEmployee();
@@ -278,6 +291,7 @@ const Domain: React.FC = () => {
   const handleViewEmployee = (employee: Employee) => {
     setViewingEmployee(employee);
     fetchEmployeeDetails(employee.id);
+    setViewOpen(true);
   };
 
   const handleSaveContact = async () => {
@@ -482,7 +496,7 @@ const Domain: React.FC = () => {
         <ModalHeader onClose={setAddAlertAll}>Alert All Employees</ModalHeader>
         <ModalBody className="relative z-10">
           <ShieldCheckIcon className="absolute top-1/2 left-1/2 -translate-1/2 size-24 -z-10 text-emerald-400/40" />
-          <p className="text-gray-600/90">
+          <p className="text-sc-600/90">
             Are you sure you want to send an alert to all employees? This action will immediately trigger email notifications to their official work addresses. Please confirm before proceeding, as this message will be distributed organization-wide and may require follow-up communication or action.
           </p>
         </ModalBody>
@@ -501,7 +515,7 @@ const Domain: React.FC = () => {
       <Modal open={alertOpen} maxWidth="xl" onClose={setAlertOpen}>
         <ModalHeader onClose={setAlertOpen}>Alert Rohan Gupta</ModalHeader>
         <ModalBody>
-          <p className="text-gray-700 mb-4">
+          <p className="text-sc-700 mb-4">
             Choose how you’d like to alert this employee:
           </p>
 
@@ -543,10 +557,10 @@ const Domain: React.FC = () => {
             <img
               src="https://i.pravatar.cc/100?img=12"
               alt="Profile"
-              className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-gray-200 object-cover"
+              className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-sc-200 object-cover"
             />
             <div>
-              <h3 className="font-semibold text-gray-800">Dan Hockenmaier</h3>
+              <h3 className="font-semibold text-sc-800">Dan Hockenmaier</h3>
               <p className="text-sm text-sc-600/90 font-light">Chief Strategy Officer</p>
             </div>
           </div>
@@ -584,317 +598,374 @@ const Domain: React.FC = () => {
         </ModalFooter>
       </Modal>
 
-      <Modal open={viewOpen} maxWidth="3xl" onClose={setViewOpen}>
-        <ModalHeader onClose={setViewOpen}>Employee Details & Threat Profile</ModalHeader>
-        <ModalBody>
-          <div className="md:flex md:items-center md:justify-between md:space-x-5v">
-            <div className="flex items-start space-x-5 pt-2 pb-7 border-b border-b-sc-200 w-full">
-              <div className="shrink-0">
-                <div className="relative">
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                    className="size-12 ring-[0.1em] ring-offset-4 ring-sc-300 rounded-full"
-                  />
-                  <span aria-hidden="true" className="absolute inset-0 rounded-full shadow-inner" />
+      {
+        viewingEmployee && (
+          <Modal open={viewOpen} maxWidth="3xl" onClose={setViewOpen}>
+            <ModalHeader onClose={setViewOpen}>Employee Details & Threat Profile</ModalHeader>
+            <ModalBody>
+              <div className="md:flex md:items-center md:justify-between md:space-x-5v">
+                <div className="flex items-start space-x-5 pt-2 pb-7 border-b border-b-sc-200 w-full">
+                  <div className="shrink-0">
+                    <div className="relative">
+                      {
+                        viewingEmployee.liAvatar ? (
+                          <Image
+                            alt={viewingEmployee.fullName}
+                            src={viewingEmployee.liAvatar}
+                            width={48}
+                            height={48}
+                            className="size-12 ring-[0.1em] ring-offset-4 ring-sc-300 rounded-full"
+                          />
+                        ) : (
+                          <div className="size-12 rounded-full bg-linear-to-b from-sc-50 to-sc-200 flex items-center justify-center  transition-colors ring-[0.1em] ring-sc-300/85 ring-offset-3">
+                            <UserIcon className="size-7 text-sc-500/80" />
+                          </div>
+                        )
+                      }
+
+                      <span aria-hidden="true" className="absolute inset-0 rounded-full shadow-inner" />
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <div className="flex gap-4 items-center">
+                      <h2 className="text-2xl/8 font-bold text-sc-900">{viewingEmployee.fullName}</h2>
+
+                      {viewingEmployee.threatSummary && (
+                        <div className=" flex flex-row gap-2 items-center">
+                          <Badge variant={viewingEmployee.threatSummary.overallThreatLevel === 'CRITICAL' || viewingEmployee.threatSummary.overallThreatLevel === 'High' ? 'error' : viewingEmployee.threatSummary.overallThreatLevel === 'MEDIUM' ? 'warning' : 'primary'} className="capitalize">
+                            {getThreatIcon(viewingEmployee.threatSummary.overallThreatLevel)}
+                            {viewingEmployee.threatSummary.overallThreatLevel}
+                          </Badge>
+                          <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
+                            {viewingEmployee.threatSummary.totalExposures} Exposure
+                          </span>
+                        </div>
+                      )}
+
+                    </div>
+                    <span className="text-sm/5  text-sc-600/90 font-light">
+                      {viewingEmployee.title && (
+                        <span className="text-sc-700 font-medium">{viewingEmployee.title}</span>
+                      )}  |  {viewingEmployee.headline && (
+                        viewingEmployee.headline
+                      )}
+                    </span>
+                    <div className="flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+                      {viewingEmployee.workEmail && (
+                        <span className="mt-2 flex items-center text-sm text-sc-600/90 font-light">
+                          <EnvelopeIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-sc-400" />
+                          {viewingEmployee.workEmail}
+                        </span>
+                      )}
+                      {
+                        viewingEmployee.phoneNumber && (
+                          <span className="mt-2 flex items-center text-sm text-sc-600/90 font-light">
+                            <PhoneIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-sc-400" />
+                            {viewingEmployee.phoneNumber}
+                          </span>
+                        )
+                      }
+                      {
+                        viewingEmployee.locality && (
+                          <span className="mt-2 flex items-center text-sm text-sc-600/90 font-light">
+                            <MapPinIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-sc-400" />
+                            {viewingEmployee.locality}
+                          </span>
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
               </div>
+              {
+                !viewingEmployee.threatSummary && (
+                  <div className="mb-8 p-6 bg-sc-50 rounded-lg text-center">
+                    <ShieldExclamationIcon className="h-12 w-12 text-sc-400 mx-auto mb-2" />
+                    <p className="text-sc-600/90 font-light">No threat data available</p>
+                    <Button variant="primary">
+                      Start Threat Analysis
+                    </Button>
+                  </div>
+                )
+              }
+              {
+                viewingEmployee.threatProfiles &&
+                viewingEmployee.threatProfiles.length > 0 && (
+                  <>
+                    <div className="mt-3">
+                      <h2 className="text-xl/7 font-semibold text-sc-900">Detailed Threat Profiles</h2>
+                      <p className="text-sm/5 font-light text-sc-600/90">Comprehensive overview of data breach exposure.</p>
+                    </div>
 
-              <div className="">
-                <div className="flex gap-4 items-center">
-                  <h2 className="text-2xl/8 font-bold text-gray-900">Ricardo Cooper</h2>
-                  <div className=" flex flex-row gap-2 items-center">
-                    <span className=" ring-1 ring-inset ring-red-200 px-3 py-1 bg-linear-to-b from-red-50 to-red-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-red-600">
-                      <ShieldAlert className="size-3.5" />
-                      Critical
-                    </span>
-                    <span className=" ring-1 ring-inset ring-sc-300/80 px-3 py-1 bg-linear-to-b from-sc-50 to-sc-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-sc-600/90">
-                      8 Exposure
-                    </span>
-                  </div>
-                </div>
-                <span className="text-sm/5  text-sc-600/90 font-light">
-                  <span className="text-sc-700 font-medium">CPO</span> @ Faire, ex-VP Product & Design @ WhatsApp
-                </span>
-                <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-                  <div className="mt-2 flex items-center text-sm text-gray-600/90 font-light">
-                    <EnvelopeIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-gray-400" />
-                    example@email.com
-                  </div>
-                  <div className="mt-2 flex items-center text-sm text-gray-600/90 font-light">
-                    <PhoneIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-gray-400" />
-                    1234567879
-                  </div>
-                  <div className="mt-2 flex items-center text-sm text-gray-600/90 font-light">
-                    <MapPinIcon aria-hidden="true" className="mr-1.5 size-5 shrink-0 text-gray-400" />
-                    San Francisco, California, United States
-                  </div>
-                </div>
+                    {
+                      viewingEmployee.threatProfiles.map((profile) => (
+                        <div key={profile.id} className="mt-3 ring-1 w-full ring-inset ring-sc-300 px-5 py-4 rounded-xl bg-sc-50">
+
+                          <Badge variant={profile.threatLevel === 'CRITICAL' || profile.threatLevel === 'HIGH' ? 'error' : profile.threatLevel === 'MEDIUM' ? 'warning' : 'success'} className="w-max">
+                            {getThreatIcon(profile.threatLevel)}
+                            {profile.threatLevel}
+                          </Badge>
+
+                          <h2 className="mt-2 font-semibold text-lg capitalize"> {profile.searchType.replace("_", " ")}{" "}
+                                  Analysis</h2>
+                          <span className="text-sm/5 font-medium text-p-500 ">{profile.searchValue}</span>
+                          
+                          <div className="mt-4 flex flex-row gap-3 flex-wrap">
+                            <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Exposures : <span className="font-semibold text-sc-900"> 2</span> </span>
+                            <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Last Scanned : <span className="font-semibold text-sc-900"> 05/10/2025</span> </span>
+                            <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Status : <span className="font-semibold text-emerald-500"> Completed</span> </span>
+                            <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Databases : <span className="font-semibold text-sc-900"> 2</span> </span>
+                            <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Total Results : <span className="font-semibold text-sc-900"> 2</span> </span>
+                          </div>
+
+                          <div className="mt-6">
+                            <h3 className="font-semibold flex gap-2 items-center">
+                              <ShieldCheckIcon className="size-6 text-sc-500" />
+                              Recent Data Exposures</h3>
+                            <Accordian className="mt-3">
+                              <AccordianHeader>
+                                <div className="flex gap-4">
+                                  <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
+                                    <UserIcon className="size-6 text-p-500" />
+                                  </div>
+                                  <div>
+                                    <h3 className="font-bold text-lg text-left">
+                                      Canva</h3>
+                                    <div className="mt-1 flex gap-2">
+                                      <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
+                                      <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </AccordianHeader>
+                              <AccordianBody>
+                                <p className="text-sc-500  text-sm">In May 2019, the graphic design tool website Canva suffered a data breach that impacted 137 million subscribers. The exposed data included email addresses, usernames, names, cities of residence and passwords stored as bcrypt hashes for users not using social logins.</p>
+                                <div>
+
+                                  <div className="px-4 sm:px-0 mt-5">
+                                    <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
+                                    <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
+                                  </div>
+                                  <div className="mt-4 border-t border-sc-100">
+                                    <dl className="divide-y divide-sc-100">
+                                      <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
+                                        <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
+                                      </div>
+                                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Username</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">vikram_mehta</dd>
+                                      </div>
+                                      <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Name</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Vikram Mehta</dd>
+                                      </div>
+                                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Password
+                                          Encrypted</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
+                                          $2a$10$xQz8...</dd>
+                                      </div>
+                                    </dl>
+                                  </div>
+                                </div>
+                              </AccordianBody>
+                            </Accordian>
+                            <Accordian className="mt-3">
+                              <AccordianHeader>
+                                <div className="flex gap-4">
+                                  <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
+                                    <UserIcon className="size-6 text-p-500" />
+                                  </div>
+                                  <div>
+                                    <h3 className="font-bold text-lg text-left">
+                                      Cit0Day</h3>
+                                    <div className="mt-1 flex gap-2">
+                                      <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
+                                      <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </AccordianHeader>
+                              <AccordianBody>
+                                <p className="text-sc-500  text-sm"> CIT0DAY is an now non -existent service for the search for e -mail among various leaks. After its closure in November 2020, a collection of more than 23,000 hacked sites fell into open access. The data was sorted into several dozen categories and contained more than 226 million posts and passwords to them. Some passwords were protected with the help of hashes.</p>
+                                <div>
+
+                                  <div className="px-4 sm:px-0 mt-5">
+                                    <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
+                                    <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
+                                  </div>
+                                  <div className="mt-4 border-t border-sc-100">
+                                    <dl className="divide-y divide-sc-100">
+                                      <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
+                                        <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
+                                      </div>
+                                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Category</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Business</dd>
+                                      </div>
+                                      <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Leak Site</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">accentsourcing.com</dd>
+                                      </div>
+                                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                        <dt className="text-sm/6 font-medium text-sc-900">Password
+                                          Encrypted</dt>
+                                        <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
+                                          $2a$10$268e0382332e1d8380994u</dd>
+                                      </div>
+                                    </dl>
+                                  </div>
+                                </div>
+                              </AccordianBody>
+                            </Accordian>
+                          </div>
+
+
+
+                        </div>
+                      ))
+                    }
+
+                    {/* <div className="mt-3 ring-1 w-full ring-inset ring-sc-300 px-5 py-4 rounded-xl bg-sc-50">
+                      <span className="ring-1 ring-inset ring-emerald-200 px-3 py-1 bg-linear-to-b from-emerald-50 to-emerald-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-emerald-600 w-max">
+                        <AlertTriangle className="size-3.5" />
+                        Low
+                      </span>
+
+                      <h2 className="mt-2 font-semibold text-lg">Phone Number Analysis</h2>
+                      <span className="text-sm/5 font-medium text-p-500 ">9825123987</span>
+                      <div className="mt-4 flex flex-row gap-3 flex-wrap">
+                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Exposures : <span className="font-semibold text-sc-900"> 2</span> </span>
+                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Last Scanned : <span className="font-semibold text-sc-900"> 05/10/2025</span> </span>
+                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Status : <span className="font-semibold text-emerald-500"> Completed</span> </span>
+                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Databases : <span className="font-semibold text-sc-900"> 2</span> </span>
+                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Total Results : <span className="font-semibold text-sc-900"> 2</span> </span>
+                      </div>
+
+                      <div className="mt-6">
+                        <h3 className="font-semibold flex gap-2 items-center">
+                          <ShieldCheckIcon className="size-6 text-sc-500" />
+                          Recent Data Exposures</h3>
+                        <Accordian className="mt-3">
+                          <AccordianHeader>
+                            <div className="flex gap-4">
+                              <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
+                                <UserIcon className="size-6 text-p-500" />
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-lg text-left">
+                                  Canva</h3>
+                                <div className="mt-1 flex gap-2">
+                                  <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
+                                  <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
+                                </div>
+                              </div>
+                            </div>
+                          </AccordianHeader>
+                          <AccordianBody>
+                            <p className="text-sc-500  text-sm">In May 2019, the graphic design tool website Canva suffered a data breach that impacted 137 million subscribers. The exposed data included email addresses, usernames, names, cities of residence and passwords stored as bcrypt hashes for users not using social logins.</p>
+                            <div>
+
+                              <div className="px-4 sm:px-0 mt-5">
+                                <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
+                                <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
+                              </div>
+                              <div className="mt-4 border-t border-sc-100">
+                                <dl className="divide-y divide-sc-100">
+                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
+                                    <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
+                                  </div>
+                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Username</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">vikram_mehta</dd>
+                                  </div>
+                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Name</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Vikram Mehta</dd>
+                                  </div>
+                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Password
+                                      Encrypted</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
+                                      $2a$10$xQz8...</dd>
+                                  </div>
+                                </dl>
+                              </div>
+                            </div>
+                          </AccordianBody>
+                        </Accordian>
+                        <Accordian className="mt-3">
+                          <AccordianHeader>
+                            <div className="flex gap-4">
+                              <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
+                                <UserIcon className="size-6 text-p-500" />
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-lg text-left">
+                                  Cit0Day</h3>
+                                <div className="mt-1 flex gap-2">
+                                  <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
+                                  <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
+                                </div>
+                              </div>
+                            </div>
+                          </AccordianHeader>
+                          <AccordianBody>
+                            <p className="text-sc-500  text-sm"> CIT0DAY is an now non -existent service for the search for e -mail among various leaks. After its closure in November 2020, a collection of more than 23,000 hacked sites fell into open access. The data was sorted into several dozen categories and contained more than 226 million posts and passwords to them. Some passwords were protected with the help of hashes.</p>
+                            <div>
+
+                              <div className="px-4 sm:px-0 mt-5">
+                                <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
+                                <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
+                              </div>
+                              <div className="mt-4 border-t border-sc-100">
+                                <dl className="divide-y divide-sc-100">
+                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
+                                    <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
+                                  </div>
+                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Category</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Business</dd>
+                                  </div>
+                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Leak Site</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">accentsourcing.com</dd>
+                                  </div>
+                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                    <dt className="text-sm/6 font-medium text-sc-900">Password
+                                      Encrypted</dt>
+                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
+                                      $2a$10$268e0382332e1d8380994u</dd>
+                                  </div>
+                                </dl>
+                              </div>
+                            </div>
+                          </AccordianBody>
+                        </Accordian>
+                      </div>
+                    </div> */}
+                  </>
+                )
+              }
+            </ModalBody>
+            <ModalFooter>
+              <div className="flex justify-end gap-3">
+                <Button variant="outline" type="button" onClick={() => setViewOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="button">
+                  Download
+                </Button>
               </div>
-            </div>
-          </div>
-          <div className="mt-3">
-            <h2 className="text-xl/7 font-semibold text-sc-900">Detailed Threat Profiles</h2>
-            <p className="text-sm/5 font-light text-sc-600/90">Comprehensive overview of data breach exposure.</p>
-          </div>
-          <div className="mt-3 ring-1 w-full ring-inset ring-sc-300 px-5 py-4 rounded-xl bg-sc-50">
-            <span className="ring-1 ring-inset ring-amber-200 px-3 py-1 bg-linear-to-b from-amber-50 to-amber-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-amber-600 w-max">
-              <AlertTriangle className="size-3.5" />
-              Medium
-            </span>
-
-            <h2 className="mt-2 font-semibold text-lg">Personal Email Analysis</h2>
-            <span className="text-sm/5 font-medium text-p-500 ">thevikramme@gmail.com</span>
-            <div className="mt-4 flex flex-row gap-3 flex-wrap">
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Exposures : <span className="font-semibold text-sc-900"> 2</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Last Scanned : <span className="font-semibold text-sc-900"> 05/10/2025</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Status : <span className="font-semibold text-emerald-500"> Completed</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Databases : <span className="font-semibold text-sc-900"> 2</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Total Results : <span className="font-semibold text-sc-900"> 2</span> </span>
-            </div>
-
-            <div className="mt-6">
-              <h3 className="font-semibold flex gap-2 items-center">
-                <ShieldCheckIcon className="size-6 text-sc-500" />
-                Recent Data Exposures</h3>
-              <Accordian className="mt-3">
-                <AccordianHeader>
-                  <div className="flex gap-4">
-                    <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                      <UserIcon className="size-6 text-p-500" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-left">
-                        Canva</h3>
-                      <div className="mt-1 flex gap-2">
-                        <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                        <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                      </div>
-                    </div>
-                  </div>
-                </AccordianHeader>
-                <AccordianBody>
-                  <p className="text-sc-500  text-sm">In May 2019, the graphic design tool website Canva suffered a data breach that impacted 137 million subscribers. The exposed data included email addresses, usernames, names, cities of residence and passwords stored as bcrypt hashes for users not using social logins.</p>
-                  <div>
-
-                    <div className="px-4 sm:px-0 mt-5">
-                      <h3 className="text-base/7 font-semibold text-gray-900">Exposed Data Fields</h3>
-                      <p className=" max-w-2xl text-sm/5 text-gray-500">Compromised details are listed below.</p>
-                    </div>
-                    <div className="mt-4 border-t border-gray-100">
-                      <dl className="divide-y divide-gray-100">
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Email</dt>
-                          <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Username</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">vikram_mehta</dd>
-                        </div>
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Name</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Vikram Mehta</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Password
-                            Encrypted</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            $2a$10$xQz8...</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </AccordianBody>
-              </Accordian>
-              <Accordian className="mt-3">
-                <AccordianHeader>
-                  <div className="flex gap-4">
-                    <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                      <UserIcon className="size-6 text-p-500" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-left">
-                        Cit0Day</h3>
-                      <div className="mt-1 flex gap-2">
-                        <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                        <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                      </div>
-                    </div>
-                  </div>
-                </AccordianHeader>
-                <AccordianBody>
-                  <p className="text-sc-500  text-sm"> CIT0DAY is an now non -existent service for the search for e -mail among various leaks. After its closure in November 2020, a collection of more than 23,000 hacked sites fell into open access. The data was sorted into several dozen categories and contained more than 226 million posts and passwords to them. Some passwords were protected with the help of hashes.</p>
-                  <div>
-
-                    <div className="px-4 sm:px-0 mt-5">
-                      <h3 className="text-base/7 font-semibold text-gray-900">Exposed Data Fields</h3>
-                      <p className=" max-w-2xl text-sm/5 text-gray-500">Compromised details are listed below.</p>
-                    </div>
-                    <div className="mt-4 border-t border-gray-100">
-                      <dl className="divide-y divide-gray-100">
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Email</dt>
-                          <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Category</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Business</dd>
-                        </div>
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Leak Site</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">accentsourcing.com</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Password
-                            Encrypted</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            $2a$10$268e0382332e1d8380994u</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </AccordianBody>
-              </Accordian>
-            </div>
-
-
-
-          </div>
-          <div className="mt-3 ring-1 w-full ring-inset ring-sc-300 px-5 py-4 rounded-xl bg-sc-50">
-            <span className="ring-1 ring-inset ring-emerald-200 px-3 py-1 bg-linear-to-b from-emerald-50 to-emerald-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-emerald-600 w-max">
-              <AlertTriangle className="size-3.5" />
-              Low
-            </span>
-
-            <h2 className="mt-2 font-semibold text-lg">Phone Number Analysis</h2>
-            <span className="text-sm/5 font-medium text-p-500 ">9825123987</span>
-            <div className="mt-4 flex flex-row gap-3 flex-wrap">
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Exposures : <span className="font-semibold text-sc-900"> 2</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Last Scanned : <span className="font-semibold text-sc-900"> 05/10/2025</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Status : <span className="font-semibold text-emerald-500"> Completed</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Databases : <span className="font-semibold text-sc-900"> 2</span> </span>
-              <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Total Results : <span className="font-semibold text-sc-900"> 2</span> </span>
-            </div>
-
-            <div className="mt-6">
-              <h3 className="font-semibold flex gap-2 items-center">
-                <ShieldCheckIcon className="size-6 text-sc-500" />
-                Recent Data Exposures</h3>
-              <Accordian className="mt-3">
-                <AccordianHeader>
-                  <div className="flex gap-4">
-                    <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                      <UserIcon className="size-6 text-p-500" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-left">
-                        Canva</h3>
-                      <div className="mt-1 flex gap-2">
-                        <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                        <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                      </div>
-                    </div>
-                  </div>
-                </AccordianHeader>
-                <AccordianBody>
-                  <p className="text-sc-500  text-sm">In May 2019, the graphic design tool website Canva suffered a data breach that impacted 137 million subscribers. The exposed data included email addresses, usernames, names, cities of residence and passwords stored as bcrypt hashes for users not using social logins.</p>
-                  <div>
-
-                    <div className="px-4 sm:px-0 mt-5">
-                      <h3 className="text-base/7 font-semibold text-gray-900">Exposed Data Fields</h3>
-                      <p className=" max-w-2xl text-sm/5 text-gray-500">Compromised details are listed below.</p>
-                    </div>
-                    <div className="mt-4 border-t border-gray-100">
-                      <dl className="divide-y divide-gray-100">
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Email</dt>
-                          <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Username</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">vikram_mehta</dd>
-                        </div>
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Name</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Vikram Mehta</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Password
-                            Encrypted</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            $2a$10$xQz8...</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </AccordianBody>
-              </Accordian>
-              <Accordian className="mt-3">
-                <AccordianHeader>
-                  <div className="flex gap-4">
-                    <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                      <UserIcon className="size-6 text-p-500" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-left">
-                        Cit0Day</h3>
-                      <div className="mt-1 flex gap-2">
-                        <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                        <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                      </div>
-                    </div>
-                  </div>
-                </AccordianHeader>
-                <AccordianBody>
-                  <p className="text-sc-500  text-sm"> CIT0DAY is an now non -existent service for the search for e -mail among various leaks. After its closure in November 2020, a collection of more than 23,000 hacked sites fell into open access. The data was sorted into several dozen categories and contained more than 226 million posts and passwords to them. Some passwords were protected with the help of hashes.</p>
-                  <div>
-
-                    <div className="px-4 sm:px-0 mt-5">
-                      <h3 className="text-base/7 font-semibold text-gray-900">Exposed Data Fields</h3>
-                      <p className=" max-w-2xl text-sm/5 text-gray-500">Compromised details are listed below.</p>
-                    </div>
-                    <div className="mt-4 border-t border-gray-100">
-                      <dl className="divide-y divide-gray-100">
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Email</dt>
-                          <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Category</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Business</dd>
-                        </div>
-                        <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Leak Site</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">accentsourcing.com</dd>
-                        </div>
-                        <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                          <dt className="text-sm/6 font-medium text-gray-900">Password
-                            Encrypted</dt>
-                          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            $2a$10$268e0382332e1d8380994u</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </AccordianBody>
-              </Accordian>
-            </div>
-
-
-
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" type="button" onClick={() => setViewOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="button">
-              Download
-            </Button>
-          </div>
-        </ModalFooter>
-      </Modal>
+            </ModalFooter>
+          </Modal >
+        )
+      }
 
       <div>
         <Tabs
@@ -938,12 +1009,167 @@ const Domain: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                {employeeData.map((event) => (
-                  <EmployeeList key={event.id} data={event} onView={handleViewModal} onEdit={handleEditModal} onAlert={handleAlertModal} />
-                ))}
-              </div>
+              <ul>
+                {
+                  displayedEmployees.length > 0 ? (
+                    displayedEmployees.map((employee) => (
+                      <li key={employee.id} className="w-full mx-auto space-y-8 px-8 py-7 transition border-b border-b-sc-200 odd:bg-sc-50">
+                        <div className="flex items-center justify-between">
+                          {/* Profile & Details */}
+                          <div className="flex items-start gap-4">
+                            <div className="relative">
+                              {
+                                employee.liAvatar ? (
+                                  <Image
+                                    src={employee.liAvatar}
+                                    alt={employee.fullName}
+                                    width={44}
+                                    height={44}
+                                    className="size-11 rounded-full object-cover ring-[0.1em] ring-sc-300/85 ring-offset-3"
+                                  />
+                                ) : (
+                                  <div className="size-11 rounded-full bg-linear-to-b from-sc-50 to-sc-200 flex items-center justify-center group-hover:from-sc-200 group-hover:to-sc-300 transition-colors ring-[0.1em] ring-sc-300/85 ring-offset-3">
+                                    <UserIcon className="size-6 text-sc-500/80" />
+                                  </div>
+                                )
+                              }
 
+
+                              {employee.threatSummary && employee.threatSummary.overallThreatLevel === "CRITICAL" && (
+                                <Badge size="auto" variant="error" className="absolute -top-5 -right-3 size-7">
+                                  <ShieldAlert className="size-4 text-red-600" />
+                                </Badge>
+                              )}
+
+                              {employee.threatSummary && employee.threatSummary.overallThreatLevel === "MEDIUM" && (
+                                <Badge size="auto" variant="warning" className="absolute -top-5 -right-3 size-7">
+                                  <AlertTriangle className="size-4 text-amber-600" />
+                                </Badge>
+                              )}
+
+                            </div>
+
+                            <div>
+                              <div className="flex flex-row gap-3 items-center">
+                                <h2 className="text-lg/8 font-bold text-sc-900 ">
+                                  {employee.fullName}</h2>
+                                {employee.threatSummary && employee.threatSummary.overallThreatLevel === "CRITICAL" && (
+                                  <div className=" flex flex-row gap-2 items-center">
+                                    <Badge variant="error">
+                                      <ShieldAlert className="size-3.5" />
+                                      Critical
+                                    </Badge>
+                                    <Badge variant="secondary">
+                                      {employee.threatSummary.totalExposures} Exposure
+                                    </Badge>
+                                  </div>
+                                )}
+                                {employee.threatSummary && employee.threatSummary.overallThreatLevel === "MEDIUM" && (
+                                  <div className="flex flex-row gap-2 items-center">
+                                    <Badge variant="warning">
+                                      <AlertTriangle className="size-3.5" />
+                                      Medium
+                                    </Badge>
+                                    <Badge variant="secondary">
+                                      {employee.threatSummary.totalExposures} Exposure
+                                    </Badge>
+                                  </div>
+                                )}
+
+                              </div>
+
+                              {
+                                employee.title && (
+                                  <p className="font-semibold text-sc-700 text-sm">{employee.title}</p>
+                                )
+                              }
+
+                              {employee.headline && (
+                                <p className="font-light text-sc-600/90 text-sm">{employee.headline}</p>
+                              )}
+
+
+                              {/* Contact Info */}
+                              <div className="flex flex-row gap-4 mt-1">
+                                {employee.locality && (
+                                  <span className="flex items-center gap-1.5 font-light text-sc-600/90 text-sm">
+                                    <MapPinIcon className="size-4 text-sc-500/80" />
+                                    {employee.locality}
+                                  </span>
+
+                                )}
+
+                                {employee.phoneNumber && (
+                                  <span className="flex items-center gap-1.5 font-light text-sc-600/90 text-sm">
+                                    <PhoneIcon className="size-4 text-sc-500/80" />
+                                    {employee.phoneNumber}
+                                  </span>
+                                )}
+
+                                {employee.workEmail && (
+                                  <span className="flex items-center gap-1.5 font-light text-sc-600/90 text-sm">
+                                    <EnvelopeIcon className="size-4 text-sc-500/80" />
+                                    {employee.workEmail}
+                                  </span>
+                                )}
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div className="flex items-center gap-3">
+                            <Button onClick={() => handleViewEmployee(employee)} variant="outline" size='sm' >
+                              <EyeIcon className="size-4 text-sc-500/80 scale-95" /> View
+                            </Button>
+
+                            <Button variant="outline" size='sm' >
+                              <PencilSquareIcon className="size-4 text-sc-500/80 scale-95" /> Edit
+                            </Button>
+
+                            <Button variant="primary" size="sm" >
+                              <BellIcon className="scale-105 size-4" strokeWidth={1.8} /> Alert
+                            </Button>
+
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  ) : employeesLoading ? (
+                    <div className="text-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto"></div>
+                      <p className="mt-2 text-sm text-sc-500">Loading employees...</p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <UserIcon className="mx-auto h-12 w-12 text-sc-400" />
+                      <h3 className="mt-2 text-sm font-medium text-sc-900">
+                        No employees found
+                      </h3>
+                      <p className="mt-1 text-sm text-sc-500">
+                        {searchTerm
+                          ? "Try adjusting your search criteria."
+                          : selectedDomainId
+                            ? "No employees available for the selected domain."
+                            : "Please select a domain to view employees."}
+                      </p>
+                    </div>
+                  )
+                }
+              </ul>
+
+              {
+                employeesData?.pagination &&
+                employeesData.pagination.totalPages > 1 && (
+                  <TablePagination
+                    currentPage={currentPage}
+                    totalPages={employeesData.pagination.totalPages}
+                    totalResults={employeesData.pagination.total}
+                    onPageChange={setCurrentPage}
+                    resLength={20}
+                  />
+                )
+              }
 
             </TableStructure>
           )}
@@ -985,9 +1211,7 @@ const Domain: React.FC = () => {
 
                       <TableCell>
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${getRiskLevelColor(
-                            event.riskLevel
-                          )}`}
+                          className={`px-3 py-1 rounded-full text-xs font-medium `}
                         >
                           {event.riskLevel}
                         </span>
@@ -1006,7 +1230,7 @@ const Domain: React.FC = () => {
                           px-3 py-1 rounded-full text-xs font-medium cursor-pointer 
                           ${event.status === "resolved"
                               ? "bg-green-100 text-green-700"
-                              : "bg-gray-200 text-gray-600"}
+                              : "bg-sc-200 text-sc-600"}
                         `}
                         >
                           {event.status}
@@ -1016,6 +1240,8 @@ const Domain: React.FC = () => {
                     </TableRow>
                   ))}
                 </TableBody>
+
+
 
                 <TableFooter>
                   <tr>

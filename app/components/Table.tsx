@@ -1,12 +1,13 @@
 import React from 'react';
 import { ArrowUpDown } from 'lucide-react';
+import Button from './Button';
 // Base Table component
 
-export const TableStructure = ({ 
-  children, 
-  className = '' ,
-}: { 
-  children: React.ReactNode; 
+export const TableStructure = ({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -17,11 +18,11 @@ export const TableStructure = ({
   );
 };
 
-export const Table = ({ 
-  children, 
-  className = '' 
-}: { 
-  children: React.ReactNode; 
+export const Table = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -34,11 +35,11 @@ export const Table = ({
 };
 
 // Table Header component
-export const TableHeader = ({ 
-  children, 
-  className = '' 
-}: { 
-  children: React.ReactNode; 
+export const TableHeader = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -49,11 +50,11 @@ export const TableHeader = ({
 };
 
 // Table Body component
-export const TableBody = ({ 
-  children, 
-  className = '' 
-}: { 
-  children: React.ReactNode; 
+export const TableBody = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -64,17 +65,17 @@ export const TableBody = ({
 };
 
 // Table Row component
-export const TableRow = ({ 
-  children, 
+export const TableRow = ({
+  children,
   className = '',
   onClick
-}: { 
-  children: React.ReactNode; 
+}: {
+  children: React.ReactNode;
   className?: string;
   onClick?: () => void;
 }) => {
   return (
-    <tr 
+    <tr
       className={`border-b border-gray-200/90  transition-colors even:bg-sc-50 ${className}`}
       onClick={onClick}
     >
@@ -84,19 +85,19 @@ export const TableRow = ({
 };
 
 // Table Head Cell component (for column titles)
-export const TableHead = ({ 
-  children, 
+export const TableHead = ({
+  children,
   className = '',
   sortable = false,
   onSort
-}: { 
-  children: React.ReactNode; 
+}: {
+  children: React.ReactNode;
   className?: string;
   sortable?: boolean;
   onSort?: () => void;
 }) => {
   return (
-    <th 
+    <th
       className={`px-6 py-4.5 text-center text-xs font-bold text-sc-900 capitalize tracking-wider border-t border-gray-200/90 ${sortable ? 'cursor-pointer select-none' : ''} ${className}`}
       onClick={sortable ? onSort : undefined}
     >
@@ -111,11 +112,11 @@ export const TableHead = ({
 };
 
 // Table Cell component (for data cells)
-export const TableCell = ({ 
-  children, 
-  className = '' 
-}: { 
-  children: React.ReactNode; 
+export const TableCell = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -126,11 +127,11 @@ export const TableCell = ({
 };
 
 // Table Footer component
-export const TableFooter = ({ 
-  children, 
-  className = '' 
-}: { 
-  children: React.ReactNode; 
+export const TableFooter = ({
+  children,
+  className = ''
+}: {
+  children: React.ReactNode;
   className?: string;
 }) => {
   return (
@@ -146,18 +147,20 @@ export const TablePagination = ({
   totalPages,
   onPageChange,
   totalResults,
+  resLength,
   className = ''
 }: {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
   totalResults?: number;
+  resLength?: number;
   className?: string;
 }) => {
   const renderPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
-    
+
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -171,54 +174,54 @@ export const TablePagination = ({
         pages.push(1, '...', currentPage, '...', totalPages);
       }
     }
-    
+
     return pages;
   };
 
   return (
     <div className={`flex items-center justify-between px-6 pt-5 ${className}`}>
-      {totalResults && (
+      {totalResults && resLength && currentPage && (
         <div className="text-sm text-sc-600/90">
-          Showing 1 to 3 of {totalResults.toLocaleString()} results
+          Showing <span className='font-semibold text-sc-900'>{resLength * (currentPage - 1)}</span>  to <span className='font-semibold text-sc-900'>{Math.min((resLength * (currentPage - 1)) + resLength, totalResults)}</span>  of <span className='font-semibold text-sc-900'>{totalResults.toLocaleString()} results</span>
         </div>
       )}
-      
+
       <div className="flex items-center gap-2">
-        <button
+        <Button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          size='sm'
+          variant='outline'
         >
           Previous
-        </button>
-        
+        </Button>
+
         {renderPageNumbers().map((page, idx) => (
           page === '...' ? (
             <span key={`ellipsis-${idx}`} className="px-2 text-gray-500">
               ...
             </span>
           ) : (
-            <button
+            <Button
               key={page}
               onClick={() => onPageChange(page as number)}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md cursor-pointer ${
-                currentPage === page
-                  ? 'bg-linear-to-r from-amber-500 to-orange-600 text-white'
-                  : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-              }`}
+              variant={currentPage === page ? 'primary' : 'outline'}
+              size='auto'
+              className='px-3.5 py-2 text-sm aspect-square'
             >
               {page}
-            </button>
+            </Button>
           )
         ))}
-        
-        <button
+
+        <Button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          size='sm'
+          variant='outline'
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );
