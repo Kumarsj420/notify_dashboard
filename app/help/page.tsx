@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Telegram from "./telegram";
+import HelpSupportPage from "./help";
 import Layout from "../components/Layout";
 export const metadata: Metadata = {
-  title: "Telegram search data",
+  title: "Help & Support",
   description:
     "",
 };
@@ -11,7 +11,7 @@ export default function ResumePage() {
   return (
     <Layout>
       <div className="">
-        <Telegram />
+        <HelpSupportPage />
       </div>
     </Layout>
   );
