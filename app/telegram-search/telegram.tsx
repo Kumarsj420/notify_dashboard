@@ -14,9 +14,6 @@ const Telegram = () => {
   return (
     <div className="w-full min-h-screen font-sans text-[#1e1e1e]">
 
-      <h1 className="text-3xl font-bold mb-8">Telegram Search Tool</h1>
-
-
 <Card>
            <h2 className="font-semibold mb-3">Query</h2>
 

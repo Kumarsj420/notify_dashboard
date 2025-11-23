@@ -6,22 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation';
 import SidebarSelector from './SidebarSelector';
 
-
-
 import {
-  Shield,
   ShieldAlert,
-  Handshake,
-
-  IdCardLanyard,
-  TextSearch,
-  SquareUser,
-  Building2,
-  Gem,
-  Settings,
-  MessageCircleQuestion,
-  LayoutDashboard,
   ChevronDown,
+  ListTodo
 } from 'lucide-react'
 
 import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
@@ -32,6 +20,7 @@ const sections = [
     links: [
       { name: 'Dashboard', href: '/', icon: HomeIcon, active: true },
       { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ExclamationTriangleIcon },
+      { name: 'My watchlists', href: '/my-watchlist', icon: ListTodo },
     ],
   },
   {
@@ -70,6 +59,7 @@ const sections = [
     links: [
       { name: 'Profile', href: '/profile', icon: UserIcon },
       { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
+      { name: 'User roles', href: '/company-info', icon: BuildingOfficeIcon },
       { name: 'Subscriptions', href: '/subscription', icon: CurrencyDollarIcon },
       { name: 'Settings', href: '/sett', icon: Cog8ToothIcon },
       { name: 'Help & Support', href: '/sersere', icon: QuestionMarkCircleIcon },
