@@ -104,7 +104,7 @@ export default function Header() {
                     <Bars3Icon aria-hidden="true" className="size-6" />
                 </button>
 
-                {/* Separator */}
+
                 <div aria-hidden="true" className="h-6 w-px bg-sc-900/10 lg:hidden" />
 
                 <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
