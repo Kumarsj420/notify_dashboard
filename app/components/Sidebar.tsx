@@ -59,10 +59,10 @@ const sections = [
     links: [
       { name: 'Profile', href: '/profile', icon: UserIcon },
       { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
-      { name: 'User roles', href: '/company-info', icon: BuildingOfficeIcon },
-      { name: 'Subscriptions', href: '/subscription', icon: CurrencyDollarIcon },
-      { name: 'Settings', href: '/sett', icon: Cog8ToothIcon },
-      { name: 'Help & Support', href: '/sersere', icon: QuestionMarkCircleIcon },
+      { name: 'User roles', href: '/user-roles', icon: BuildingOfficeIcon },
+      { name: 'Subscription', href: '/subscription', icon: CurrencyDollarIcon },
+      { name: 'Setting', href: '/setting', icon: Cog8ToothIcon },
+      { name: 'Help & Support', href: '/help', icon: QuestionMarkCircleIcon },
     ],
   },
 ]
