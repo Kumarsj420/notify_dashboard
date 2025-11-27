@@ -16,9 +16,9 @@ import {
   EyeIcon,
   ShieldExclamationIcon
 } from '@heroicons/react/24/solid'
-import { BellIcon } from "@heroicons/react/24/outline";
 
-import { BellAlertIcon } from "@heroicons/react/24/outline";
+
+import { BellAlertIcon,BellIcon } from "@heroicons/react/24/outline";
 
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "../components/Modals";
 import Accordian, { AccordianHeader, AccordianBody } from "../components/Accordian";
