@@ -17,9 +17,9 @@ import {
   ShieldExclamationIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/solid'
-import { BellIcon } from "@heroicons/react/24/outline";
 
-import { BellAlertIcon } from "@heroicons/react/24/outline";
+
+import { BellAlertIcon,BellIcon } from "@heroicons/react/24/outline";
 
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "@/components/Modals";
 import Accordian, { AccordianHeader, AccordianBody } from "@/components/Accordian";
@@ -733,7 +733,7 @@ const Domain: React.FC = () => {
                                 <Accordian className="mt-3" key={exposure.id}>
                                   <AccordianHeader>
                                     <div className="flex gap-4">
-                                      <Badge size="auto" className="p-2.5 h-max">
+                                      <Badge size="auto" className="p-2.5 h-max rounded-xl!">
                                         <UserIcon className="size-6 text-p-500" />
                                       </Badge>
                                       <div>
@@ -746,10 +746,7 @@ const Domain: React.FC = () => {
                                               ? "s"
                                               : ""}
                                           </Badge>
-                                          {/* <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">{exposure.numOfResults} record
-                                            {exposure.numOfResults !== 1
-                                              ? "s"
-                                              : ""}</span> */}
+    
                                           <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
                                         </div>
                                       </div>
@@ -789,9 +786,9 @@ const Domain: React.FC = () => {
                                               ) => (
                                                 Object.keys(dataRecord).length >
                                                   0 ? (
-                                                  <dl className="divide-y divide-sc-200/80">
+                                                  <dl key={recordIndex} className="divide-y divide-sc-200/80">
                                                     {Object.entries(dataRecord).map(([key, value]) => (
-                                                      <div key={recordIndex} className="even:bg-white odd:bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+                                                      <div key={key} className="even:bg-white odd:bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
                                                         <dt className="text-sm/6 font-medium text-sc-900">{key
                                                           .replace(
                                                             /([A-Z])/g,
