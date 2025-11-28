@@ -682,7 +682,7 @@ const Domain: React.FC = () => {
                   <div className="mb-8 p-6 bg-sc-50 rounded-lg text-center">
                     <ShieldExclamationIcon className="h-12 w-12 text-sc-400 mx-auto mb-2" />
                     <p className="text-sc-600/90 font-light">No threat data available</p>
-                    <Button variant="primary">
+                    <Button variant="primary" className="m-auto mt-6 mb-3">
                       Start Threat Analysis
                     </Button>
                   </div>
@@ -733,17 +733,23 @@ const Domain: React.FC = () => {
                                 <Accordian className="mt-3" key={exposure.id}>
                                   <AccordianHeader>
                                     <div className="flex gap-4">
-                                      <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
+                                      <Badge size="auto" className="p-2.5 h-max">
                                         <UserIcon className="size-6 text-p-500" />
-                                      </div>
+                                      </Badge>
                                       <div>
                                         <h3 className="font-bold text-lg text-left">
                                           {exposure.databaseName}</h3>
                                         <div className="mt-1 flex gap-2">
-                                          <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">{exposure.numOfResults} record
+                                          <Badge>
+                                            {exposure.numOfResults} record
                                             {exposure.numOfResults !== 1
                                               ? "s"
-                                              : ""}</span>
+                                              : ""}
+                                          </Badge>
+                                          {/* <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">{exposure.numOfResults} record
+                                            {exposure.numOfResults !== 1
+                                              ? "s"
+                                              : ""}</span> */}
                                           <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
                                         </div>
                                       </div>
@@ -853,126 +859,7 @@ const Domain: React.FC = () => {
                       ))
                     }
 
-                    {/* <div className="mt-3 ring-1 w-full ring-inset ring-sc-300 px-5 py-4 rounded-xl bg-sc-50">
-                      <span className="ring-1 ring-inset ring-emerald-200 px-3 py-1 bg-linear-to-b from-emerald-50 to-emerald-100 rounded-xl flex flex-row justify-center items-center gap-2 text-xs font-semibold text-emerald-600 w-max">
-                        <AlertTriangle className="size-3.5" />
-                        Low
-                      </span>
-
-                      <h2 className="mt-2 font-semibold text-lg">Phone Number Analysis</h2>
-                      <span className="text-sm/5 font-medium text-p-500 ">9825123987</span>
-                      <div className="mt-4 flex flex-row gap-3 flex-wrap">
-                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Exposures : <span className="font-semibold text-sc-900"> 2</span> </span>
-                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Last Scanned : <span className="font-semibold text-sc-900"> 05/10/2025</span> </span>
-                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Status : <span className="font-semibold text-emerald-500"> Completed</span> </span>
-                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Databases : <span className="font-semibold text-sc-900"> 2</span> </span>
-                        <span className="text-sm px-3 py-2 ring-1 ring-inset ring-sc-300/80 rounded-xl shadow-md shadow-sc-200 bg-white text-sc-600/90">Total Results : <span className="font-semibold text-sc-900"> 2</span> </span>
-                      </div>
-
-                      <div className="mt-6">
-                        <h3 className="font-semibold flex gap-2 items-center">
-                          <ShieldCheckIcon className="size-6 text-sc-500" />
-                          Recent Data Exposures</h3>
-                        <Accordian className="mt-3">
-                          <AccordianHeader>
-                            <div className="flex gap-4">
-                              <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                                <UserIcon className="size-6 text-p-500" />
-                              </div>
-                              <div>
-                                <h3 className="font-bold text-lg text-left">
-                                  Canva</h3>
-                                <div className="mt-1 flex gap-2">
-                                  <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                                  <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                                </div>
-                              </div>
-                            </div>
-                          </AccordianHeader>
-                          <AccordianBody>
-                            <p className="text-sc-500  text-sm">In May 2019, the graphic design tool website Canva suffered a data breach that impacted 137 million subscribers. The exposed data included email addresses, usernames, names, cities of residence and passwords stored as bcrypt hashes for users not using social logins.</p>
-                            <div>
-
-                              <div className="px-4 sm:px-0 mt-5">
-                                <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
-                                <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
-                              </div>
-                              <div className="mt-4 border-t border-sc-100">
-                                <dl className="divide-y divide-sc-100">
-                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
-                                    <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                                  </div>
-                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Username</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">vikram_mehta</dd>
-                                  </div>
-                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Name</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Vikram Mehta</dd>
-                                  </div>
-                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Password
-                                      Encrypted</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
-                                      $2a$10$xQz8...</dd>
-                                  </div>
-                                </dl>
-                              </div>
-                            </div>
-                          </AccordianBody>
-                        </Accordian>
-                        <Accordian className="mt-3">
-                          <AccordianHeader>
-                            <div className="flex gap-4">
-                              <div className="p-2.5 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b from-p-50 to-p-100 h-max">
-                                <UserIcon className="size-6 text-p-500" />
-                              </div>
-                              <div>
-                                <h3 className="font-bold text-lg text-left">
-                                  Cit0Day</h3>
-                                <div className="mt-1 flex gap-2">
-                                  <span className="text-xs font-bold px-2 py-1 ring-1 ring-inset ring-p-200 rounded-lg bg-linear-to-b  from-p-50 to-p-100 text-p-500">1 Record</span>
-                                  <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
-                                </div>
-                              </div>
-                            </div>
-                          </AccordianHeader>
-                          <AccordianBody>
-                            <p className="text-sc-500  text-sm"> CIT0DAY is an now non -existent service for the search for e -mail among various leaks. After its closure in November 2020, a collection of more than 23,000 hacked sites fell into open access. The data was sorted into several dozen categories and contained more than 226 million posts and passwords to them. Some passwords were protected with the help of hashes.</p>
-                            <div>
-
-                              <div className="px-4 sm:px-0 mt-5">
-                                <h3 className="text-base/7 font-semibold text-sc-900">Exposed Data Fields</h3>
-                                <p className=" max-w-2xl text-sm/5 text-sc-500">Compromised details are listed below.</p>
-                              </div>
-                              <div className="mt-4 border-t border-sc-100">
-                                <dl className="divide-y divide-sc-100">
-                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Email</dt>
-                                    <dd className="mt-1 text-sm/6 text-p-500 hover:text-p-400 sm:col-span-2 sm:mt-0 font-semibold">Verify email to see leaked email info</dd>
-                                  </div>
-                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Category</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">Business</dd>
-                                  </div>
-                                  <div className="bg-sc-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Leak Site</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">accentsourcing.com</dd>
-                                  </div>
-                                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
-                                    <dt className="text-sm/6 font-medium text-sc-900">Password
-                                      Encrypted</dt>
-                                    <dd className="mt-1 text-sm/6 text-sc-700 sm:col-span-2 sm:mt-0">
-                                      $2a$10$268e0382332e1d8380994u</dd>
-                                  </div>
-                                </dl>
-                              </div>
-                            </div>
-                          </AccordianBody>
-                        </Accordian>
-                      </div>
-                    </div> */}
+                    
                   </>
                 )
               }

@@ -51,7 +51,7 @@ export default function Accordian({
   return (
     <AccordianContext.Provider value={{ isOpen, toggle }}>
       <div
-        className={`ring-1 ring-inset ring-sc-300/70 bg-white rounded-lg shadow-sm ${className}`}
+        className={`ring-1 ring-inset ring-sc-300/70 bg-white rounded-2xl shadow-md shadow-sc-200 ${className}`}
       >
         {children}
       </div>
