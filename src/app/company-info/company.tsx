@@ -4,6 +4,7 @@ import React from 'react';
 import { Building2, Check, BarChart3, Globe, Calendar, MapPin, Users, Server, FileText, TrendingUp, Shield, Archive, CreditCard, Edit2 } from 'lucide-react';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
+import Badge from '@/components/Badge';
 
 const CompanyInfoPage = () => {
   return (
@@ -185,10 +186,10 @@ const CompanyInfoPage = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Security Rating</span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">
+                <Badge>
                   <Shield className="w-3 h-3" />
                   Excellent
-                </span>
+                </Badge>
               </div>
             </div>
           </Card>
@@ -244,12 +245,12 @@ const CompanyInfoPage = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Domain Verification</span>
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                  <Badge>
                     10 Verified
-                  </span>
-                  <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                  </Badge>
+                  <Badge>
                     2 Pending
-                  </span>
+                  </Badge>
                 </div>
               </div>
               <div className="flex justify-between items-start">
