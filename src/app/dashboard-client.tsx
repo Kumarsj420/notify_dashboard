@@ -2,12 +2,10 @@
 
 import React from "react";
 import Layout from "@/components/Layout";
-import {
-  ExclamationTriangleIcon,
-} from "@heroicons/react/24/outline";
 import type { DashboardOverviewResponse } from "@/hooks/useDashboardApi";
 import type { User } from "@/lib/auth";
 import Card from "@/components/Card";
+import Badge from "@/components/Badge";
 import {
   TableStructure,
   Table,
@@ -20,7 +18,15 @@ import {
 import BasePieChart from "@/components/charts/BasePieChart";
 import BaseLineChart from "@/components/charts/BaseLineChart";
 import ComingSoon from "@/components/ComingSoon";
+import Button from "@/components/Button";
+import {
+  UsersIcon,
+  ExclamationTriangleIcon,
+  GlobeAltIcon,
+  ShieldCheckIcon,
+} from '@heroicons/react/24/outline';
 
+import InfoCard from '@/components/InfoCard';
 
 interface DashboardClientProps {
   initialData?: DashboardOverviewResponse;
@@ -114,20 +120,23 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
   },
 ];
 
-const getSeverityBadge = (level: string) => {
+type Severity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+
+const getSeverityVariant = (level: Severity): 'error' | 'warning' | 'info' | 'secondary' => {
   switch (level) {
-    case "CRITICAL":
-      return "bg-red-100 text-red-700";
-    case "HIGH":
-      return "bg-orange-100 text-orange-700";
-    case "MEDIUM":
-      return "bg-yellow-100 text-yellow-700";
-    case "LOW":
-      return "bg-blue-100 text-blue-700";
+    case 'CRITICAL':
+      return 'error';
+    case 'HIGH':
+      return 'warning';
+    case 'MEDIUM':
+      return 'info';
+    case 'LOW':
+      return 'secondary';
     default:
-      return "bg-gray-100 text-gray-700";
+      return 'secondary';
   }
 };
+
 
 const riskData = [
   { name: "Critical", value: 5 },
@@ -160,7 +169,6 @@ const breachData = [
     <Layout>
       <div className="space-y-8">
 
-  {/* Company Info */}
   <Card className="flex items-center justify-between">
     <div className="flex items-center gap-4">
       <div className="h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -170,43 +178,69 @@ const breachData = [
         <h2 className="text-xl font-semibold">TechCorp Solutions</h2>
         <p className="text-sm text-gray-500">Financial Technology</p>
         <div className="flex gap-2 mt-2">
-          <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+          <Badge variant="primary">
             Active
-          </span>
-          <span className="px-3 py-1 text-xs rounded-full bg-orange-100 text-orange-700">
+          </Badge>
+          <Badge variant="secondary">
             Pro Plan
-          </span>
+          </Badge>
         </div>
       </div>
     </div>
 
     <div className="flex gap-3">
-      <button className="px-4 py-2 text-sm rounded-lg border border-orange-500 text-orange-600">
+      <Button variant="outline">
         Upgrade Plan
-      </button>
-      <button className="px-4 py-2 text-sm rounded-lg bg-orange-500 text-white">
+      </Button>
+      <Button>
         Edit Company Info
-      </button>
+      </Button>
     </div>
   </Card>
 
-  {/* Security Dashboard Stats */}
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-    {[
-      { title: "Total Employees", value: "1,247", sub: "+12% from last month", color: "green" },
-      { title: "Active Alerts", value: "23", sub: "8 critical", color: "red" },
-      { title: "Monitored Domains", value: "15", sub: "All verified", color: "green" },
-      { title: "Threat Profiles", value: "89", sub: "12 pending review", color: "yellow" },
-    ].map((item, i) => (
-      <Card key={i} className="">
-        <p className="text-sm text-gray-500">{item.title}</p>
-        <h3 className="text-2xl font-bold mt-2">{item.value}</h3>
-        <p className={`text-sm mt-1 text-${item.color}-600`}>
-          {item.sub}
-        </p>
-      </Card>
-    ))}
-  </div>
+<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+  {[
+    {
+      title: 'Total Employees',
+      value: '1,247',
+      message: '+12% from last month',
+      variant: 'success',
+      icon: <UsersIcon className="size-6" />,
+    },
+    {
+      title: 'Active Alerts',
+      value: '23',
+      message: '8 critical',
+      variant: 'error',
+      icon: <ExclamationTriangleIcon className="size-6" />,
+    },
+    {
+      title: 'Monitored Domains',
+      value: '15',
+      message: 'All verified',
+      variant: 'success',
+      icon: <GlobeAltIcon className="size-6" />,
+    },
+    {
+      title: 'Threat Profiles',
+      value: '89',
+      message: '12 pending review',
+      variant: 'warning',
+      icon: <ShieldCheckIcon className="size-6" />,
+    },
+  ].map((item, i) => (
+    <InfoCard
+      key={i}
+      title={item.title}
+      value={item.value}
+      icon={item.icon}
+      iconVariant={item.variant}
+      message={item.message}
+      messageVariant={item.variant}
+    />
+  ))}
+</div>
+
 
   {/* Analytics */}
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -298,11 +332,13 @@ const breachData = [
           <TableCell>{item.role}</TableCell>
 
           <TableCell>
-            <span
-              className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getSeverityBadge(item.severity)}`}
+            <Badge
+              variant={getSeverityVariant(item.severity)}
+              size="sm"
             >
               {item.severity}
-            </span>
+            </Badge>
+
           </TableCell>
 
           <TableCell className="text-center">
@@ -311,10 +347,10 @@ const breachData = [
 
           <TableCell>{item.lastScanned}</TableCell>
 
-          <TableCell className="text-right">
-            <button className="text-orange-600 font-medium hover:underline">
+          <TableCell className="text-right text-xs">
+            <Button variant="ghost" size="sm" className="text-xs">
               View Details
-            </button>
+            </Button>
           </TableCell>
         </TableRow>
       ))}

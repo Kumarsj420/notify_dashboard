@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react'; 
 import { Search, ChevronDown, MoreHorizontal } from 'lucide-react';
+import Badge from '@/components/Badge';
 
 const Watchlist = () => {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -17,6 +18,26 @@ const Watchlist = () => {
     { type: 'IP address', value: '13.228.162.165', status: 'Orphaned', source: 'Auto Discovered', date: '10/10/2025' },
     { type: 'IP address', value: '13.228.178.164', status: 'Orphaned', source: 'Auto Discovered', date: '10/10/2025' },
   ];
+
+  type ThreatSeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+
+const getThreatSeverityVariant = (
+  severity: string
+): 'error' | 'warning' | 'info' | 'secondary' => {
+  switch (severity.toUpperCase()) {
+    case 'CRITICAL':
+      return 'error';
+    case 'HIGH':
+      return 'warning';
+    case 'MEDIUM':
+      return 'info';
+    case 'LOW':
+      return 'secondary';
+    default:
+      return 'secondary';
+  }
+};
+
 
   return (
     <>

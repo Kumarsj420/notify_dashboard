@@ -3,6 +3,9 @@
 import React, { useState } from 'react';
 import { Search, ChevronDown, RotateCcw, Download, Eye, CheckCircle, X, AlertTriangle, Shield, Key, Wifi } from 'lucide-react';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
+import Input from '@/components/form/Input';
+import Badge from '@/components/Badge';
 
 const ThreatsIncidentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -117,6 +120,26 @@ const ThreatsIncidentsPage = () => {
     }
   ];
 
+  type ThreatSeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+
+const getThreatSeverityVariant = (
+  severity: string
+): 'error' | 'warning' | 'info' | 'secondary' => {
+  switch (severity.toUpperCase()) {
+    case 'CRITICAL':
+      return 'error';
+    case 'HIGH':
+      return 'warning';
+    case 'MEDIUM':
+      return 'info';
+    case 'LOW':
+      return 'secondary';
+    default:
+      return 'secondary';
+  }
+};
+
+
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto">
@@ -140,10 +163,10 @@ const ThreatsIncidentsPage = () => {
                   className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
-              <button className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors flex items-center gap-2">
+              <Button>
                 <Search className="w-4 h-4" />
                 Search
-              </button>
+              </Button>
             </div>
 
             <div className="flex items-center justify-between">
@@ -152,7 +175,7 @@ const ThreatsIncidentsPage = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="pl-4 pr-10 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
+                    className="pl-4 pr-10 py-2 bg-white border text-sm text-gray-500 border-gray-300 rounded-lg font-medium focus:outline-none focus:ring-1 focus:ring-orange-500 appearance-none cursor-pointer"
                   >
                     <option value="date">Sort by Date</option>
                     <option value="severity">Sort by Severity</option>
@@ -165,7 +188,7 @@ const ThreatsIncidentsPage = () => {
                   <select
                     value={severityFilter}
                     onChange={(e) => setSeverityFilter(e.target.value)}
-                    className="pl-4 pr-10 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
+                    className="pl-4 pr-10 py-2 bg-white border text-sm text-gray-500 border-gray-300 rounded-lg font-medium focus:outline-none focus:ring-1 focus:ring-orange-500 appearance-none cursor-pointer"
                   >
                     <option value="all">All Severities</option>
                     <option value="critical">Critical</option>
@@ -180,7 +203,7 @@ const ThreatsIncidentsPage = () => {
                   <select
                     value={domainFilter}
                     onChange={(e) => setDomainFilter(e.target.value)}
-                    className="pl-4 pr-10 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none"
+                    className="pl-4 pr-10 py-2 bg-white border text-sm text-gray-500 border-gray-300 rounded-lg font-medium focus:outline-none focus:ring-1 focus:ring-orange-500 appearance-none cursor-pointer"
                   >
                     <option value="all">All Domains</option>
                     <option value="company">company.com</option>
@@ -191,14 +214,14 @@ const ThreatsIncidentsPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <button className="px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <Button variant='outline'>
                   <RotateCcw className="w-4 h-4" />
                   Reset Filters
-                </button>
-                <button className="px-4 py-2.5 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors flex items-center gap-2">
+                </Button>
+                <Button>
                   <Download className="w-4 h-4" />
                   Export CSV
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -235,11 +258,14 @@ const ThreatsIncidentsPage = () => {
                     <p className="text-sm text-gray-700">{threat.user}</p>
                   </div>
 
-                  <div className="col-span-2">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${threat.severityColor}`}>
-                      {threat.severity}
-                    </span>
-                  </div>
+                  <Badge
+                    variant={getThreatSeverityVariant(threat.severity)}
+                    size="sm"
+                    className="col-span-2"
+                  >
+                    {threat.severity}
+                  </Badge>
+
 
                   <div className="col-span-2">
                     <p className="text-sm text-gray-700">{threat.domain}</p>
@@ -253,14 +279,14 @@ const ThreatsIncidentsPage = () => {
                     <p className="text-sm text-gray-700">{threat.lastDetected}</p>
                   </div>
 
-                  <div className="col-span-1 flex items-center justify-end gap-2">
-                    <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="View">
+                  <div className="col-span-1 flex items-center justify-end ">
+                    <button  className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="View">
                       <Eye className="w-4 h-4 text-orange-500" />
                     </button>
-                    <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="Resolve">
+                    <button  className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="Resolve">
                       <CheckCircle className="w-4 h-4 text-green-500" />
                     </button>
-                    <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="Dismiss">
+                    <button  className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors" title="Dismiss">
                       <X className="w-4 h-4 text-gray-500" />
                     </button>
                   </div>
@@ -273,19 +299,19 @@ const ThreatsIncidentsPage = () => {
           <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-200">
             <p className="text-sm text-gray-600">Showing 1 to 4 of 47 results</p>
             <div className="flex items-center gap-2">
-              <button className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              <button  className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
                 <ChevronDown className="w-4 h-4 text-gray-600 transform rotate-90" />
               </button>
-              <button className="w-9 h-9 flex items-center justify-center bg-orange-500 text-white rounded-lg font-semibold">
+              <button  className="w-9 h-9 flex items-center justify-center bg-orange-500 text-white rounded-lg font-semibold">
                 1
               </button>
-              <button className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700">
+              <button  className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700">
                 2
               </button>
-              <button className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700">
+              <button  className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-700">
                 3
               </button>
-              <button className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              <button  className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
                 <ChevronDown className="w-4 h-4 text-gray-600 transform -rotate-90" />
               </button>
             </div>

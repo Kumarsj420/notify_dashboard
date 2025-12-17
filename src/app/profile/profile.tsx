@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { Camera, Check, Settings, Shield, CreditCard, Bell, Clock, Edit2, Monitor, Smartphone } from 'lucide-react';
 import Card from '@/components/Card';
-import Input from '@/components/form/Input';
 import Label from '@/components/form/Label';
+import Button from '@/components/Button';
+import Input from '@/components/form/Input';
 
 const ProfilePage = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
@@ -42,11 +43,11 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button className="px-5 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
-                <Edit2 className="w-4 h-4" />
+              <Button className="px-5 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <Edit2 className="w-3 h-3" />
                 Edit Profile
-              </button>
-              <button className="p-2.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">
+              </Button>
+              <button className="p-2.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
                 <Settings className="w-5 h-5" />
               </button>
             </div>
@@ -77,7 +78,7 @@ const ProfilePage = () => {
               <div>
                 <label className="block text-sm text-gray-600 mb-1.5">Email Address</label>
                 <div className="relative">
-                  <input
+                  <Input
                     type="email"
                     defaultValue="michael.rodriguez@techcorp.com"
                     className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -92,7 +93,7 @@ const ProfilePage = () => {
 
               <div>
                 <label className="block text-sm text-gray-600 mb-1.5">Phone Number</label>
-                <input
+                <Input
                   type="tel"
                   defaultValue="+1 (555) 123-4567"
                   className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -103,7 +104,7 @@ const ProfilePage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-gray-600 mb-1.5">Time Zone</label>
-                  <select className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>EST (UTC-5)</option>
                     <option>PST (UTC-8)</option>
                     <option>CST (UTC-6)</option>
@@ -111,7 +112,7 @@ const ProfilePage = () => {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-600 mb-1.5">Language</label>
-                  <select className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>English</option>
                     <option>Spanish</option>
                     <option>French</option>
@@ -202,7 +203,7 @@ const ProfilePage = () => {
                 </div>
                 <h2 className="text-lg font-bold text-gray-900">Company Information</h2>
               </div>
-              <button className="text-orange-500 font-medium text-sm hover:text-orange-600">
+              <button className="text-orange-500 font-medium text-sm hover:text-orange-600 cursor-pointer">
                 Edit Details
               </button>
             </div>
@@ -260,17 +261,17 @@ const ProfilePage = () => {
               </div>
 
               <div className="flex gap-3">
-                <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                <Button variant='outline' className="w-full flex items-center justify-center">
                   Manage Billing
-                </button>
-                <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                </Button>
+                <Button variant='outline' className="w-full flex items-center justify-center">
                   View Invoices
-                </button>
+                </Button>
               </div>
 
-              <button className="w-full py-2.5 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+              <Button className="w-full text-center flex items-center justify-center">
                 Upgrade Plan
-              </button>
+              </Button>
             </div>
           </Card>
 
@@ -316,7 +317,7 @@ const ProfilePage = () => {
 
               <div>
                 <label className="block text-sm text-gray-600 mb-2">Alert Frequency</label>
-                <select className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                   <option>Instant</option>
                   <option>Hourly</option>
                   <option>Daily</option>

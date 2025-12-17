@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 import { Mail, Clock, MessageCircle, Book, CreditCard, Headphones, ChevronDown, Star, Paperclip } from 'lucide-react';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
+import Label from '@/components/form/Label';
+import Input from '@/components/form/Input';
+
 
 const HelpSupportPage = () => {
   const [selectedIssue, setSelectedIssue] = useState('');
@@ -49,22 +53,19 @@ const HelpSupportPage = () => {
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <input
+                <Input
                   type="text"
                   placeholder="Your Name"
-                  className="px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
-                <input
+                <Input
                   type="email"
                   placeholder="Email Address"
-                  className="px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 />
               </div>
 
-              <input
+              <Input
                 type="text"
                 placeholder="Subject"
-                className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
 
               <div className="relative">
@@ -93,9 +94,9 @@ const HelpSupportPage = () => {
                 <span>Attach screenshot (optional)</span>
               </div>
 
-              <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+              <Button className="w-full flex items-center justify-center py-3">
                 Send Message
-              </button>
+              </Button>
             </div>
           </Card>
 
@@ -126,13 +127,13 @@ const HelpSupportPage = () => {
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+              <div className="gap-2 flex items-center justify-between">
+                <Button variant='outline' className='w-full flex items-center justify-center'>
                   Open Live Chat
-                </button>
-                <button className="w-full py-3 bg-white border-2 border-orange-500 text-orange-500 rounded-lg font-semibold hover:bg-orange-50 transition-colors">
+                </Button>
+                <Button variant='outline' className='w-full flex items-center justify-center'>
                   Email Support
-                </button>
+                </Button>
               </div>
             </Card>
 
@@ -180,11 +181,11 @@ const HelpSupportPage = () => {
             </div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">Contact Support</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Reach our support team for account or billing queries.
+              Reach our support team for any query.
             </p>
-            <button className="w-full py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+            <Button variant='outline' className='flex w-full justify-center items-center'>
               Contact Us
-            </button>
+            </Button>
           </Card>
 
           {/* Knowledge Base */}
@@ -196,9 +197,9 @@ const HelpSupportPage = () => {
             <p className="text-sm text-gray-600 mb-4">
               Browse detailed guides and FAQs.
             </p>
-            <button className="w-full py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+            <Button variant='outline' className='flex w-full justify-center items-center'>
               View Docs
-            </button>
+            </Button>
           </Card>
 
           {/* Billing Support */}
@@ -210,9 +211,9 @@ const HelpSupportPage = () => {
             <p className="text-sm text-gray-600 mb-4">
               Need help with invoices or renewals?
             </p>
-            <button className="w-full py-2.5 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+            <Button variant='outline' className='flex w-full justify-center items-center'>
               Billing Help
-            </button>
+            </Button>
           </Card>
         </div>
 
@@ -220,13 +221,13 @@ const HelpSupportPage = () => {
         <Card className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
 
-          <input
+          <Input
             type="text"
             placeholder="Filter FAQs..."
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent mb-6"
+
           />
 
-          <div className="space-y-3">
+          <div className="space-y-3 mt-4">
             {faqs.map((faq) => (
               <div key={faq.id} className="border border-gray-200 rounded-lg">
                 <button
@@ -276,13 +277,13 @@ const HelpSupportPage = () => {
           <textarea
             placeholder="Share your feedback..."
             rows="5"
-            className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none mb-4"
+            className="w-full h-40 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60"
           />
 
           <div className="flex justify-center">
-            <button className="px-8 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+            <Button>
               Submit Feedback
-            </button>
+            </Button>
           </div>
         </Card>
       </div>

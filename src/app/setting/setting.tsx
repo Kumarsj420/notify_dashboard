@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 import { Bell, Globe, Shield, Mail, Smartphone, Eye, EyeOff, Save } from 'lucide-react';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
+import Input from '@/components/form/Input';
+import Label from '@/components/form/Label';
+
 const SettingsPage = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -88,12 +92,11 @@ const SettingsPage = () => {
               
               <div className="space-y-4 max-w-2xl">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Current Password</label>
+                  <Label>Current Password</Label>
                   <div className="relative">
-                    <input
+                    <Input
                       type={showCurrentPassword ? "text" : "password"}
                       placeholder="Enter current password"
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent pr-12"
                     />
                     <button
                       onClick={() => setShowCurrentPassword(!showCurrentPassword)}
@@ -105,12 +108,11 @@ const SettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">New Password</label>
+                  <Label>New Password</Label>
                   <div className="relative">
-                    <input
+                    <Input
                       type={showNewPassword ? "text" : "password"}
                       placeholder="Enter new password"
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent pr-12"
                     />
                     <button
                       onClick={() => setShowNewPassword(!showNewPassword)}
@@ -122,12 +124,11 @@ const SettingsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Confirm New Password</label>
+                  <Label>Confirm New Password</Label>
                   <div className="relative">
-                    <input
+                    <Input
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm new password"
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent pr-12"
                     />
                     <button
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -138,9 +139,9 @@ const SettingsPage = () => {
                   </div>
                 </div>
 
-                <button className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                <Button>
                   Update Password
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -184,8 +185,8 @@ const SettingsPage = () => {
               <h4 className="font-semibold text-gray-900 mb-4">Language & Region</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Language</label>
-                  <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                  <Label>Language</Label>
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>English (US)</option>
                     <option>Spanish</option>
                     <option>French</option>
@@ -193,8 +194,8 @@ const SettingsPage = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Timezone</label>
-                  <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                  <Label>Timezone</Label>
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>Pacific Time (PT)</option>
                     <option>Eastern Time (ET)</option>
                     <option>Central Time (CT)</option>
@@ -209,16 +210,16 @@ const SettingsPage = () => {
               <h4 className="font-semibold text-gray-900 mb-4">Date & Time Format</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Date Format</label>
-                  <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                  <Label>Date Format</Label>
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>MM/DD/YYYY</option>
                     <option>DD/MM/YYYY</option>
                     <option>YYYY-MM-DD</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-2">Time Format</label>
-                  <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                  <Label>Time Format</Label>
+                  <select className="w-full h-10 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60">
                     <option>12-hour</option>
                     <option>24-hour</option>
                   </select>
@@ -231,13 +232,13 @@ const SettingsPage = () => {
 
 
         <div className="flex justify-end gap-3">
-          <button className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+          <Button variant='outline'>
             Cancel
-          </button>
-          <button className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+          </Button>
+          <Button>
             <Save className="w-4 h-4" />
             Save All Changes
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Check, CreditCard, Download, Headphones, Shield, Lock, ArrowUp } from 'lucide-react';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
 
 const SubscriptionBillingPage = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
@@ -150,12 +151,12 @@ const SubscriptionBillingPage = () => {
             </div>
 
             <div className="flex gap-3">
-              <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+              <Button variant='outline' className='flex w-full justify-center items-center py-3'>
                 View Invoices
-              </button>
-              <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+              </Button>
+              <Button variant='outline' className='flex w-full justify-center items-center py-3'>
                 Change Plan
-              </button>
+              </Button>
             </div>
           </Card>
 
@@ -276,9 +277,9 @@ const SubscriptionBillingPage = () => {
                 </div>
               </div>
 
-              <button className="w-full py-3 bg-white border-2 border-orange-500 text-orange-500 rounded-lg font-semibold hover:bg-orange-50 transition-colors">
+              <Button className='flex items-center w-full justify-center'>
                 Current Plan
-              </button>
+              </Button>
             </Card>
 
 
@@ -311,9 +312,9 @@ const SubscriptionBillingPage = () => {
                 </div>
               </div>
 
-              <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+              <Button variant='outline' className='flex items-center w-full justify-center'>
                 Current Plan
-              </button>
+              </Button>
             </Card>
 
 
@@ -343,9 +344,9 @@ const SubscriptionBillingPage = () => {
                 </div>
               </div>
 
-              <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors">
+              <Button variant='outline' className='flex items-center w-full justify-center'>
                 Upgrade
-              </button>
+              </Button>
             </Card>
           </div>
         </div>
@@ -356,18 +357,18 @@ const SubscriptionBillingPage = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-6">Subscription Actions</h3>
 
             <div className="space-y-3 mb-6">
-              <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+              <Button className='w-full justify-center flex items-center py-3'>
                 <ArrowUp className="w-4 h-4" />
                 Change Plan
-              </button>
+              </Button>
 
-              <button className="w-full py-3 bg-white border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+              <Button variant='outline' className='w-full justify-center flex items-center py-3'>
                 + Manage Add-ons
-              </button>
+              </Button>
 
-              <button className="w-full py-3 bg-white border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+              <Button variant='outline' className='w-full justify-center flex items-center py-3'>
                 ⏸ Pause Subscription
-              </button>
+              </Button>
             </div>
 
             <div className="flex items-center justify-between pt-6 border-t border-gray-200">
@@ -422,14 +423,13 @@ const SubscriptionBillingPage = () => {
               </div>
             </div>
 
-            <button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors  items-center justify-center gap-2">
+            <Button className="w-full py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors  items-center justify-center gap-2">
               <div className='flex items-center justify-center gap-2'>
                 <Headphones className="w-4 h-4" />
                 <span>Need help?</span>
               </div>
 
-              <div>Contact Billing Support</div>
-            </button>
+            </Button>
 
             <div className="flex justify-center gap-4 mt-4 text-xs">
               <a href="#" className="text-orange-500 hover:text-orange-600">Terms of Service</a>
