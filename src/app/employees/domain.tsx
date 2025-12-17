@@ -18,8 +18,7 @@ import {
   CheckCircleIcon
 } from '@heroicons/react/24/solid'
 
-
-import { BellAlertIcon,BellIcon } from "@heroicons/react/24/outline";
+import { BellAlertIcon, BellIcon } from "@heroicons/react/24/outline";
 
 import Modal, { ModalHeader, ModalBody, ModalFooter } from "@/components/Modals";
 import Accordian, { AccordianHeader, AccordianBody } from "@/components/Accordian";
@@ -32,7 +31,6 @@ import Button from "@/components/Button";
 import Input from "@/components/form/Input";
 import Label from "@/components/form/Label";
 import Badge from "@/components/Badge";
-
 
 import {
   Table,
@@ -58,6 +56,9 @@ import useDebounce from "@/hooks/useDebounce";
 import useAppContext from "@/providers/AppContextProvider/useAppContext";
 import type { Employee, ThreatAnalysisJob } from "@/types/api";
 import { useQueryClient } from "@tanstack/react-query";
+
+import Title from "@/components/Title";
+import Intro from "@/components/Intro";
 
 const domainTabs: Tab[] = [
   { name: "Identity theft", count: "6" },
@@ -436,6 +437,7 @@ const Domain: React.FC = () => {
 
   return (
     <>
+
       <Modal open={addEmploeyee} maxWidth="3xl" onClose={setAddEmployee}>
         <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
         <ModalBody className="pb-10">
@@ -746,7 +748,7 @@ const Domain: React.FC = () => {
                                               ? "s"
                                               : ""}
                                           </Badge>
-    
+
                                           <span className="text-sm text-sc-600/90 font-light">Database Breach</span>
                                         </div>
                                       </div>
@@ -856,7 +858,7 @@ const Domain: React.FC = () => {
                       ))
                     }
 
-                    
+
                   </>
                 )
               }
@@ -874,6 +876,13 @@ const Domain: React.FC = () => {
           </Modal >
         )
       }
+
+      <div className="mb-3">
+        <Title>Employees Leaked Data</Title>
+        <Intro>
+         Check Identity Theft and Malware Infection data in tabular format
+        </Intro>
+      </div>
 
       <div>
         <Tabs

@@ -182,7 +182,7 @@ export const TablePagination = ({
     <div className={`flex items-center justify-between px-6 pt-5 ${className}`}>
       {totalResults && resLength && currentPage && (
         <div className="text-sm text-sc-600/90">
-          Showing <span className='font-semibold text-sc-900'>{resLength * (currentPage - 1)}</span>  to <span className='font-semibold text-sc-900'>{Math.min((resLength * (currentPage - 1)) + resLength, totalResults)}</span>  of <span className='font-semibold text-sc-900'>{totalResults.toLocaleString()} results</span>
+          Showing <span className='font-semibold text-sc-900'>{(resLength * (currentPage - 1)) + 1}</span>  to <span className='font-semibold text-sc-900'>{Math.min((resLength * (currentPage - 1)) + resLength, totalResults)}</span>  of <span className='font-semibold text-sc-900'>{totalResults.toLocaleString()} results</span>
         </div>
       )}
 

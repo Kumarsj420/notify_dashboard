@@ -12,7 +12,7 @@ import {
   ListTodo
 } from 'lucide-react'
 
-import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon, BookmarkIcon } from '@heroicons/react/24/solid';
 
 const sections = [
   {
@@ -20,7 +20,7 @@ const sections = [
     links: [
       { name: 'Dashboard', href: '/', icon: HomeIcon, active: true },
       { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ExclamationTriangleIcon },
-      { name: 'My watchlists', href: '/my-watchlist', icon: ListTodo },
+      { name: 'My watchlists', href: '/my-watchlist', icon: BookmarkIcon },
     ],
   },
   {
@@ -149,7 +149,7 @@ export default function Sidebar() {
                         href={item.href}
                         className={`flex items-center justify-start gap-3 rounded-lg px-2.5 py-2 text-sm/6 transition-colors duration-150 relative ${
                           isActive
-                            ? 'bg-linear-to-b from-p-50 to-p-100  text-p-950 font-medium after:absolute after:left-0 after:w-1.5 after:bg-linear-to-b after:from-amber-500 after:to-orange-600 after:h-1/2 after:rounded-sm after:top-1/2 after:-translate-1/2 ring-1 ring-inset ring-p-200/70'
+                            ? 'bg-linear-to-b from-p-50 to-p-200  text-p-950 font-medium after:absolute after:left-0 after:w-1.5 after:bg-linear-to-b after:from-amber-500 after:to-orange-600 after:h-1/2 after:rounded-sm after:top-1/2 after:-translate-1/2 ring-1 ring-inset ring-p-300/75'
                             : 'text-sc-900 hover:text-sc-800 hover:bg-sc-100 '
                         }`}
                       >

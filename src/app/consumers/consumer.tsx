@@ -23,6 +23,7 @@ import {
 import { useDomainExposure, type ExposureCredential } from '@/hooks/useDomainExposure';
 import { useUserDomains } from '@/hooks/useUserDomains';
 
+
 export default function ConsumerPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -71,6 +72,8 @@ export default function ConsumerPage() {
   const breaches = exposureData?.data || [];
   const pagination = exposureData?.pagination;
 
+  console.log(pagination);
+
   if (domainsLoading || exposureLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -92,26 +95,22 @@ export default function ConsumerPage() {
         </Intro>
       </div>
 
-      <SearchCard />
 
       <TableStructure className="mt-7">
-        
+
         {/* Header w/ Export Button */}
         <div className="flex justify-between items-center mb-5 px-6">
           <h1 className="text-xl font-bold">Consumers</h1>
-          <button className="bg-sc-900 hover:bg-sc-700 text-white rounded-xl px-3.5 py-2 text-sm flex items-center gap-2 cursor-pointer">
-            <Download size={18} /> Export
-          </button>
         </div>
 
         <Table>
           <TableHeader>
             <TableRow>
 
-              <TableHead sortable>Email/Username</TableHead>
+              <TableHead >Email/Username</TableHead>
               <TableHead>Password</TableHead>
               <TableHead>URL</TableHead>
-              <TableHead sortable>Source</TableHead>
+              <TableHead >Source</TableHead>
               <TableHead sortable>Date</TableHead>
             </TableRow>
           </TableHeader>
@@ -120,7 +119,7 @@ export default function ConsumerPage() {
             {breaches.map((credential: ExposureCredential) => (
               <TableRow key={credential.id}>
 
-                <TableCell className="text-sc-600/90">
+                <TableCell className="text-sc-900">
                   {credential.username || "—"}
                 </TableCell>
 
@@ -131,33 +130,35 @@ export default function ConsumerPage() {
                       : "•••••••••••"
                     }
 
-                    <button 
+                    <button
                       onClick={() => togglePassword(credential.id)}
                       className="text-sc-400 hover:text-sc-500 cursor-pointer"
                     >
                       {visiblePasswords[credential.id]
-                        ? <EyeSlashIcon className="size-4"/>
-                        : <EyeIcon className="size-4"/>
+                        ? <EyeSlashIcon className="size-4" />
+                        : <EyeIcon className="size-4" />
                       }
                     </button>
                   </div>
                 </TableCell>
 
-                <TableCell>
+                <TableCell >
                   {credential.url ? (
-                    <a
-                      href={credential.url}
-                      target="_blank"
-                      className="rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer flex items-center"
-                    >
-                      <ExternalLink size={14} className="mr-1.5" />
-                      {credential.url}
-                    </a>
+                    <div className='flex items-center gap-1'>
+                      <ExternalLink size={14} className='text-sc-600/80' />
+                      <a
+                        href={credential.url}
+                        target="_blank"
+                        className="rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer block w-[30ch] truncate px-0.5"
+                      >
+                        {credential.url}
+                      </a>
+                    </div>
                   ) : "—"}
                 </TableCell>
 
                 <TableCell>
-                  <Badge variant="error" className="font-medium">
+                  <Badge variant="error" size='auto' className="font-medium text-xs w-max px-3.5 py-1.5">
                     Malware Infection
                   </Badge>
                 </TableCell>
@@ -170,18 +171,24 @@ export default function ConsumerPage() {
             ))}
           </TableBody>
 
+{
+  pagination && (
           <TableFooter>
             <tr>
               <td colSpan={7}>
                 <TablePagination
                   currentPage={currentPage}
                   totalPages={pagination?.totalPages || 1}
-                  totalResults={pagination?.totalResults || breaches.length}
+                  totalResults={pagination?.totalRecords }
                   onPageChange={setCurrentPage}
+                  resLength={10}
                 />
               </td>
             </tr>
           </TableFooter>
+  )
+}
+
         </Table>
       </TableStructure>
     </>

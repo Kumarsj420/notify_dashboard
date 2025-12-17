@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Tabs, { Tab } from "@/components/Tabs";
 import TableSkeleton from "@/components/TableSkeleton";
-import SearchCard from "@/components/SearchCard";
+import Title from "@/components/Title";
+import Intro from "@/components/Intro";
 
 import {
   Table,
@@ -56,28 +57,21 @@ const Domain: React.FC = () => {
 
   return (
     <div>
-      {/* <Tabs
-        tabs={domainTabs.map((t) => ({
-          ...t,
-          current: t.name === activeTab,
-        }))}
-        onTabChange={handleTabChange}
-      /> */}
+      <div >
+        <Title>Matrices</Title>
+        <Intro>
+          Matrices data for Domain, Impacted Employee, Impacted Consumers and Data Breaches
+        </Intro>
+      </div>
 
-      <SearchCard />
-
-      {/* Fixed height container to avoid layout jump */}
-      <div className="mt-7 min-h-[380px] relative">
+      <div className="mt-5 min-h-[380px] relative">
         {isLoading && (
-
-<TableSkeleton />
-
-)}
-
+          <TableSkeleton />
+        )}
 
         {!isLoading && activeTab === "Domains" && (
           <TableStructure>
-             <h1 className="text-xl font-bold mb-5 px-6"> Domains </h1>
+            <h1 className="text-xl font-bold mb-5 px-6"> Domains </h1>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -99,61 +93,10 @@ const Domain: React.FC = () => {
                 ))}
               </TableBody>
 
-              <TableFooter>
-                <tr>
-                  <td colSpan={7}>
-                    <TablePagination
-                      currentPage={currentPage}
-                      totalPages={42}
-                      totalResults={1247}
-                      onPageChange={setCurrentPage}
-                    />
-                  </td>
-                </tr>
-              </TableFooter>
             </Table>
           </TableStructure>
         )}
 
-        {!isLoading && activeTab === "Employee" && (
-          <TableStructure>
-             <h1 className="text-xl font-bold mb-5 px-6"> Employee </h1>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead sortable>Domain</TableHead>
-                  <TableHead sortable>Impacted employee</TableHead>
-                  <TableHead sortable>Impacted consumers</TableHead>
-                  <TableHead sortable>Date Breaches</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {mockData.map((event) => (
-                  <TableRow key={event.id}>
-                    <TableCell>{event.domain}</TableCell>
-                    <TableCell>{event.impactedEmployee}</TableCell>
-                    <TableCell>{event.impactedconsumers}</TableCell>
-                    <TableCell>{event.dataBreaches}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-
-              <TableFooter>
-                <tr>
-                  <td colSpan={7}>
-                    <TablePagination
-                      currentPage={currentPage}
-                      totalPages={42}
-                      totalResults={1247}
-                      onPageChange={setCurrentPage}
-                    />
-                  </td>
-                </tr>
-              </TableFooter>
-            </Table>
-          </TableStructure>
-        )}
       </div>
     </div>
   );
