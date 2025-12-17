@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Flyout from './ui/Flyout'
 import {
     Dialog,
     DialogBackdrop,
@@ -22,8 +23,8 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { logout } from '../utils/auth'
-import Button from './Button'
+import Button from './Button';
+import Link from 'next/link'
 
 const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -122,60 +123,23 @@ export default function Header() {
                         />
                     </form>
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
-                        <button type="button" className="-m-2.5 p-2.5 text-sc-600 hover:text-sc-900 cursor-pointer">
+                        {/* <button type="button" className="-m-2.5 p-2.5 text-sc-600 hover:text-sc-900 cursor-pointer">
                             <span className="sr-only">View notifications</span>
                             <BellIcon aria-hidden="true" className="size-6" />
-                        </button>
+                        </button> */}
 
-                        <button
-                            type="button"
+                        <Link
+                            href="/subscription"
                             className="rounded-xl bg-emerald-500 px-3.5 py-2 text-sm font-semibold text-white  hover:bg-emerald-400 outline-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 shadow-lg shadow-emerald-700/20"
                         >
                             Upgrade Plan
-                        </button>
+                        </Link>
 
                         {/* Separator */}
                         <div aria-hidden="true" className="hidden lg:block lg:h-8 lg:w-px lg:bg-p-900/20" />
 
                         {/* Profile dropdown */}
-                        <Menu as="div" className="relative">
-                            <MenuButton className="relative flex items-center">
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">Open user menu</span>
-                                <img
-                                    alt=""
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    className="size-8 rounded-full bg-sc-50 outline -outline-offset-1 outline-black/5"
-                                />
-                                <span className="hidden lg:flex lg:items-center">
-                                    <span aria-hidden="true" className="ml-4">
-                                        <span className='text-sm/6 font-semibold text-sc-900'>John Smith</span>
-                                        <span className='text-xs text-sc-600 block'>Admin</span>
-                                    </span>
-                                    <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-sc-500" />
-                                </span>
-                            </MenuButton>
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg outline outline-sc-900/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                            >
-                                {userNavigation.map((item) => (
-                                    <MenuItem key={item.name}>
-                                        <a
-                                            href={item.href}
-                                            className="block px-3 py-1 text-sm/6 text-sc-900 data-focus:bg-sc-50 data-focus:outline-hidden"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    </MenuItem>
-                                ))}
-                                <MenuItem >
-                                  <Button onClick={logout} variant='outline'>
-                                    Log Out
-                                  </Button>
-                                </MenuItem>
-                            </MenuItems>
-                        </Menu>
+                        <Flyout />
                     </div>
                 </div>
             </header>

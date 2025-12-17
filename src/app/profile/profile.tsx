@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Camera, Check, Settings, Shield, CreditCard, Bell, Clock, Edit2, Monitor, Smartphone } from 'lucide-react';
 import Card from '@/components/Card';
+import Input from '@/components/form/Input';
+import Label from '@/components/form/Label';
 
 const ProfilePage = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
@@ -64,11 +66,10 @@ const ProfilePage = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-600 mb-1.5">Full Name</label>
-                <input
+                <Label required>Full Name</Label>
+                <Input
                   type="text"
                   defaultValue="Michael Rodriguez"
-                  className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   readOnly
                 />
               </div>

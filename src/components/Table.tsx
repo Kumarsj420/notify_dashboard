@@ -186,12 +186,13 @@ export const TablePagination = ({
         </div>
       )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-stretch gap-2 pb-1.5">
         <Button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           size='sm'
           variant='outline'
+          className='h-max'
         >
           Previous
         </Button>
@@ -207,7 +208,7 @@ export const TablePagination = ({
               onClick={() => onPageChange(page as number)}
               variant={currentPage === page ? 'primary' : 'outline'}
               size='auto'
-              className='px-3.5 py-2 text-sm aspect-square'
+              className='px-3.5 py-2 text-sm aspect-square h-9'
             >
               {page}
             </Button>
@@ -219,6 +220,7 @@ export const TablePagination = ({
           disabled={currentPage === totalPages}
           size='sm'
           variant='outline'
+          className='h-max'
         >
           Next
         </Button>
