@@ -6,7 +6,7 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 export interface Tab {
   name: string;
   href?: string;
-  count?: string;
+  count?: number;
   current?: boolean;
 }
 

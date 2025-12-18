@@ -61,7 +61,7 @@ export function DropdownOption<T extends SelectOption = SelectOption>({
   return (
     <ListboxOption
       value={value}
-      className={`group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-p-100 data-focus:outline-hidden ${className}`}
+      className={`group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-sc-100 data-focus:outline-hidden ${className}`}
     >
       <div className="flex">
         {children ? (
@@ -124,7 +124,7 @@ export default function SelectDropdown<T extends SelectOption = SelectOption>({
     <Listbox value={selected} onChange={handleChange}>
       {label && <Label className="block text-sm/6 font-medium text-gray-900">{label}</Label>}
       <div className={`relative ${label ? 'mt-2' : ''} ${className}`}>
-        <ListboxButton className="grid w-full grid-cols-1 rounded-xl bg-white hover:bg-sc-50 shadow-md shadow-gray-200 ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80 px-3 py-2 text-sm  text-left text-gray-900 focus-visible:-outline-offset-2  sm:text-sm/6 cursor-pointer min-w-48 outline-none">
+        <ListboxButton className="grid w-full grid-cols-1 rounded-xl bg-white hover:bg-sc-50 shadow-md shadow-sc-200 ring-1 ring-inset ring-sc-300 hover:ring-sc-400/80 px-3 py-2 text-sm  text-left text-gray-900 focus-visible:-outline-offset-2  sm:text-sm/6 cursor-pointer min-w-48 outline-none">
           <span className="col-start-1 row-start-1 flex w-full gap-2 pr-6">
             <span className="truncate">{selected?.name || placeholder}</span>
           </span>
@@ -136,7 +136,7 @@ export default function SelectDropdown<T extends SelectOption = SelectOption>({
 
         <ListboxOptions
           transition
-          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg outline-1 outline-black/5 data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm"
+          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white text-base shadow-lg shadow-sc-200/80 outline-1 outline-sc-200 data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm rounded-xl"
         >
           {header}
           

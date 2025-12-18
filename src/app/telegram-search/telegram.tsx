@@ -9,7 +9,7 @@ import {
   AlertCircle,
   Play,
 } from "lucide-react";
-
+import Input from "@/components/form/Input";
 import { TagIcon, RectangleGroupIcon, FunnelIcon } from "@heroicons/react/24/solid";
 
 import Title from "@/components/Title";

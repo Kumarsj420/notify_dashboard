@@ -9,10 +9,9 @@ import SidebarSelector from './SidebarSelector';
 import {
   ShieldAlert,
   ChevronDown,
-  ListTodo
 } from 'lucide-react'
 
-import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon, BookmarkIcon } from '@heroicons/react/24/solid';
+import { UserGroupIcon, UsersIcon, ChartPieIcon, ShieldExclamationIcon, DocumentMagnifyingGlassIcon, HomeIcon, ExclamationTriangleIcon, UserIcon, BuildingOfficeIcon, CurrencyDollarIcon, Cog8ToothIcon, QuestionMarkCircleIcon, BookmarkIcon, UserMinusIcon } from '@heroicons/react/24/solid';
 
 const sections = [
   {
@@ -59,7 +58,7 @@ const sections = [
     links: [
       { name: 'Profile', href: '/profile', icon: UserIcon },
       { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
-      { name: 'User roles', href: '/user-roles', icon: BuildingOfficeIcon },
+      { name: 'User roles', href: '/user-roles', icon: UserMinusIcon },
       { name: 'Subscription', href: '/subscription', icon: CurrencyDollarIcon },
       { name: 'Setting', href: '/setting', icon: Cog8ToothIcon },
       { name: 'Help & Support', href: '/help', icon: QuestionMarkCircleIcon },
@@ -109,7 +108,7 @@ export default function Sidebar() {
 
 
       <div className="mt-20">
-        <SidebarSelector />
+
 
         {sections.map((section, i) => (
           <div key={i} className="mt-5">

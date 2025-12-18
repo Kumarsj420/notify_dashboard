@@ -7,6 +7,8 @@ import SearchCard from "@/components/SearchCard";
 import { Download, ExternalLink } from 'lucide-react';
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import Badge from "@/components/Badge";
+import SearchBox from '@/components/form/search';
+import SimpleSelect from '@/components/SimpleSelect';
 
 import {
   TableHeader,
@@ -31,7 +33,7 @@ export default function ConsumerPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [pageSize] = useState(10);
-  const [exposureType] = useState<'EMPLOYEE' | 'OTHERS' | 'all'>('all');
+  const [exposureType] = useState<'OTHERS'>('OTHERS');
 
   // NEW: password visibility per row
   const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
@@ -74,16 +76,6 @@ export default function ConsumerPage() {
 
   console.log(pagination);
 
-  if (domainsLoading || exposureLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading consumers...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -100,96 +92,142 @@ export default function ConsumerPage() {
 
         {/* Header w/ Export Button */}
         <div className="flex justify-between items-center mb-5 px-6">
-          <h1 className="text-xl font-bold">Consumers</h1>
+          <h1 className="text-xl font-bold flex-1">Consumers</h1>
+
+          {
+            selectedDomainId && (
+              <div className='flex items-center gap-4'>
+                <SearchBox
+                  placeholder='Search consumers...'
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  inputClassName='w-64'
+                />
+                <div className="max-w-md">
+                  <label htmlFor="domain-select" className="text-sm font-medium text-gray-900 mb-2 sr-only">
+                    Select Domain
+                  </label>
+                  <SimpleSelect
+                    value={selectedDomainId}
+                    onChange={(e) => setSelectedDomainId(e.target.value)}
+                    placeholder="Choose a domain"
+                    className="w-full"
+                  >
+                    <option value="">Select a domain</option>
+                    {domainsData?.domains?.map((domain) => (
+                      <option key={domain.id} value={domain.id}>
+                        {domain.domain}
+                      </option>
+                    ))}
+                  </SimpleSelect>
+                </div>
+              </div>
+            )
+          }
+
         </div>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
+        {
+          (domainsLoading || exposureLoading) ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto mb-4"></div>
+                <p className="text-gray-600 text-lg">Loading consumers...</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow>
 
-              <TableHead >Email/Username</TableHead>
-              <TableHead>Password</TableHead>
-              <TableHead>URL</TableHead>
-              <TableHead >Source</TableHead>
-              <TableHead sortable>Date</TableHead>
-            </TableRow>
-          </TableHeader>
+                    <TableHead >Email/Username</TableHead>
+                    <TableHead>Password</TableHead>
+                    <TableHead>URL</TableHead>
+                    <TableHead >Source</TableHead>
+                    <TableHead sortable>Date</TableHead>
+                  </TableRow>
+                </TableHeader>
 
-          <TableBody>
-            {breaches.map((credential: ExposureCredential) => (
-              <TableRow key={credential.id}>
+                <TableBody>
+                  {breaches.map((credential: ExposureCredential) => (
+                    <TableRow key={credential.id}>
 
-                <TableCell className="text-sc-900">
-                  {credential.username || "—"}
-                </TableCell>
+                      <TableCell className="text-sc-900 font-medium">
+                        {credential.username || "—"}
+                      </TableCell>
 
-                <TableCell>
-                  <div className="flex items-center gap-2 text-sc-600/90">
-                    {visiblePasswords[credential.id]
-                      ? credential.password || "—"
-                      : "•••••••••••"
-                    }
+                      <TableCell>
+                        <div className="flex items-center gap-2 text-sc-600/90">
+                          {visiblePasswords[credential.id]
+                            ? credential.password || "—"
+                            : "•••••••••••"
+                          }
 
-                    <button
-                      onClick={() => togglePassword(credential.id)}
-                      className="text-sc-400 hover:text-sc-500 cursor-pointer"
-                    >
-                      {visiblePasswords[credential.id]
-                        ? <EyeSlashIcon className="size-4" />
-                        : <EyeIcon className="size-4" />
-                      }
-                    </button>
-                  </div>
-                </TableCell>
+                          <button
+                            onClick={() => togglePassword(credential.id)}
+                            className="text-sc-400 hover:text-sc-500 cursor-pointer"
+                          >
+                            {visiblePasswords[credential.id]
+                              ? <EyeSlashIcon className="size-4" />
+                              : <EyeIcon className="size-4" />
+                            }
+                          </button>
+                        </div>
+                      </TableCell>
 
-                <TableCell >
-                  {credential.url ? (
-                    <div className='flex items-center gap-1'>
-                      <ExternalLink size={14} className='text-sc-600/80' />
-                      <a
-                        href={credential.url}
-                        target="_blank"
-                        className="rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer block w-[30ch] truncate px-0.5"
-                      >
-                        {credential.url}
-                      </a>
-                    </div>
-                  ) : "—"}
-                </TableCell>
+                      <TableCell >
+                        {credential.url ? (
+                          <div className='flex items-center gap-1'>
+                            <ExternalLink size={14} className='text-sc-600/80' />
+                            <a
+                              href={credential.url}
+                              target="_blank"
+                              className="rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer block w-[30ch] truncate px-0.5"
+                            >
+                              {credential.url}
+                            </a>
+                          </div>
+                        ) : "—"}
+                      </TableCell>
 
-                <TableCell>
-                  <Badge variant="error" size='auto' className="font-medium text-xs w-max px-3.5 py-1.5">
-                    Malware Infection
-                  </Badge>
-                </TableCell>
+                      <TableCell>
+                        <Badge variant="error" size='auto' className="font-medium text-xs w-max px-3.5 py-1.5">
+                          Malware Infection
+                        </Badge>
+                      </TableCell>
 
-                <TableCell className="text-xs font-medium text-sc-600/90">
-                  {credential.date || "01 Jan 2021"}
-                </TableCell>
+                      <TableCell className="text-xs font-medium text-sc-600/90">
+                        {credential.createdAt ? credential.createdAt : '01 Jan 2021'}
+                      </TableCell>
 
-              </TableRow>
-            ))}
-          </TableBody>
+                    </TableRow>
+                  ))}
+                </TableBody>
 
-{
-  pagination && (
-          <TableFooter>
-            <tr>
-              <td colSpan={7}>
-                <TablePagination
-                  currentPage={currentPage}
-                  totalPages={pagination?.totalPages || 1}
-                  totalResults={pagination?.totalRecords }
-                  onPageChange={setCurrentPage}
-                  resLength={10}
-                />
-              </td>
-            </tr>
-          </TableFooter>
-  )
-}
+                {
+                  pagination && (
+                    <TableFooter>
+                      <tr>
+                        <td colSpan={7}>
+                          <TablePagination
+                            currentPage={currentPage}
+                            totalPages={pagination?.totalPages || 1}
+                            totalResults={pagination?.totalRecords}
+                            onPageChange={setCurrentPage}
+                            resLength={10}
+                          />
+                        </td>
+                      </tr>
+                    </TableFooter>
+                  )
+                }
 
-        </Table>
+              </Table>
+            </>
+          )
+        }
+
       </TableStructure>
     </>
   );

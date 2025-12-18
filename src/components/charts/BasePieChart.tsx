@@ -38,7 +38,7 @@ const BasePieChart: React.FC<BasePieChartProps> = ({
   outerRadius = 90,
 }) => {
   return (
-    <div className="bg-linear-to-b from-white to-sc-50 rounded-3xl ring-1 ring-inset ring-sc-200 py-5 px-6 shadow-lg shadow-sc-300/60 mb-6">
+    <div className="bg-linear-to-b from-white to-sc-50 rounded-3xl ring-1 ring-inset ring-sc-200 py-5 px-6 shadow-lg shadow-sc-300/60 mb-6 h-full">
       {title && (
         <h3 className="text-lg font-semibold mb-4">{title}</h3>
       )}

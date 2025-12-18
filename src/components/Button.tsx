@@ -41,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({
         baseClasses,
         variants[variant],
         sizes[size],
-        isDisabled && 'cursor-not-allowed opacity-50',
+        isDisabled && 'cursor-not-allowed opacity-50 pointer-events-none',
         className
       )}
       disabled={isDisabled}

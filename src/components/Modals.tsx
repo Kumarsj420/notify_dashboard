@@ -61,7 +61,7 @@ export function ModalHeader({
     className
 }: ModalHeaderProps) {
     return (
-        <div className={`bg-linear-to-b from-p-50 to-p-200/80 px-5 py-4 border-b border-p-300/80 relative ${className}`}>
+        <div className={`bg-linear-to-b from-p-50 to-p-200 px-5 py-4 border-b border-p-300/80 relative ${className}`}>
             <span className="font-bold text-lg truncate">
                 {children}
             </span>

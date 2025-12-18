@@ -10,44 +10,40 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface BaseLineChartProps {
-  title?: string;
-  data: any[];
-  xKey: string;
-  yKey: string;
-  lineColor?: string;
-}
+import { Construction, Clock } from "lucide-react";
 
-const BaseLineChart: React.FC<BaseLineChartProps> = ({
-  title,
-  data,
-  xKey,
-  yKey,
-  lineColor = "#F97316",
+
+
+const BaseLineChart = ({
+
 }) => {
   return (
-    <div className="bg-linear-to-b from-white to-sc-50 rounded-3xl ring-1 ring-inset ring-sc-200 py-5 px-6 shadow-lg shadow-sc-300/60 mb-6">
-      {title && (
-        <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      )}
+    <div className="bg-linear-to-b from-white to-sc-50 rounded-3xl ring-1 ring-inset ring-sc-200 py-5 px-6 shadow-lg shadow-sc-300/60">
+      <h3 className="text-lg font-semibold mb-4">Breach Trends (Last 6 Months)</h3>
 
-      <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={xKey} />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey={yKey}
-              stroke={lineColor}
-              strokeWidth={3}
-              dot={{ r: 4 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+    <div className="flex items-center justify-center mt-10">
+      <div >
+        
+        <div className=" mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+          <Construction size={28} />
+        </div>
+
+        <h2 className="text-2xl font-bold text-gray-900">
+          Coming Soon
+        </h2>
+
+        <p className="mt-3 text-sm text-gray-600">
+          We're currently building this feature, soon you will be able to use this one.
+        </p>
+
+        <div className="my-6 h-px bg-gray-200" />
+
+        <div className="flex items-center  gap-2 text-sm text-gray-500">
+          <Clock size={16} />
+          <span>Feature under development</span>
+        </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       'images.contactout.com',
+      'logo.clearbit.com'
     ],
   },
 };

@@ -11,7 +11,7 @@ export const TableStructure = ({
   className?: string;
 }) => {
   return (
-    <div className={` ${className} py-5 bg-white rounded-2xl ring-1 ring-sc-200 shadow-lg shadow-sc-300/70`}>
+    <div className={`${className} py-5 bg-white rounded-2xl ring-1 ring-sc-200 shadow-lg shadow-sc-300/70`}>
 
       {children}
     </div>
@@ -43,7 +43,7 @@ export const TableHeader = ({
   className?: string;
 }) => {
   return (
-    <thead className={`bg-gray-100/90 border-b border-gray-200  ${className}`}>
+    <thead className={`bg-linear-to-b from-sc-50 to-sc-200/65 border-b  border-sc-300  ${className}`}>
       {children}
     </thead>
   );

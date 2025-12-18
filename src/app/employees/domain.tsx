@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Tabs, { Tab } from "@/components/Tabs";
 import TableSkeleton from "@/components/TableSkeleton";
-import { AlertTriangle, ShieldAlert, ShieldCheck, } from 'lucide-react';
+import { AlertTriangle, ShieldAlert, ShieldCheck, ExternalLink } from 'lucide-react';
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -15,7 +15,10 @@ import {
   PencilSquareIcon,
   EyeIcon,
   ShieldExclamationIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  ClockIcon,
+  ExclamationTriangleIcon,
+  EyeSlashIcon
 } from '@heroicons/react/24/solid'
 
 import { BellAlertIcon, BellIcon } from "@heroicons/react/24/outline";
@@ -59,11 +62,10 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Title from "@/components/Title";
 import Intro from "@/components/Intro";
+import { useDomainExposure, type ExposureCredential } from '@/hooks/useDomainExposure';
+import SearchBox from "@/components/form/search";
+import SimpleSelect from "@/components/SimpleSelect";
 
-const domainTabs: Tab[] = [
-  { name: "Identity theft", count: "6" },
-  { name: "Malware infections", count: "52" },
-];
 
 const employeeModalTab: Tab[] = [
   { name: "Upload Manually" },
@@ -76,6 +78,11 @@ const employeeType = [
   { id: 3, name: 'Inactive Employee' },
 ]
 
+const domainOption = [
+  { id: 1, name: 'Select Domain' },
+  { id: 2, name: 'example.com' }
+]
+
 interface ContactFormData extends Record<string, unknown> {
   workEmail: string;
   personalEmail: string;
@@ -86,9 +93,10 @@ const Domain: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Identity theft");
   const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState(employeeType[0]);
+  const [selectedDomain, setSelectedDomain] = useState(domainOption[0])
   const [editOpen, setEditOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
-  const [addEmploeyee, setAddEmployee] = useState(false);
+  const [addEmployee, setAddEmployee] = useState(false);
   const [addAlertAll, setAddAlertAll] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
 
@@ -99,6 +107,7 @@ const Domain: React.FC = () => {
 
   const handleTabChange = (tab: Tab) => {
     if (tab.name === activeTab) return;
+    setCurrentPage(1);
     setIsLoading(true);
     setActiveTab(tab.name);
     setTimeout(() => setIsLoading(false), 600);
@@ -141,15 +150,7 @@ const Domain: React.FC = () => {
 
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
 
-  const handleViewModal = (employee: any) => {
-    setSelectedEmployee(employee);
-    setViewOpen(true);
-  };
 
-  const handleEditModal = (employee: any) => {
-    setSelectedEmployee(employee);
-    setEditOpen(true);
-  };
 
   const handleAlertModal = (employee: any) => {
     setSelectedEmployee(employee);
@@ -286,6 +287,7 @@ const Domain: React.FC = () => {
       personalEmail: employee.personalEmail || "",
       phoneNumber: employee.phoneNumber || "",
     });
+    setEditOpen(true);
   };
 
   const handleViewEmployee = (employee: Employee) => {
@@ -427,6 +429,41 @@ const Domain: React.FC = () => {
   // Use employees directly from API (search is now handled on backend)
   const displayedEmployees = employeesData?.employees || [];
 
+  // malware infection
+  const [pageSize, setPageSize] = useState(10);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [exposureType, setExposureType] = useState<'EMPLOYEE'>('EMPLOYEE');
+  const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
+
+  const togglePassword = (id: string) => {
+    setVisiblePasswords(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const {
+    data: exposureData,
+    isLoading: exposureLoading,
+    error: exposureError,
+    refetch
+  } = useDomainExposure({
+    domainId: selectedDomainId,
+    page: currentPage,
+    limit: pageSize,
+    search: debouncedSearch,
+    exposureType,
+  });
+
+  const breaches = exposureData?.data || [];
+  const pagination = exposureData?.pagination;
+
+  const domainTabs: Tab[] = [
+  { name: "Identity theft", count: employeesData?.pagination.total ?? 20 },
+  { name: "Malware infections", count: pagination?.totalRecords ?? 10 },
+];
+
+
   if (domainsLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -438,56 +475,139 @@ const Domain: React.FC = () => {
   return (
     <>
 
-      <Modal open={addEmploeyee} maxWidth="3xl" onClose={setAddEmployee}>
-        <ModalHeader onClose={setAddEmployee}>Add Employee</ModalHeader>
+      <Modal open={addEmployee} maxWidth="3xl" onClose={setAddEmployee}>
+        <ModalHeader onClose={setAddEmployee}>Add New Employee</ModalHeader>
         <ModalBody className="pb-10">
-          <Tabs
-            tabs={employeeModalTab.map((t) => ({
-              ...t,
-              current: t.name === activeTab,
-            }))}
-          />
-          <form className="grid grid-cols-2 gap-5 mt-5">
+          <form className="grid grid-cols-2 gap-5 mt-2">
             <div className="space-y-5">
               <div>
                 <Label htmlFor="full-name" required>Full Name </Label>
-                <Input id="full-name" type="text" placeholder="John Doe" />
+                <Input
+                  id="full-name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={addEmployeeForm.fullName}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      fullName: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div>
                 <Label htmlFor="job-title" required>Job Title </Label>
-                <Input id="job-title" type="text" placeholder="Software Engineer" />
+                <Input
+                  id="job-title"
+                  type="text"
+                  placeholder="Software Engineer"
+                  value={addEmployeeForm.title}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      title: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div>
                 <Label htmlFor="work-email" required>Work Email </Label>
-                <Input id="work-email" type="text" placeholder="john@company.com" />
+                <Input
+                  id="work-email"
+                  type="text"
+                  placeholder="john@company.com"
+                  value={addEmployeeForm.workEmail}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      workEmail: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
 
             <div className="space-y-5">
               <div>
                 <Label htmlFor="personal-email" required>Personal Email </Label>
-                <Input id="personal-email" type="text" placeholder="john@gmail.com" />
+                <Input
+                  id="personal-email"
+                  type="text"
+                  placeholder="john@gmail.com"
+                  value={addEmployeeForm.personalEmail}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      personalEmail: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div>
                 <Label htmlFor="phone-num" required>Phone Number </Label>
-                <Input id="phone-num" type="text" placeholder="+1234567890" />
+                <Input
+                  id="phone-num"
+                  type="text"
+                  placeholder="+1234567890"
+                  value={addEmployeeForm.phoneNumber}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      phoneNumber: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div>
                 <Label htmlFor="location" required>Location
                 </Label>
-                <Input id="location" type="text" placeholder="New York, NY" />
+                <Input
+                  id="location"
+                  type="text"
+                  placeholder="New York, NY"
+                  value={addEmployeeForm.locality}
+                  onChange={(e) =>
+                    setAddEmployeeForm((prev) => ({
+                      ...prev,
+                      locality: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
 
           </form>
+          {(addEmployeeForm.workEmail || addEmployeeForm.personalEmail || addEmployeeForm.phoneNumber) && (
+            <div className="mt-4 p-3 bg-p-50 rounded-lg border border-p-200">
+              <div className="flex items-start gap-2">
+                <ClockIcon className="h-4 w-4 text-p-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-p-800">
+                    Threat Analysis Will Be Scheduled
+                  </p>
+                  <p className="text-xs text-p-600 mt-1">
+                    Contact details will be automatically analyzed for security threats
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </ModalBody>
         <ModalFooter>
           <div className="flex justify-end gap-3">
             <Button variant="outline" type="button" onClick={() => setAddEmployee(false)}>
               Cancel
             </Button>
-            <Button type="button">
-              Add Employee
+            <Button
+              type="button"
+              onClick={handleSaveEmployee}
+              disabled={createEmployeeMutation.isPending || !addEmployeeForm.fullName.trim()}
+
+            >
+              {createEmployeeMutation.isPending && (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              )}
+              {createEmployeeMutation.isPending ? "Adding..." : "Add Employee"}
             </Button>
           </div>
         </ModalFooter>
@@ -550,54 +670,106 @@ const Domain: React.FC = () => {
         </ModalFooter>
       </Modal>
 
-      <Modal open={editOpen} maxWidth="xl" onClose={setEditOpen}>
-        <ModalHeader onClose={setEditOpen}>Edit Contact Details</ModalHeader>
-        <ModalBody>
-          {/* Profile Section */}
-          <div className="flex items-center gap-4 bg-linear-to-b from-sc-50 to-sc-100 border border-sc-200 rounded-xl p-4 mb-6">
-            <img
-              src="https://i.pravatar.cc/100?img=12"
-              alt="Profile"
-              className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-sc-200 object-cover"
-            />
-            <div>
-              <h3 className="font-semibold text-sc-800">Dan Hockenmaier</h3>
-              <p className="text-sm text-sc-600/90 font-light">Chief Strategy Officer</p>
-            </div>
-          </div>
+      {
+        editingEmployee && (
+          <Modal open={editOpen} maxWidth="xl" onClose={setEditOpen}>
+            <ModalHeader onClose={setEditOpen}>Edit Contact Details</ModalHeader>
+            <ModalBody>
+              {/* Profile Section */}
+              <div className="flex items-center gap-4 bg-linear-to-b from-sc-50 to-sc-100 border border-sc-200 rounded-xl p-4 mb-6">
+                {
+                  editingEmployee.liAvatar ? (
+                    <Image
+                      src={editingEmployee.liAvatar}
+                      alt={editingEmployee.fullName}
+                      width={48}
+                      height={48}
+                      className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full border border-sc-200 object-cover"
+                    />
+                  ) : (
+                    <div className="size-12 ring-[0.1em] ring-sc-300 ring-offset-2 ring-offset-white rounded-full object-cover flex items-center justify-center bg-linear-to-b from-sc-50 to-sc-200">
+                      <UserIcon className="size-6 text-sc-500/90" />
+                    </div>
+                  )
+                }
+                <div>
+                  <h3 className="font-semibold text-sc-800">{editingEmployee.fullName}</h3>
+                  {editingEmployee.title && (
+                    <p className="text-sm text-sc-600/90 font-light">{editingEmployee.title}</p>
+                  )}
 
-          {/* Form Fields */}
-          <form className="space-y-4">
-            <div>
-              <Label htmlFor="work-email" required>Work Email</Label>
-              <Input id="work-email" type="email" placeholder="work@company.com" value='eg@company.com' />
-            </div>
+                </div>
+              </div>
 
-            <div>
-              <Label htmlFor="personal-email" required>Personal Email</Label>
-              <Input id="personal-email" type="email" placeholder="name@gmail.com" value='eg@gmail.com' />
-            </div>
+              {/* Form Fields */}
+              <form className="space-y-4">
+                <div>
+                  <Label htmlFor="work-email" required>Work Email</Label>
+                  <Input
+                    id="work-email"
+                    type="email"
+                    placeholder="work@company.com"
+                    value={contactForm.workEmail}
+                    onChange={(e) =>
+                      setContactForm((prev) => ({
+                        ...prev,
+                        workEmail: e.target.value,
+                      }))
+                    } />
+                </div>
 
-            <div>
-              <Label htmlFor="phone-number" required>Phone Number</Label>
-              <Input id="phone-number" type="number" placeholder="12234567890" value='12234567890' />
-            </div>
+                <div>
+                  <Label htmlFor="personal-email" required>Personal Email</Label>
+                  <Input id="personal-email"
+                    type="email"
+                    placeholder="name@gmail.com"
+                    value={contactForm.personalEmail}
+                    onChange={(e) =>
+                      setContactForm((prev) => ({
+                        ...prev,
+                        personalEmail: e.target.value,
+                      }))
+                    } />
+                </div>
+
+                <div>
+                  <Label htmlFor="phone-number" required>Phone Number</Label>
+                  <Input id="phone-number"
+                    type="number"
+                    placeholder="12234567890"
+                    value={contactForm.phoneNumber}
+                    onChange={(e) =>
+                      setContactForm((prev) => ({
+                        ...prev,
+                        phoneNumber: e.target.value,
+                      }))
+                    } />
+                </div>
 
 
 
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" type="button" onClick={() => setEditOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="button">
-              Save Changes
-            </Button>
-          </div>
-        </ModalFooter>
-      </Modal>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <div className="flex justify-end gap-3">
+                <Button variant="outline" type="button" onClick={() => setEditOpen(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleSaveContact}
+                  disabled={updateContactMutation.isPending}
+                >
+                  {updateContactMutation.isPending && (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  )}
+                  {updateContactMutation.isPending ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </ModalFooter>
+          </Modal>
+        )
+      }
 
       {
         viewingEmployee && (
@@ -880,7 +1052,7 @@ const Domain: React.FC = () => {
       <div className="mb-3">
         <Title>Employees Leaked Data</Title>
         <Intro>
-         Check Identity Theft and Malware Infection data in tabular format
+          Check Identity Theft and Malware Infection data in tabular format
         </Intro>
       </div>
 
@@ -900,29 +1072,54 @@ const Domain: React.FC = () => {
 
           {/* TAB 1 */}
           {!isLoading && activeTab === "Identity theft" && (
-            <TableStructure className="" >
-              <div className="flex justify-between items-center px-6 pb-5 border-b border-b-sc-200 ">
-                <h1 className="text-xl font-bold"> Employees Monitoring</h1>
+            <TableStructure  >
+              <div className="px-6 pb-5 border-b border-b-sc-200 ">
+                <div className="flex justify-between items-center ">
+                  <h1 className="text-xl font-bold"> Employees Monitoring</h1>
 
-                <div className="flex items-center gap-2">
-                  <SelectDropdown
-                    value={selected}
-                    onChange={setSelected}
-                  >
-                    {employeeType.map((person) => (
-                      <DropdownOption key={person.id} value={person} />
-                    ))}
-                  </SelectDropdown>
+                  <div className="flex items-center gap-2">
 
-                  <Button variant='outline' onClick={() => setAddEmployee(true)}>
-                    <UserPlusIcon className="size-4 scale-110 text-sc-500/80" /> Add employee
-                  </Button>
+                    <Button variant='outline' onClick={() => setAddEmployee(true)}>
+                      <UserPlusIcon className="size-4 scale-110 text-sc-500/80" /> Add employee
+                    </Button>
 
-                  <Button onClick={() => setAddAlertAll(true)}>
-                    <BellAlertIcon className="size-4 scale-115" strokeWidth="1.8" /> Alert all
-                  </Button>
+                    <Button onClick={() => setAddAlertAll(true)}>
+                      <BellAlertIcon className="size-4 scale-115" strokeWidth="1.8" /> Alert all
+                    </Button>
 
 
+                  </div>
+                </div>
+                <div className="mt-3 flex justify-between">
+                  <SearchBox
+                    placeholder="Search employees..."
+                    formClassName="flex-1"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+
+                  <div className="flex items-center gap-3">
+                    <SimpleSelect
+                      value={selectedDomainId}
+                      onChange={(e) => setSelectedDomainId(e.target.value)}
+                      disabled={domainsLoading}
+                    >
+                      <option value="">Select Domain</option>
+                      {domains?.map((domain) => (
+                        <option key={domain.id} value={domain.id}>
+                          {`${domain.domain}${domain.isMain ? " (Main)" : ""}`}
+                        </option>
+                      ))}
+                    </SimpleSelect>
+                    <SelectDropdown
+                      value={selected}
+                      onChange={setSelected}
+                    >
+                      {employeeType.map((person) => (
+                        <DropdownOption key={person.id} value={person} />
+                      ))}
+                    </SelectDropdown>
+                  </div>
                 </div>
               </div>
 
@@ -934,7 +1131,7 @@ const Domain: React.FC = () => {
                         <div className="flex items-center justify-between">
                           {/* Profile & Details */}
                           <div className="flex items-start gap-4">
-                            <div className="relative">
+                            <div className="relative ">
                               {
                                 employee.liAvatar ? (
                                   <Image
@@ -966,7 +1163,7 @@ const Domain: React.FC = () => {
 
                             </div>
 
-                            <div>
+                            <div className="flex-1">
                               <div className="flex flex-row gap-3 items-center">
                                 <h2 className="text-lg/8 font-bold text-sc-900 ">
                                   {employee.fullName}</h2>
@@ -1040,11 +1237,11 @@ const Domain: React.FC = () => {
                               <EyeIcon className="size-4 text-sc-500/80 scale-95" /> View
                             </Button>
 
-                            <Button variant="outline" size='sm' >
+                            <Button onClick={() => handleEditContact(employee)} variant="outline" size='sm' >
                               <PencilSquareIcon className="size-4 text-sc-500/80 scale-95" /> Edit
                             </Button>
 
-                            <Button variant="primary" size="sm" >
+                            <Button variant="primary" size="sm" onClick={() => setAlertOpen(true)} >
                               <BellIcon className="scale-105 size-4" strokeWidth={1.8} /> Alert
                             </Button>
 
@@ -1093,87 +1290,127 @@ const Domain: React.FC = () => {
 
           {/* TAB 2 */}
           {!isLoading && activeTab === "Malware infections" && (
-            <TableStructure className="mt-7">
-              <h1 className="text-xl font-bold mb-5 px-6"> Malware Infection </h1>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead sortable>Email</TableHead>
-                    <TableHead sortable>Username</TableHead>
-                    <TableHead>Password</TableHead>
-                    <TableHead sortable>Url</TableHead>
-                    <TableHead sortable>Source</TableHead>
-                    <TableHead sortable>Risk level</TableHead>
-                    <TableHead sortable>Detection date</TableHead>
-                    <TableHead sortable>Action</TableHead>
-                  </TableRow>
-                </TableHeader>
+            <>
+              {exposureLoading && (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12">
+                  <div className="flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500 mx-auto mb-4"></div>
+                      <p className="text-gray-600 text-lg">Loading breach intelligence data...</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
-                <TableBody>
-                  {tableData.map((event) => (
-                    <TableRow key={event.id}>
+              {
+                !exposureLoading && selectedDomainId && breaches.length > 0 ? (
+                  <TableStructure className="mt-7">
+                    <h1 className="text-xl font-bold mb-5 px-6"> Malware Infection </h1>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead >Email</TableHead>
+                          <TableHead>Password</TableHead>
+                          <TableHead >Url</TableHead>
+                          <TableHead >Detection date</TableHead>
+                          <TableHead >Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+
+                      <TableBody>
+                        {breaches.map((credential: ExposureCredential) => (
+                          <TableRow key={credential.id}>
+
+                            <TableCell className="text-sc-600/90 blur-xs">
+                              {credential.username}
+                            </TableCell>
+
+                            <TableCell className="text-sc-600/90">
+                              <div className="flex items-center gap-2 text-sc-600/90">
+                                {visiblePasswords[credential.id]
+                                  ? credential.password || "—"
+                                  : "•••••••••••"
+                                }
+
+                                <button
+                                  onClick={() => togglePassword(credential.id)}
+                                  className="text-sc-400 hover:text-sc-500 cursor-pointer"
+                                >
+                                  {visiblePasswords[credential.id]
+                                    ? <EyeSlashIcon className="size-4" />
+                                    : <EyeIcon className="size-4" />
+                                  }
+                                </button>
+                              </div>
+                            </TableCell>
+
+                            <TableCell className="text-sc-600/90">
+                              {credential.url ? (
+                                <div className='flex items-center gap-1'>
+                                  <ExternalLink size={14} className='text-sc-600/80' />
+                                  <a
+                                    href={credential.url}
+                                    target="_blank"
+                                    className="rounded-full text-xs font-medium text-sc-600/90 hover:text-p-500 underline cursor-pointer block w-[30ch] truncate px-0.5"
+                                  >
+                                    {credential.url}
+                                  </a>
+                                </div>
+                              ) : "—"}
+                            </TableCell>
 
 
-                      <TableCell className="text-sc-600/90 blur-xs">
-                        {event.email}
-                      </TableCell>
-                      <TableCell className="text-sc-600/90">{event.user}</TableCell>
-                      <TableCell className="text-sc-600/90">{event.password}</TableCell>
-                      <TableCell className="text-sc-600/90">
-                        <a href={event.url} target="_blank">
-                          {event.url}
-                        </a>
-                      </TableCell>
-                      <TableCell className="text-sc-600/90">{event.source}</TableCell>
+                            <TableCell>
+                              <span className="px-3 py-1 rounded-full text-xs font-medium">
+                                {credential.createdAt ? credential.createdAt : '-'}
+                              </span>
+                            </TableCell>
 
-                      <TableCell>
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium `}
-                        >
-                          {event.riskLevel}
-                        </span>
-                      </TableCell>
+                            <TableCell>
+                              <button
+                                className={`
+                          px-3 py-1 rounded-full text-xs font-medium cursor-pointer bg-sc-200 text-sc-600`}
+                              >
+                                resolve
+                              </button>
+                            </TableCell>
 
-                      <TableCell>
-                        <span className="px-3 py-1 rounded-full text-xs font-medium">
-                          {event.detectionDate}
-                        </span>
-                      </TableCell>
-
-                      <TableCell>
-                        <button
-                          onClick={() => handleStatusToggle(event.id)}
-                          className={`
-                          px-3 py-1 rounded-full text-xs font-medium cursor-pointer 
-                          ${event.status === "resolved"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-sc-200 text-sc-600"}
-                        `}
-                        >
-                          {event.status}
-                        </button>
-                      </TableCell>
-
-                    </TableRow>
-                  ))}
-                </TableBody>
+                          </TableRow>
+                        ))}
+                      </TableBody>
 
 
 
-                <TableFooter>
-                  <tr>
-                    <td colSpan={7}>
-                      <TablePagination
-                        currentPage={currentPage}
-                        totalPages={42}
-                        totalResults={1247}
-                        onPageChange={setCurrentPage}
-                      />
-                    </td>
-                  </tr>
-                </TableFooter>
-              </Table>
-            </TableStructure>
+                      <TableFooter>
+                        <tr>
+                          <td colSpan={7}>
+                            <TablePagination
+                              currentPage={currentPage}
+                              totalPages={pagination?.totalPages || 1}
+                              totalResults={pagination?.totalRecords}
+                              onPageChange={setCurrentPage}
+                              resLength={10}
+                            />
+                          </td>
+                        </tr>
+                      </TableFooter>
+                    </Table>
+                  </TableStructure>
+                ) : !exposureLoading && selectedDomainId ? (
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12">
+                    <div className="text-center">
+                      <ExclamationTriangleIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No breach data found</h3>
+                      <p className="text-gray-500">
+                        No breach data available for this domain at the moment.
+                      </p>
+                    </div>
+                  </div>
+                ) : null
+              }
+
+
+            </>
           )}
         </div>
 

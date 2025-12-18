@@ -1,7 +1,16 @@
 "use client";
+import Button from '@/components/Button';
 
 import React, { useState } from 'react';
 import { Search, Plus, MoreHorizontal, Shield, Users, Edit2, Trash2, X } from 'lucide-react';
+import InfoCard from '@/components/InfoCard';
+
+import {
+  UsersIcon,
+  ShieldCheckIcon,
+  ClockIcon,
+} from '@heroicons/react/24/outline';
+
 
 const User = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -15,6 +24,38 @@ const User = () => {
     { id: 3, name: 'Analyst', users: 15, permissions: 'Read Only', color: 'bg-green-500' },
     { id: 4, name: 'Viewer', users: 24, permissions: 'Limited Read', color: 'bg-gray-500' },
   ];
+
+  const roles_type = [
+  {
+    id: 1,
+    name: 'Admin',
+    users: 3,
+    permissions: 'Full Access',
+    variant: 'error',
+  },
+  {
+    id: 2,
+    name: 'Manager',
+    users: 8,
+    permissions: 'Read & Write',
+    variant: 'info',
+  },
+  {
+    id: 3,
+    name: 'Analyst',
+    users: 15,
+    permissions: 'Read Only',
+    variant: 'success',
+  },
+  {
+    id: 4,
+    name: 'Viewer',
+    users: 24,
+    permissions: 'Limited Read',
+    variant: 'warning',
+  },
+];
+
 
   const users = [
     { id: 1, name: 'John Smith', email: 'john.smith@company.com', role: 'Admin', status: 'Active', lastActive: '2 mins ago' },
@@ -47,65 +88,27 @@ const User = () => {
             <h1 className="text-3xl font-bold text-gray-900">User roles</h1>
             <p className="text-gray-600 mt-1">Manage user access and permissions</p>
           </div>
-          <button 
+          <Button 
             onClick={() => setShowAddModal(true)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-lg"
           >
             <Plus className="w-5 h-5" />
             Add User
-          </button>
+          </Button>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Total Users</p>
-                <p className="text-3xl font-bold text-gray-900">50</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Active Users</p>
-                <p className="text-3xl font-bold text-gray-900">43</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <Users className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Total Roles</p>
-                <p className="text-3xl font-bold text-gray-900">4</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <Shield className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Pending Invites</p>
-                <p className="text-3xl font-bold text-gray-900">7</p>
-              </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                <Users className="w-6 h-6 text-orange-600" />
-              </div>
-            </div>
-          </div>
-        </div>
+<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+  {roles_type.map((role) => (
+    <InfoCard
+      key={role.id}
+      title={role.name}
+      value={role.users}
+      icon={<ShieldCheckIcon className="size-6" />}
+      iconVariant={role.variant}
+      message={role.permissions}
+      messageVariant={role.variant}
+    />
+  ))}
+</div>
 
         {/* Tabs */}
         <div className="flex gap-2 mb-6">
@@ -261,12 +264,12 @@ const User = () => {
                 </div>
               ))}
               <div className="flex justify-end gap-3 pt-4">
-                <button className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">
+                <Button variant='outline'>
                   Cancel
-                </button>
-                <button className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors">
+                </Button>
+                <Button>
                   Save Changes
-                </button>
+                </Button>
               </div>
             </div>
           )}

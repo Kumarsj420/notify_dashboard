@@ -3,6 +3,8 @@
 import React from 'react';
 import { Building2, Check, BarChart3, Globe, Calendar, MapPin, Users, Server, FileText, TrendingUp, Shield, Archive, CreditCard, Edit2 } from 'lucide-react';
 import Card from '@/components/Card';
+import Button from '@/components/Button';
+import Badge from '@/components/Badge';
 
 const CompanyInfoPage = () => {
   return (
@@ -30,13 +32,13 @@ const CompanyInfoPage = () => {
               </div>
             </div>
             <div className="flex gap-3">
-              <button className="px-5 py-2.5 bg-white border border-orange-500 text-orange-500 rounded-lg font-medium hover:bg-orange-50 transition-colors">
+              <Button variant='outline'>
                 Upgrade Plan
-              </button>
-              <button className="px-5 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+              </Button>
+              <Button >
                 <Edit2 className="w-4 h-4" />
                 Edit Company Info
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -116,8 +118,8 @@ const CompanyInfoPage = () => {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">Basic Details</h3>
               </div>
-              <button className="text-orange-500 font-medium text-sm hover:text-orange-600 flex items-center gap-1">
-                <Edit2 className="w-4 h-4" />
+              <button className="text-orange-500 font-medium text-sm hover:text-orange-600 flex items-center gap-1 cursor-pointer">
+                <Edit2 className="w-3 h-3" />
                 Edit
               </button>
             </div>
@@ -184,10 +186,10 @@ const CompanyInfoPage = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Security Rating</span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">
+                <Badge>
                   <Shield className="w-3 h-3" />
                   Excellent
-                </span>
+                </Badge>
               </div>
             </div>
           </Card>
@@ -243,12 +245,12 @@ const CompanyInfoPage = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Domain Verification</span>
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                  <Badge>
                     10 Verified
-                  </span>
-                  <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                  </Badge>
+                  <Badge>
                     2 Pending
-                  </span>
+                  </Badge>
                 </div>
               </div>
               <div className="flex justify-between items-start">
@@ -260,36 +262,36 @@ const CompanyInfoPage = () => {
               </div>
             </div>
 
-            <button className="w-full py-3 bg-white border-2 border-orange-500 text-orange-500 rounded-lg font-medium hover:bg-orange-50 transition-colors flex items-center justify-center gap-2">
+            <Button className='w-full flec items-center justify-center py-4' variant='outline'>
               <FileText className="w-4 h-4" />
               View Compliance Report
-            </button>
+            </Button>
           </Card>
         </div>
 
 
         <Card>
           <div className="flex flex-wrap gap-3">
-            <button className="px-6 py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+            <Button>
               <Edit2 className="w-4 h-4" />
               Edit Company Info
-            </button>
-            <button className="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+            </Button>
+            <Button variant='outline'>
               <TrendingUp className="w-4 h-4" />
               Upgrade Plan
-            </button>
-            <button className="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+            </Button>
+            <Button variant='outline'>
               <CreditCard className="w-4 h-4" />
               View Billing History
-            </button>
-            <button className="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+            </Button>
+            <Button variant='outline'>
               <Globe className="w-4 h-4" />
               Manage Domains
-            </button>
-            <button className="px-6 py-2.5 bg-white border border-red-300 text-red-600 rounded-lg font-medium hover:bg-red-50 transition-colors flex items-center gap-2">
+            </Button>
+            <Button variant='outline'>
               <Archive className="w-4 h-4" />
               Archive Company
-            </button>
+            </Button>
           </div>
         </Card>
       </div>
