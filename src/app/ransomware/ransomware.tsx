@@ -129,8 +129,8 @@ const ransomwareVictims: ransomwareVictimProp[] = [
 
 
 const ransomwareTabs: Tab[] = [
-  { name: "Victims", count: "6" },
-  { name: "Groups", count: "52" },
+  { name: "Victims", count: 6 },
+  { name: "Groups", count: 52 },
 ];
 
 

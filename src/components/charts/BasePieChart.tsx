@@ -9,9 +9,10 @@ import {
   Legend,
 } from "recharts";
 
-interface PieData {
+export interface PieData {
   name: string;
   value: number;
+  [key: string]: string | number; // ✅ REQUIRED for Recharts
 }
 
 interface BasePieChartProps {
@@ -30,13 +31,13 @@ const DEFAULT_COLORS = [
   "#3B82F6",
 ];
 
-const BasePieChart: React.FC<BasePieChartProps> = ({
+const BasePieChart = ({
   title,
   data,
   colors = DEFAULT_COLORS,
   innerRadius = 60,
   outerRadius = 90,
-}) => {
+}: BasePieChartProps) => {
   return (
     <div className="bg-linear-to-b from-white to-sc-50 rounded-3xl ring-1 ring-inset ring-sc-200 py-5 px-6 shadow-lg shadow-sc-300/60 mb-6 h-full">
       {title && (

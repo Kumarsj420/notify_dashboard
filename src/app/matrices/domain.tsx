@@ -37,8 +37,8 @@ const mockData: ExposureEvent[] = [
 ];
 
 const domainTabs: Tab[] = [
-  { name: "Domains", count: "52", current: true },
-  { name: "Employee", count: "6", current: false },
+  { name: "Domains", count: 52, current: true },
+  { name: "Employee", count: 6, current: false },
 ];
 
 const Domain: React.FC = () => {

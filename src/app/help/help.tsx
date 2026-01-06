@@ -11,7 +11,7 @@ import Input from '@/components/form/Input';
 const HelpSupportPage = () => {
   const [selectedIssue, setSelectedIssue] = useState('');
   const [rating, setRating] = useState(0);
-  const [expandedFaq, setExpandedFaq] = useState(null);
+const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const faqs = [
     {
@@ -85,7 +85,7 @@ const HelpSupportPage = () => {
 
               <textarea
                 placeholder="Describe your issue..."
-                rows="5"
+                rows={5}
                 className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
               />
 
@@ -276,7 +276,7 @@ const HelpSupportPage = () => {
 
           <textarea
             placeholder="Share your feedback..."
-            rows="5"
+            rows={5}
             className="w-full h-40 rounded-xl px-3 py-2 text-sm placeholder:text-sc-500/80 ring-[0.1em] ring-inset outline-none border-none focus:ring-2 font-medium text-sc-900 focus:ring-p-400 bg-white hover:border-sc-400  ring-sc-400/60"
           />
 
