@@ -5,7 +5,7 @@ images: {
   remotePatterns: [
     {
       protocol: "https",
-      hostname: "example.com",
+      hostname: "logo.clearbit.com",
     },
   ],
 },
