@@ -209,8 +209,8 @@ const Ransomware: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {
-                ransomwareVictims.map(info => (
-                  <InfoCard title={info.title} value={info.value} icon={<info.icon className='size-8' />} message={info.msg} iconVariant={info.iconVariant} messageVariant={info.messageVariant} />
+                ransomwareVictims.map((info, index) => (
+                  <InfoCard key={index} title={info.title} value={info.value} icon={<info.icon className='size-8' />} message={info.msg} iconVariant={info.iconVariant} messageVariant={info.messageVariant} />
                 ))
               }
             </div>
