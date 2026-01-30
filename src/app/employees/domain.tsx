@@ -99,6 +99,7 @@ const Domain: React.FC = () => {
   const [addEmployee, setAddEmployee] = useState(false);
   const [addAlertAll, setAddAlertAll] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [alertBtnLoading, setAlertBtnLoading] = useState(false);
 
 
   const handleViewOpen = () => {
@@ -381,6 +382,8 @@ const Domain: React.FC = () => {
       }
     } catch (error) {
       console.error("Failed to create employee:", error);
+    } finally{
+      setAddEmployee(false);
     }
   };
 
@@ -459,9 +462,9 @@ const Domain: React.FC = () => {
   const pagination = exposureData?.pagination;
 
   const domainTabs: Tab[] = [
-  { name: "Identity theft", count: employeesData?.pagination.total ?? 20 },
-  { name: "Malware infections", count: pagination?.totalRecords ?? 10 },
-];
+    { name: "Identity theft", count: employeesData?.pagination.total ?? 20 },
+    { name: "Malware infections", count: pagination?.totalRecords ?? 10 },
+  ];
 
 
   if (domainsLoading) {
@@ -645,14 +648,14 @@ const Domain: React.FC = () => {
               <input
                 type="radio" name='alert-email'
               />
-              <span>Alert via <b>official email</b>: example@email.com</span>
+              <span>Alert via <b>official email</b></span>
             </label>
 
             <label className="flex items-center gap-2">
               <input
                 type="radio" name='alert-email'
               />
-              <span>Alert via <b>personal email</b>: example@email.com</span>
+              <span>Alert via <b>personal email</b></span>
             </label>
           </div>
         </ModalBody>
@@ -663,7 +666,14 @@ const Domain: React.FC = () => {
             <Button variant="outline" type="button" onClick={() => setAlertOpen(false)}>
               Cancel
             </Button>
-            <Button type="button">
+            <Button type="button" loading={alertBtnLoading} onClick={() => {
+              setAlertBtnLoading(true);
+              setTimeout(() => {
+                setAlertBtnLoading(false);
+                setAlertOpen(false)
+                alert('alert send successfully');
+              }, 1000)
+            }}>
               Send Alert
             </Button>
           </div>

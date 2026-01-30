@@ -1,22 +1,18 @@
 import { logout } from '@/utils/auth'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon, CursorArrowRippleIcon, StarIcon, UserIcon as UIcon, UserCircleIcon, BuildingOffice2Icon, UserIcon, AdjustmentsVerticalIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, CursorArrowRippleIcon, UserIcon as UIcon, UserCircleIcon, BuildingOffice2Icon, UserIcon, AdjustmentsVerticalIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 
 import Link from 'next/link'
 import useAppContext from '@/providers/AppContextProvider/useAppContext';
 import Badge from '../Badge';
 
 const solutions = [
-    { name: 'Profile', description: 'Manage your account details', href: '/profile', icon: UserCircleIcon },
-    { name: 'Company Info', description: 'View organization information', href: '/company-info', icon: BuildingOffice2Icon },
-    { name: 'User Roles', description: "Manage user permissions", href: '/user-roles', icon: UserIcon },
+    { name: 'Profile', description: 'Manage your account details', href: '/', icon: UserCircleIcon },
+    { name: 'Company Info', description: 'View organization information', href: '/', icon: BuildingOffice2Icon },
+    { name: 'User Roles', description: "Manage user permissions", href: '/', icon: UserIcon },
     { name: 'Settings', description: 'Configure system preferences', href: '/setting', icon: AdjustmentsVerticalIcon },
-    { name: 'Help & Support', description: 'Get help and resources', href: '/help', icon: QuestionMarkCircleIcon },
 ]
-const callsToAction = [
-    { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-    { name: 'logout', href: '#', icon: PhoneIcon },
-]
+
 
 export default function Flyout() {
     const { user } = useAppContext();
@@ -27,7 +23,7 @@ export default function Flyout() {
                 <span className="absolute -inset-1.5" />
                 <span className="sr-only">Open user menu</span>
                 <div className="size-8 rounded-full bg-linear-to-b from-sc-50 to-sc-200 flex items-center justify-center ring-1 ring-sc-300 outline-none ring-offset-2">
-                    <UIcon aria-hidden='true' className='size-6 text-sc-600/70'/>
+                    <UIcon aria-hidden='true' className='size-6 text-sc-600/70' />
                 </div>
                 {user && (
                     <span className="hidden lg:flex lg:items-center">
@@ -49,7 +45,7 @@ export default function Flyout() {
                         {solutions.map((item) => (
                             <div key={item.name} className="group relative flex gap-x-5 rounded-lg py-3.5 px-4 hover:bg-gray-100">
                                 <Badge size='auto' className='mt-1 size-10 rounded-lg group-hover:from-p-50 group-hover:to-p-200 group-hover:ring-p-300' variant='secondary'>
-                                     <item.icon aria-hidden="true" className="size-5 text-gray-500/90 group-hover:text-p-500" />
+                                    <item.icon aria-hidden="true" className="size-5 text-gray-500/90 group-hover:text-p-500" />
                                 </Badge>
                                 {/* <div className="mt-1 flex size-10 flex-none items-center justify-center rounded-lg bg-gray-100 group-hover:bg-white">
                                     <item.icon aria-hidden="true" className="size-5 text-gray-600/90 group-hover:text-p-600" />
@@ -65,13 +61,13 @@ export default function Flyout() {
                         ))}
                     </div>
                     <div className="grid grid-cols-2 divide-x divide-gray-900/8 bg-gray-100">
-                        <Link
-                            href='/subscription'
-                            className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-emerald-800 hover:bg-gray-50"
+                        <a
+                            href='mailto:support@notifybreach.com'
+                            className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-50"
                         >
-                            <StarIcon aria-hidden="true" className="size-5 flex-none text-emerald-500" />
-                            Upgrade
-                        </Link>
+                            <EnvelopeIcon aria-hidden="true" className="size-5 flex-none text-gray-500/90" />
+                            Support
+                        </a>
                         <button
                             onClick={logout}
                             className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-50"

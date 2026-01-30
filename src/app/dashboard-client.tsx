@@ -329,7 +329,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
           </div>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <InfoCard
             title='Total Employees'
@@ -340,24 +340,10 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
             messageVariant="info"
           />
 
-          <InfoCard
-            title='Active Employees'
-            value={stats.activeEmployees.toLocaleString()}
-            icon={< InformationCircleIcon className="size-6" />}
-            iconVariant='info'
-          />
+
 
           <InfoCard
-            title='Threat Profiles'
-            value={stats.totalThreatProfiles.toLocaleString()}
-            icon={<UsersIcon className="size-6" />}
-            iconVariant='error'
-            message="Check employee data"
-            messageVariant="warning"
-          />
-
-          <InfoCard
-            title='Contact Info'
+            title='Monitoring Employee'
             value={(
               stats.employeesWithEmail + stats.employeesWithPhone
             ).toLocaleString()}
@@ -367,86 +353,12 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
 
         </div>
 
-
-        {/* Analytics */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <BaseLineChart />
-          {
-            threatLevelData.length > 0 ? (
-              <BasePieChart
-                title="Risk Distribution"
-                data={threatLevelData}
-                colors={threatLevelData.map(item => item.color)}
-              />
-            ) : (
-              <div className="text-center py-12">
-                <ExclamationTriangleIcon className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2 text-sm text-gray-500">
-                  No threat data available
-                </p>
-              </div>
-            )
-          }
-
-        </div>
-
-        {/* Bottom Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card>
-            <h3 className="font-semibold mb-4">Threat Profiles By Level</h3>
-            <div className="space-y-3">
-              {
-                stats.threatProfilesByLevel && (
-                  <div className="p-3 rounded-lg bg-red-50">
-                    <p className="text-sm font-medium">Threats Required Imidiate Actions</p>
-                    <span className="text-xs text-red-600 font-semibold">{stats.threatProfilesByLevel.CRITICAL + stats.threatProfilesByLevel.HIGH}</span>
-                  </div>
-                )
-              }
-
-              <div className="p-3 rounded-lg bg-emerald-50">
-                <p className="text-sm font-medium">Acceptable Threats Count</p>
-                <span className="text-xs text-emerald-600 font-semibold">{stats.threatProfilesByLevel.LOW + stats.threatProfilesByLevel.MEDIUM}</span>
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <h3 className="font-semibold mb-4">More Stats</h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex justify-between">
-                <span>Employees With Emails</span>
-                <span className="font-medium">{stats.employeesWithEmail}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Employees With Phone</span>
-                <span className="font-medium">{stats.employeesWithPhone}</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Completed Threat Profiles</span>
-                <span className="font-medium">{stats.threatProfilesByStatus.COMPLETED}</span>
-              </li>
-            </ul>
-          </Card>
-
-          <Card>
-            <h3 className="font-semibold mb-2">Security Score</h3>
-            <p className={`text-4xl font-bold ${(rating === 'Excellent' || rating === 'Good') ? 'text-emerald-500' : rating === 'Fair' ? 'text-sky-500' : rating === 'Poor' ? 'text-amber-500' : 'text-red-500'}`}>{score}</p>
-            <span className="text-sm font-semibold text-sc-900">{rating}</span>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-              <div className={`${(rating === 'Excellent' || rating === 'Good') ? 'bg-emerald-500' : rating === 'Fair' ? 'bg-sky-500' : rating === 'Poor' ? 'bg-amber-500' : 'bg-red-500'} h-2 rounded-full `} style={{ width: score + '%' }} />
-            </div>
-            <p className="text-sm text-gray-500 mt-4">{description}</p>
-          </Card>
-        </div>
-
-
         <TableStructure>
           <div className="flex justify-between items-center px-6 pb-4">
             <h3 className=" text-lg font-semibold text-sc-900">
               Recent Threats
             </h3>
-            <Link href='/threats-and-incidents'>
+            <Link href='/employees'>
               <Button variant="outline">Check In Detail</Button>
             </Link>
           </div>
@@ -500,6 +412,82 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
             </TableBody>
           </Table>
         </TableStructure>
+
+        {/* Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+          <BaseLineChart />
+          {
+            threatLevelData.length > 0 ? (
+              <BasePieChart
+                title="Risk Distribution"
+                data={threatLevelData}
+                colors={threatLevelData.map(item => item.color)}
+              />
+            ) : (
+              <div className="text-center py-12">
+                <ExclamationTriangleIcon className="mx-auto h-12 w-12 text-gray-400" />
+                <p className="mt-2 text-sm text-gray-500">
+                  No threat data available
+                </p>
+              </div>
+            )
+          }
+
+        </div>
+
+
+        {/* Bottom Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card>
+            <h3 className="font-semibold mb-4">Threat Profiles By Level</h3>
+            <div className="space-y-3">
+              {
+                stats.threatProfilesByLevel && (
+                  <div className="p-3 rounded-lg bg-red-50">
+                    <p className="text-sm font-medium">Threats Required Imidiate Actions</p>
+                    <span className="text-xs text-red-600 font-semibold">{stats.threatProfilesByLevel.CRITICAL + stats.threatProfilesByLevel.HIGH}</span>
+                  </div>
+                )
+              }
+
+              <div className="p-3 rounded-lg bg-emerald-50">
+                <p className="text-sm font-medium">Acceptable Threats Count</p>
+                <span className="text-xs text-emerald-600 font-semibold">{stats.threatProfilesByLevel.LOW + stats.threatProfilesByLevel.MEDIUM}</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card>
+            <h3 className="font-semibold mb-4">More Stats</h3>
+            <ul className="space-y-2 text-sm">
+              <li className="flex justify-between">
+                <span>Employees With Emails</span>
+                <span className="font-medium">{stats.employeesWithEmail}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Employees With Phone</span>
+                <span className="font-medium">{stats.employeesWithPhone}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Completed Threat Profiles</span>
+                <span className="font-medium">{stats.threatProfilesByStatus.COMPLETED}</span>
+              </li>
+            </ul>
+          </Card>
+
+          <Card>
+            <h3 className="font-semibold mb-2">Security Score</h3>
+            <p className={`text-4xl font-bold ${(rating === 'Excellent' || rating === 'Good') ? 'text-emerald-500' : rating === 'Fair' ? 'text-sky-500' : rating === 'Poor' ? 'text-amber-500' : 'text-red-500'}`}>{score}</p>
+            <span className="text-sm font-semibold text-sc-900">{rating}</span>
+            <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+              <div className={`${(rating === 'Excellent' || rating === 'Good') ? 'bg-emerald-500' : rating === 'Fair' ? 'bg-sky-500' : rating === 'Poor' ? 'bg-amber-500' : 'bg-red-500'} h-2 rounded-full `} style={{ width: score + '%' }} />
+            </div>
+            <p className="text-sm text-gray-500 mt-4">{description}</p>
+          </Card>
+        </div>
+
+
+
 
 
       </div>
