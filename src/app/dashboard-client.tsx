@@ -310,9 +310,6 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
                     ? `${company.companyName} - Security Overview`
                     : "Security Dashboard"}</p>
                   <div className="flex gap-2 mt-2">
-                    <Badge variant="info">
-                      {user.plan} PLAN
-                    </Badge>
                     <Badge variant={user.status === "ACTIVE" ? 'success' : user.status === "PENDING" ? 'secondary' : 'error'}>
                       {user.status}
                     </Badge>
@@ -324,11 +321,6 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
 
 
           <div className="flex gap-3">
-            <Link href='/subscription'>
-              <Button variant="outline">
-                Upgrade Plan
-              </Button>
-            </Link>
             <Link href='/company-info'>
               <Button>
                 Company Info

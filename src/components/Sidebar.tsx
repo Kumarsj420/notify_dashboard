@@ -23,13 +23,6 @@ const sections = [
     ],
   },
   {
-    title: 'Darkweb Search',
-    links: [
-      { name: 'Ransomware', href: '/ransomware', icon: ShieldExclamationIcon },
-      { name: 'Telegram Search', href: '/telegram-search', icon: DocumentMagnifyingGlassIcon },
-    ],
-  },
-  {
     title: 'Leaked data',
     links: [
       // { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
