@@ -1321,7 +1321,7 @@ const Domain: React.FC = () => {
                         {breaches.map((credential: ExposureCredential) => (
                           <TableRow key={credential.id}>
 
-                            <TableCell className="text-sc-600/90 blur-xs">
+                            <TableCell className="text-sc-600/90">
                               {credential.username}
                             </TableCell>
 

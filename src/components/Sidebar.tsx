@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation';
 import SidebarSelector from './SidebarSelector';
-
+ 
 import {
   ShieldAlert,
   ChevronDown,
@@ -18,8 +18,8 @@ const sections = [
     title: null,
     links: [
       { name: 'Dashboard', href: '/', icon: HomeIcon, active: true },
-      { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ExclamationTriangleIcon },
-      { name: 'My watchlists', href: '/my-watchlist', icon: BookmarkIcon },
+      // { name: 'Threats & Incidents', href: '/threats-and-incidents', icon: ExclamationTriangleIcon },
+      // { name: 'My watchlists', href: '/my-watchlist', icon: BookmarkIcon },
     ],
   },
   {
@@ -53,17 +53,17 @@ const sections = [
   //     { name: 'User Role', href: '/user-role', icon: UserCheck },
   //   ],
   // },
-  {
-    title: 'Accounts',
-    links: [
-      { name: 'Profile', href: '/profile', icon: UserIcon },
-      { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
-      { name: 'User roles', href: '/user-roles', icon: UserMinusIcon },
-      { name: 'Subscription', href: '/subscription', icon: CurrencyDollarIcon },
-      { name: 'Setting', href: '/setting', icon: Cog8ToothIcon },
-      { name: 'Help & Support', href: '/help', icon: QuestionMarkCircleIcon },
-    ],
-  },
+  // {
+  //   title: 'Accounts',
+  //   links: [
+  //     { name: 'Profile', href: '/profile', icon: UserIcon },
+  //     { name: 'Company Info', href: '/company-info', icon: BuildingOfficeIcon },
+  //     { name: 'User roles', href: '/user-roles', icon: UserMinusIcon },
+  //     { name: 'Subscription', href: '/subscription', icon: CurrencyDollarIcon },
+  //     { name: 'Setting', href: '/setting', icon: Cog8ToothIcon },
+  //     { name: 'Help & Support', href: '/help', icon: QuestionMarkCircleIcon },
+  //   ],
+  // },
 ]
 
 export default function Sidebar() {
