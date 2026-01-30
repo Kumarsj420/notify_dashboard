@@ -125,12 +125,12 @@ export default function Header() {
                     <div className="flex items-center gap-x-4 lg:gap-x-6">
 
 
-                        <Link
+                        {/* <Link
                             href="/subscription"
                             className="rounded-xl bg-emerald-500 px-3.5 py-2 text-sm font-semibold text-white  hover:bg-emerald-400 outline-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 shadow-lg shadow-emerald-700/20"
                         >
                             Upgrade Plan
-                        </Link>
+                        </Link> */}
 
                         {/* Separator */}
                         <div aria-hidden="true" className="hidden lg:block lg:h-8 lg:w-px lg:bg-p-900/20" />
