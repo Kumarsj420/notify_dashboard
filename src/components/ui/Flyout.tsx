@@ -7,10 +7,7 @@ import useAppContext from '@/providers/AppContextProvider/useAppContext';
 import Badge from '../Badge';
 
 const solutions = [
-    { name: 'Profile', description: 'Manage your account details', href: '/', icon: UserCircleIcon },
     { name: 'Company Info', description: 'View organization information', href: '/', icon: BuildingOffice2Icon },
-    { name: 'User Roles', description: "Manage user permissions", href: '/', icon: UserIcon },
-    { name: 'Settings', description: 'Configure system preferences', href: '/setting', icon: AdjustmentsVerticalIcon },
 ]
 
 

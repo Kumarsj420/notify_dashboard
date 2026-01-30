@@ -100,7 +100,7 @@ const Domain: React.FC = () => {
   const [addAlertAll, setAddAlertAll] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertBtnLoading, setAlertBtnLoading] = useState(false);
-
+  const [alertAllBtnLoading, setAlertAllBtnLoading] = useState(false);
 
   const handleViewOpen = () => {
     setViewOpen(true);
@@ -382,7 +382,7 @@ const Domain: React.FC = () => {
       }
     } catch (error) {
       console.error("Failed to create employee:", error);
-    } finally{
+    } finally {
       setAddEmployee(false);
     }
   };
@@ -629,7 +629,14 @@ const Domain: React.FC = () => {
             <Button variant="outline" type="button" onClick={() => setAddAlertAll(false)}>
               Cancel
             </Button>
-            <Button type="button">
+            <Button loading={alertAllBtnLoading} type="button" onClick={() => {
+               setAlertAllBtnLoading(true);
+               setTimeout(() => {
+                setAlertAllBtnLoading(false);
+                setAddAlertAll(false);
+                alert('All alerts sent successfully');
+               }, 1000)
+            }}>
               Yes, Alert All
             </Button>
           </div>
