@@ -62,7 +62,7 @@ export default function Flyout() {
                     </div>
                     <div className="grid grid-cols-2 divide-x divide-gray-900/8 bg-gray-100">
                         <a
-                            href='mailto:support@notifybreach.com'
+                            href='mailto:support@infohash.in'
                             className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-50"
                         >
                             <EnvelopeIcon aria-hidden="true" className="size-5 flex-none text-gray-500/90" />
