@@ -321,11 +321,11 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
 
 
           <div className="flex gap-3">
-            <Link href='/company-info'>
+            {/* <Link href='/company-info'>
               <Button>
                 Company Info
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </Card>
 
