@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Tabs, { Tab } from "@/components/Tabs";
 import TableSkeleton from "@/components/TableSkeleton";
@@ -175,15 +175,8 @@ const Domain: React.FC = () => {
     personalEmail: "",
     phoneNumber: "",
   });
-  const [addEmployeeForm, setAddEmployeeForm] = useState<CreateEmployeeData>({
-    fullName: "",
-    title: "",
-    workEmail: "",
-    personalEmail: "",
-    phoneNumber: "",
-    locality: "",
-    companyId: "",
-  });
+
+
 
   // Debounce search term
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -208,6 +201,33 @@ const Domain: React.FC = () => {
   const updateContactMutation = useUpdateEmployeeContact();
   const createEmployeeMutation = useCreateEmployee();
 
+  const [companyId, setCompanyId] = useState(employeesData?.company?.id.toString());
+
+ 
+
+  const [addEmployeeForm, setAddEmployeeForm] = useState<CreateEmployeeData>({
+    fullName: "",
+    title: "",
+    workEmail: "",
+    personalEmail: "",
+    phoneNumber: "",
+    locality: "",
+    companyId: "",
+  });
+
+  useEffect(() => {
+  if (!employeesData?.company?.id) return;
+
+  const id = employeesData.company.id.toString();
+
+  setCompanyId(id);
+
+  setAddEmployeeForm(prev => ({
+    ...prev,
+    companyId: id,
+  }));
+
+}, [employeesData]);
   // Get user's threat analysis jobs
   const {
     data: threatAnalysisJobs,
@@ -327,6 +347,8 @@ const Domain: React.FC = () => {
     }
   };
 
+
+
   const handleAddEmployee = () => {
     console.log('handleAddEmployee called');
     console.log('selectedDomainId:', selectedDomainId);
@@ -357,8 +379,12 @@ const Domain: React.FC = () => {
   };
 
   const handleSaveEmployee = async () => {
+    console.log('handleAddEmployee called');
+    console.log('selectedDomainId:', selectedDomainId);
+    console.log('employeesData:', employeesData);
     try {
       const result = await createEmployeeMutation.mutateAsync(addEmployeeForm);
+
 
       setShowAddEmployeeModal(false);
       setAddEmployeeForm({
@@ -368,7 +394,7 @@ const Domain: React.FC = () => {
         personalEmail: "",
         phoneNumber: "",
         locality: "",
-        companyId: "",
+        companyId: companyId ?? 'for-test-handle-employee',
       });
       showNotification();
 
@@ -630,12 +656,12 @@ const Domain: React.FC = () => {
               Cancel
             </Button>
             <Button loading={alertAllBtnLoading} type="button" onClick={() => {
-               setAlertAllBtnLoading(true);
-               setTimeout(() => {
+              setAlertAllBtnLoading(true);
+              setTimeout(() => {
                 setAlertAllBtnLoading(false);
                 setAddAlertAll(false);
                 alert('All alerts sent successfully');
-               }, 1000)
+              }, 1000)
             }}>
               Yes, Alert All
             </Button>
