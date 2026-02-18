@@ -336,14 +336,14 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
             value={stats.totalEmployees.toLocaleString()}
             icon={<UsersIcon className="size-6" />}
             iconVariant='success'
-            message="Add more for better results"
+            message="Add more employees for better results"
             messageVariant="info"
           />
 
 
 
           <InfoCard
-            title='Monitoring Employee'
+            title='Monitoring Employees'
             value={(
               stats.employeesWithEmail + stats.employeesWithPhone
             ).toLocaleString()}
@@ -359,7 +359,7 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
               Recent Threats
             </h3>
             <Link href='/employees'>
-              <Button variant="outline">Check In Detail</Button>
+              <Button variant="outline">View Details</Button>
             </Link>
           </div>
 
@@ -439,12 +439,12 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
         {/* Bottom Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card>
-            <h3 className="font-semibold mb-4">Threat Profiles By Level</h3>
+            <h3 className="font-semibold mb-4">Threat Profiles by Level</h3>
             <div className="space-y-3">
               {
                 stats.threatProfilesByLevel && (
                   <div className="p-3 rounded-lg bg-red-50">
-                    <p className="text-sm font-medium">Threats Required Imidiate Actions</p>
+                    <p className="text-sm font-medium">Threats Requiring Immediate Action</p>
                     <span className="text-xs text-red-600 font-semibold">{stats.threatProfilesByLevel.CRITICAL + stats.threatProfilesByLevel.HIGH}</span>
                   </div>
                 )

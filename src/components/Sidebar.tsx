@@ -27,7 +27,7 @@ const sections = [
     links: [
       // { name: 'Domain Exposure', href: '/domain-exposore', icon: Globe },
 
-      { name: 'Matrices', href: '/matrices', icon: ChartPieIcon },
+      { name: 'Metrics', href: '/matrices', icon: ChartPieIcon },
       { name: 'Employees', href: '/employees', icon: UserGroupIcon },
       { name: 'Consumers', href: '/consumers', icon: UsersIcon },
     ],

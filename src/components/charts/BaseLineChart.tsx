@@ -33,7 +33,7 @@ const BaseLineChart = ({
         </h2>
 
         <p className="mt-3 text-sm text-gray-600">
-          We're currently building this feature, soon you will be able to use this one.
+          We’re currently building this feature. You’ll be able to use it soon.
         </p>
 
         <div className="my-6 h-px bg-gray-200" />

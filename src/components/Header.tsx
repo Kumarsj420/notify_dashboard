@@ -113,7 +113,7 @@ export default function Header() {
                     <form action="#" method="GET" className="grid group flex-1 grid-cols-1 items-center">
                         <input
                             name="search"
-                            placeholder="Search threats, domains, employee..."
+                            placeholder="Search threats, domains, employees…"
                             aria-label="Search"
                             className="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-white focus:text-sc-900 outline-hidden placeholder:text-sc-500/80  placeholder:font-medium sm:text-sm/6 h-10 rounded-xl  w-full max-w-96 ring-1 ring-inset ring-sc-400/80 focus:bg-white focus:ring-2 focus:ring-p-500/90 font-medium transition-colors duration-200 ease-in-out"
                         />

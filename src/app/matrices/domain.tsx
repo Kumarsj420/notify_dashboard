@@ -58,9 +58,9 @@ const Domain: React.FC = () => {
   return (
     <div>
       <div >
-        <Title>Matrices</Title>
+        <Title>Metrics</Title>
         <Intro>
-          Matrices data for Domain, Impacted Employee, Impacted Consumers and Data Breaches
+          Metrics data for Domain, Impacted Employee, Impacted Consumers, and Data Breaches
         </Intro>
       </div>
 
@@ -75,10 +75,10 @@ const Domain: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead sortable>Domain</TableHead>
-                  <TableHead sortable>Impacted employee</TableHead>
-                  <TableHead sortable>Impacted consumers</TableHead>
-                  <TableHead sortable>Date Breaches</TableHead>
+                  <TableHead>Domain</TableHead>
+                  <TableHead>Impacted Employees</TableHead>
+                  <TableHead>Impacted Consumers</TableHead>
+                  <TableHead>Data Breaches</TableHead>
                 </TableRow>
               </TableHeader>
 
