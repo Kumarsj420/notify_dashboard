@@ -181,7 +181,7 @@ const Domain: React.FC = () => {
   // Debounce search term
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const { isAuthenticated } = useAppContext();
+  const { isAuthenticated, user } = useAppContext();
   // React Query hooks
   const queryClient = useQueryClient();
   const {
@@ -203,7 +203,7 @@ const Domain: React.FC = () => {
 
   const [companyId, setCompanyId] = useState(employeesData?.company?.id.toString());
 
- 
+
 
   const [addEmployeeForm, setAddEmployeeForm] = useState<CreateEmployeeData>({
     fullName: "",
@@ -216,18 +216,25 @@ const Domain: React.FC = () => {
   });
 
   useEffect(() => {
-  if (!employeesData?.company?.id) return;
 
-  const id = employeesData.company.id.toString();
+    const fallbackCompanyId = user?.companies.find(c => c.domainId
+      === selectedDomainId)?.id;
 
-  setCompanyId(id);
 
-  setAddEmployeeForm(prev => ({
-    ...prev,
-    companyId: id,
-  }));
+    const id = employeesData?.company?.id.toString();
+    const finalCompanyId = id ?? fallbackCompanyId ? fallbackCompanyId?.toString() : "";
 
-}, [employeesData]);
+    if (!finalCompanyId) return;
+    console.log('finalCompanyId', finalCompanyId);
+
+    setCompanyId(finalCompanyId);
+
+    setAddEmployeeForm(prev => ({
+      ...prev,
+      companyId: finalCompanyId,
+    }));
+
+  }, [employeesData, user]);
   // Get user's threat analysis jobs
   const {
     data: threatAnalysisJobs,
@@ -379,12 +386,11 @@ const Domain: React.FC = () => {
   };
 
   const handleSaveEmployee = async () => {
-    console.log('handleAddEmployee called');
-    console.log('selectedDomainId:', selectedDomainId);
-    console.log('employeesData:', employeesData);
+
+
+
     try {
       const result = await createEmployeeMutation.mutateAsync(addEmployeeForm);
-
 
       setShowAddEmployeeModal(false);
       setAddEmployeeForm({
